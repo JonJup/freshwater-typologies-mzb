@@ -1,0 +1,315 @@
+\newpage
+\blandscape
+# Supplementary Materials 
+```{r }
+impact = matrix(nrow = 14, ncol = 6)
+impact %<>% as.data.frame()
+names(impact) = c("data set", "Area", "Time Span", "Number of Samples", "criterion", "connected publications")
+impact$`data set` = c("Monitoring data from German federal agencies", 
+                      "Ebro Hydrographic Confederation", 
+                      "Naiades",
+                      "Cantabria",
+                      "Picos de Europa",
+                      "Ecosurv",
+                      "RIVPACS database",
+                      "STAR",
+                      "WISER",
+                      "AQUEM Sweden",
+                      "Koutajoki drainage basin",
+                      "Monitoring data from the RCS national network managed by the French water agencies",
+                      "Monitoring data from Dutch regional water authorities ",
+                      "Monitoring data from the German Federal state of Hesse")
+
+impact$`Time Span` = c("1968 - 2013", #LD
+                       "2004 - 2019", #Ebro
+                       "2002 - 2020", #Naiades
+                       "2005",        #Cantabria
+                       "2015-2017",   # Picos
+                       "2005",        # Ecosurv
+                       "1978-2004",   #RIVPACS
+                       "2002-2003",   # STAR
+                       "2000-2008",   # WISER
+                       "2000",        # AQUEM SWEDEN
+                       "2000-2013",   # Kaiser Lena Huttunen
+                       "2007-2013",   # PUP
+                       "1978 - 2017", # Edwin Peters 
+                       "2005-2018"    # Peter Haase 
+                       )
+
+impact$Area = c("Germany",     # LD
+                "Spain",       # EBRO
+                "France",      # NAIADES
+                "Spain",       # Cantabria
+                "Spain",       # Picos
+                "Hungary",     # ECOSURV
+                "UK",          # RIVPACS
+                "Europe",      # STARS
+                "Europe",      # WISER
+                "Sweden",      # LEONARD SANDIN
+                "Finnland",    # KLH
+                "France",      # PUP 
+                "Netherlands", # EDWIN PETERS 
+                "Germany"      # PETER HAASE 
+                )
+impact$`Number of Samples` = c(65211, # LD
+                               3668,  # EBRO
+                               27052, # NAIADES
+                               55,    # Cantabria
+                               24,    # Picos
+                               491,   # ECOSURV
+                               2504,  # RIVPACS
+                               91,    # STARS
+                               2565,  # WISER
+                               150,   # LEONARD SANDIN
+                               322,   # KLH
+                               2694,  # PUP
+                               44702,  # Edwin Peters 
+                               3044  # Peter Haase 
+                               )
+# impact$availability = c(
+#         "not openly available",
+#         "Link 1",
+#         "Link 2",
+#         "not openly available",
+#         "not openly available",
+#         "not openly available",
+#         "Link 3",
+#         "not openly available",# STARS
+#         "not openly available",# WISER
+#         "not openly available",# Leonard Sandin
+#         "not openly available",# KLH
+#         "not openly available",# PUP
+#         "Link 4",# Edwin Peters
+#         "not openly available" # Peter Haase
+# )
+impact$criterion = c("Land use", 
+                     "IASPT > 4.5 & Land use",
+                     "BDI   > 14.5 & Land use",
+                     "Land use",
+                     "Land use",
+                     "Land use", # 
+                     "original site selection", # RIVPACS
+                     "classification in data set & Land use", #STARS
+                     "Land use", # WISER
+                     "Land use", # LEONARD SANDIN
+                     "original site selection", # KLH
+                     "qualitative ratings of multiple anthropogenic stressors", # PUP
+                     "Land use", # Edwin Peters 
+                     "Land use"  # Peter Haase
+)
+
+impact$`connected publications` = c(
+                                       "Bhowmik & Schäfer (2015), Berger et al. (2018), Le et al. (2021)", # LD
+                                       "Escribano et al (2018)",# EBRO
+                                       "",# NAIADES
+                                       "Alvarez et al. (2010), Alvarez et al. (2011)", # Cantabria
+                                       "",# Picos
+                                       "Schmera & Baur (2011), Schmera et al. (2012)",# ECOSURV
+                                       "Clark et al. (2003), Turley et al. (2014)",# RIVPACS
+                                       "Verdonschot (2006a), Johnson et al. (2007)",# STARS
+                                       "Lyche-Solheim et al. (2013)",# WISER
+                                       "Verdonschot (2006a)",# LEONARD
+                                       "Huttunen et al. (2017)",# KLH
+                                       "Mondy & Usseglio-Polaterra (2013), Alric et al. (2021)",# PUP
+                                       "Peters et al. (2013)",# EDWIN
+                                       "Haubrock et al. (2020)"# PETER
+)
+# impact_hux =
+#         impact %>%
+#         dplyr::select(`data set`, `Time Span`) %>%
+#         as_hux()
+# escape_contents(impact_hux) = FALSE
+# impact_hux
+# impact_hux =
+#         impact %>%
+#         as_hux(add_colnames = TRUE) %>%
+#         set_wrap(TRUE) %>%
+#         set_bold(1, everywhere) %>% 
+#         set_bottom_border(1, everywhere) %>% 
+#         set_width(1.5) %>% 
+#         set_number_format(0) %>%
+#         set_font_size(6) %>% 
+#         #set_right_border(everywhere, everywhere, brdr(1, "solid", "black")) %>% 
+#         set_col_width(col = 1, value = .2) %>% 
+#         set_col_width(col = 2, value = .07) %>% 
+#         set_col_width(col = 3, value = .08) %>% 
+#         set_col_width(col = 4, value = .08) %>% 
+#         set_col_width(col = 5, value = .2) %>% 
+#         set_col_width(col = 6, value = .2) 
+# 
+# caption(impact_hux) = "Overview of data sets used for the analysis. "
+# # The respective data sets are available under link 1: www.datossuperficiales.chebro.es:81/WCASF/?rvn=1 ; link 2: www.naiades.eaufrance.fr/france-entiere#/ ; link 3: www.ceh.ac.uk/services/rivpacs-reference-database , link 4: waterkwaliteitsportaal.nl"
+# impact_hux
+```
+
+```{r tab-impact-criteria}
+impact %>% 
+        kbl(
+                format = "latex",
+                longtable = FALSE,
+                caption = "test ",
+                booktabs = TRUE
+        ) %>%
+        kable_styling(
+                latex_options = c("hold_position",
+                                  "repeat_header"),
+                full_width = TRUE,
+                font_size = 7
+        ) %>% 
+        row_spec(0, bold = T) %>% 
+        column_spec(column = 1, width = "4cm")
+```
+
+\elandscape
+
+\newpage
+
+In table \@ref(tab:tab-impact-criteria), *Land use* refers to the 20% cutoff for relative area of agriculture or urban areas in a catchment. This criterion was applied wherever no other information was available. 
+IASPT is short for Iberian Average score per taxon which refers to the average Iberian biological monitoring working party score (IBMWP, between 1 and 10) of a sample. 
+The IASPT has been shown to be a reliable indicator of water quality [e.g. @Leunda2009; @Munne2009]. 
+The Biological Diatom Index (BDI) [@lenoir1996development] is a standardized way to evaluate the quality of freshwater systems in France using Diatoms.  
+In two of the data sets (RIVPACS and Koutajoki), the sampling sites were selected to represent reference conditions so we used all of the sites. 
+For the data from the RCS national network several qualitative metrics were available. 
+The measured stressors were: organic matter, nitrogen compounds (except nitrates), nitrates, phosphorous compounds, suspended matter, organic micropollutants (other), mineral micropolluants (metal), pesticides and polycyclic aromatic hydrocarbons (PAH). 
+Each was rated on a scale of high, good, intermediate, poor and bad. 
+All sites for which more two or more categories were rated as intermediate or one more were rated as either poor or bad was removed from the analysis. 
+
+\newpage
+
+```{r tab-types}
+data = readRDS("data/12_sxs_genus_typology_wo_bio.rds")
+#data = readRDS("../../data/12_sxs_genus_typology_wo_bio.rds")
+gloric_unique = data %>% pull("gloric") %>% unique %>% sort
+brt12_unique  = data %>% pull("ls12") %>% unique %>% sort
+brt12_unique = brt12_unique[c(1,4:11,2,3)]
+brt20_unique  = data %>% pull("ls20") %>% unique %>% sort
+brt20_unique = brt20_unique[c(1,9:13,2:8)]
+illies_unique = data %>% pull("illies") %>% unique %>% sort
+eea_unique    = data %>% pull("eea") %>% unique %>% sort
+
+s1 = data.table(typology = c("BRT12", "BRT20", "GloRiC", "Illies", "BGR"), 
+           types    = c(
+                   paste(brt12_unique, collapse = ",\ "), 
+                   paste(brt20_unique , collapse = ",\ "),     
+                   paste(gloric_unique, collapse = ",\ "),     
+                   paste(illies_unique, collapse = ",\ "),     
+                   paste(eea_unique, collapse = ",\ ")     
+                        )
+           )
+s1_hux =
+        s1 %>%
+        as_hux(add_colnames = TRUE) %>%
+        set_wrap(TRUE) %>%
+        set_bold(1, everywhere) %>% 
+        set_bottom_border(1, everywhere) %>% 
+        set_width(1) %>% 
+        set_number_format(0) %>%
+        set_font_size(7) 
+        #set_right_border(everywhere, everywhere, brdr(1, "solid", "black")) %>% 
+        # set_col_width(col = 1, value = .2) %>% 
+        # set_col_width(col = 2, value = .07) %>% 
+        # set_col_width(col = 3, value = .08) %>% 
+        # set_col_width(col = 4, value = .08) %>% 
+        # set_col_width(col = 5, value = .2) %>% 
+        # set_col_width(col = 6, value = .2) 
+caption(s1_hux) = "Types of different typologies that were used in the analyses."
+s1_hux
+```
+
+\newpage
+
+```{r tab-sm-typicals}
+ta_table = readRDS("data/18_ta_table_for_paper.rds")
+#ta_table = readRDS("../../data/18_ta_table_for_paper.rds")
+# sig_id =map(.x = 2:ncol(ta_table),
+#     .f = ~ str_detect(pull(ta_table[,.x]), "\\*")
+# )
+
+ta_table %>%
+        kbl("latex",
+            longtable = TRUE,
+            caption = "Typical assemblages. Values give the proportion of sites of broad tiver type where the taxon is present. Combinations for which a taxon is found to be typical are marked with a (*).",
+            booktabs = TRUE
+            ) %>%
+        kable_styling(
+                latex_options = c("hold_position",
+                                  "repeat_header"),
+                full_width = TRUE,
+                font_size = 9
+        ) %>%
+        row_spec(0, bold = T) 
+```
+
+\newpage
+```{r tab-sm-indi}
+indi = readRDS("data/15_indicator_list_w_non_significant.rds")
+#indi = readRDS("../../data/15_indicator_list_w_non_significant.rds")
+names(indi) = paste0("RT", c(1,2,3,4,5,8,9, 10, 11, 14, 15, 16, 18))
+for (i in 1:length(indi)){
+                indi[[i]]$rt = names(indi)[i]
+}
+## - drop empty types 
+indi2 <- rbindlist(indi)
+
+indi2 %>%
+        arrange(taxon) %>%
+        filter(taxon != "Hydracarina") %>% 
+        mutate(indval = round(indval, 2))  %>% 
+        mutate(indval_chr = as.character(indval))  %>% 
+        mutate(indval_chr = case_when(indicator ~ paste0(indval_chr, "*"),
+                                      !indicator ~ indval_chr))  %>% 
+        pivot_wider(id_cols = taxon,
+                    names_from = rt,
+                    values_from = indval_chr) %>%
+        relocate(RT3, .before = RT4) %>%
+        relocate(RT2, .before = RT3) %>%
+        relocate(RT1, .before = RT2) %>%
+        relocate(RT8, .before = RT9) %>%
+        relocate(RT10, .before = RT11) %>% 
+        mutate(across(!taxon, function(x)ifelse(is.na(x),0,x))) ->
+        indi3
+
+## -- which rows contain taxa that are indicative for any stream type 
+indi3$id = apply(indi3, 1, function(x) any(str_detect(string = x, pattern = "\\*")))
+
+## -- make kable table 
+indi3 %>%
+        ## -- only genera that are indicators
+        filter(id == TRUE) %>%
+        ## -- drop id column 
+        dplyr::select(!id) %>% 
+        ## -- kbl as wrapper for kable()
+        kbl(
+                format = "latex",
+                longtable = TRUE,
+                caption = "Indicator scores for all taxon and stream type combination where at least one is statistically                            significant. Statistically significat entries are marked with a *. ",
+                booktabs = TRUE
+        ) %>%
+        kable_styling(
+                latex_options = c("hold_position",
+                                  "repeat_header"),
+                full_width = TRUE,
+                font_size = 7
+        ) %>% 
+        row_spec(0, bold = T) %>% 
+        column_spec(column = 1, width = "4cm")
+```
+
+```{r old hux code typical}
+#ta_table = readRDS("../../data/18_ta_table_for_paper.rds")
+# hux_ta_table = as_huxtable(ta_table)
+# hux_ta_table %<>%
+#         map_background_color(
+#                              fn = by_ranges(breaks = c(0.2),
+#                                             values = c("white", "green"))) %>%
+#         # map_text_color(
+#         #                fn = by_values("1" = "green", "0" = "white")) %>%
+#         set_bold(1, everywhere) %>% 
+#          set_font_size(7) %>% 
+#         set_all_borders(1) %>% 
+#         set_row_height(.0001)
+# hux_l = split_across(hux_ta_table, after = 25)
+# hux_l[[1]]
+# hux_l[[2]]
+```
+

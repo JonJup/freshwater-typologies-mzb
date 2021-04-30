@@ -1,0 +1,169 @@
+---
+output:
+  bookdown::pdf_document2:
+    latex_engine: pdflatex
+    number_sections: yes
+    toc: no
+    includes: 
+        in_header: ../template/header.tex
+    pandoc_args:
+      - --lua-filter=../Extras/scholarly-metadata.lua
+      - --lua-filter=../Extras/author-info-blocks.lua
+title: "Invertebrates in pigeonholes: Evaluating pan-European freshwater typologies in light of their macroinvertebate communites"
+author:
+  - name: "Jonathan F. Jupke"
+    institute: [iES]
+  - name: "Pepe Barquín"
+    institute: [EHI]
+  - name: "Núria Bonada"
+    institute: [FEHM]
+  - name: "Christian K. Feld"
+    institute: [CWER, UDE]
+  - name: "Peter Haase"
+    institute: [DREC, UDE]
+  - name: "Kaisa-Leena Huttunen"
+    institute: [OULU]
+  - name: "Miguel Cañedo-Argüelles"
+    institute: [FEHM]
+  - name: "Timo Muotka"
+    institute: [OULU,SYKE]
+  - name: "Riku Paavola"
+    institute: [OULANKA]
+  - name: "Edwin T. H. M. Peeters"
+    institute: [WAG]
+  - name: "Leonard Sandin"
+    institute: [NIVA]
+  - name: "Denes Schmera"
+    institute: [CER]
+  - name: "Philippe Usseglio-Polatera"
+    institute: [LOR]
+  - name: "Ralf B. Schäfer" 
+    institute: [iES]   
+institute:
+  - iES: iES Landau, Institute for Environmental Sciences, University Koblenz-Landau, Fortstrasse 7, 76829 Landau, Germany
+  - EHI: Environmental Hydraulics Institute, University of Cantabria, C/ Isabel Torres 15, Parque Científico y Tecnológico de Cantabria, 39011 Santander, Spain.  
+  - FEHM: Grup de Recerca “Freshwater Ecology, Hydrology and Management” (FEHM), Departament de Biologia Evolutiva, Ecologia i Ciències Ambientals, Facultat de Biologia, Institut de Recerca de la Biodiversitat (IRBio), Universitat de Barcelona (UB), Diagonal 643, 08028, Barcelona, Catalonia, Spain.
+  - CWER: Centre for Water and Environmental Research, University of Duisburg-Essen, 45141 Essen, Germany
+  - DREC: Department of River Ecology and Conservation, Senckenberg Research Institute and Natural History Museum Frankfurt, Gelnhausen 65371, Germany
+  - UDE: Faculty of Biology, University of Duisburg-Essen, Essen 45141, Germany
+  - OULU: Department of Ecology and Genetics, University of Oulu, P.O. Box 3000, FI-90014 Oulu, Finland
+  - SYKE: Finnish Environment Institute, Freshwater Centre, P.O. Box 413, FI-90014 Oulu, Finland
+  - OULANKA: Oulanka Research Station, University of Oulu Infrastructure Platform, Liikasenvaarantie 134, Kuusamo 93900, Finland
+  - WAG: Aquatic Ecology and Water Quality Management Group, Wageningen University, P.O. Box 47, 6700 AA Wageningen, The Netherlands
+  - NIVA: Norwegian Institute for Water Research, Gaustadalléen 21, NO-0349 Oslo, Norway
+  - CER: Centre for Ecological Research, Balaton Limnological Institute, Tihany, Hungary
+  - LOR: Université de Lorraine, CNRS, LIEC, F-57000 Metz, France
+#date: "`r format(Sys.time(), '%B %d, %Y')`"
+bibliography: ../parts/ref.bib
+header-includes:
+  - \usepackage[left]{lineno}
+  #- \linenumbers
+linestretch: 1.2
+colorlinks: true
+csl: ../template/ecology_letters.csl
+filter: pandoc-crossref
+mainfont: Times New Roman
+sansfont: Times New Roman
+fontsize: 12pt
+link-citations: false
+documentclass: article
+geometry: margin=1in
+always_allow_html: yes
+editor_options: 
+  chunk_output_type: console
+---
+---
+nocite: | 
+  @Alric2021, @Mondy2013,@Huttunen2017,@peeters2013changing,@escribano2018freshwater,@berger2018towards,@bhowmik2015large,@Le2021,@Schmera2011, @Schmera2012,@turley2014evaluation,@clarke2003rivpacs,
+  @alvarez2011macroinvertebrate, @lyche2013ecological, @alvarez2010spatial
+...
+
+# Acknowledgements {-}
+This work was supported by the ENTER GETREAL DETAILS HERE. 
+We are grateful to the staff that collected and analyzed data for the AQEM, STAR, WISER and ECOSURV projects and of the various water agencies that participated in the abiotic and biotic data collection. 
+<!------- TODO -------->
+<!---- DISCUSSION ---> 
+
+<!-- AIMING FOR --> 
+<!-- 
+From the top of my head 
+Global Ecology and Biogeography  
+- data should but do not need to open 
+- SJR 3.5
+Ecography 
+- requires open data 
+- SJR 3.15
+Diversity and Distributions
+- 6000 words
+- data need to be open 
+- SJR 2.0
+Journal of Biogeography  
+- data should but do not need to open 
+- SJR 1.8 
+
+From citations 
+OIKOS 
+- SJR: 1.76
+Science of the Total Environment (I cited from this a lot + Lyche Solheim 19 and other Borgwardt et al 19 were published there)
+- SJR: 1.66 
+Ecological Indicators
+- SJR: 1.33
+Hydrobiologia 
+- SJR: 0.93
+Freshwater Biology
+- SJR: 1.49
+Aquatic Conservation: Marine and Freshwater Ecosystems
+- SJR: 1.19
+Water Research
+- SJR : 2.93
+Environmental Sciences Europe
+- SJR: 1.77
+--> 
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+opts_knit$set(root.dir = here::here())
+```
+
+<!-- SETUP -->
+```{r setup2}
+source("R/setup.R")
+```
+
+<!-- LOAD DATA --> 
+```{r setup3}
+complete_data     = readRDS("data/01_all_mzb_combined.rds")
+distannce_removed = readRDS("data/02_data_close.rds")
+impact     = readRDS("data/03_data_low_impact.rds")
+genus_data = readRDS("data/06_sxs_genus.RDS")
+all_data   = readRDS("data/06_sxs_list.rds")
+```
+
+\newpage
+<!-- Abstract -->
+```{r call abstract, child="../parts/abstract.rmd"}
+```
+
+\newpage
+<!-- Introduction --> 
+```{r call intro, child="../parts/introduction.rmd"}
+```
+
+<!-- Method and Materials --> 
+```{r call mm, child="../parts/mm.rmd"}
+```
+<!-- Results --> 
+```{r call results, child="../parts/results.rmd"}
+```
+<!-- Discussion --> 
+```{r call discussion, child="../parts/discussion.rmd"}
+```
+<!-- Supplementary Materials --> 
+```{r call supplementary materials, child="../parts/sm.rmd"}
+```
+
+\newpage
+# References 

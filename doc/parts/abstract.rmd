@@ -1,0 +1,54 @@
+# Abstract 
+
+
+
+<!-- 
+        #### ------------------ #####
+        #### --- GUIDELINES --- #####
+        #### ------------------ #####
+        
+        ## - Saramäki - ##  
+        - SETUP 
+                -> CONFRONTATION 
+                        -> RESOLUTION 
+                                -> EPILOGUE 
+        ## -- STOTEN -- ## 
+        The purpose of the research, the principal results and major conclusions.
+        300 words 
+--> 
+
+<!-- SETUP --> 
+Human actions are altering the composition and functioning of ecological communities globally. 
+This transformation is especially rapid and intensive in freshwater ecosystems. 
+Comprehensive and international regulatory frameworks are necessary to slow down and halt the current biodiversity crisis. 
+Like all such frameworks, the Water Framework Directive (WFD) needs to reduce the inherent complexity of its subjects by categorizing them. 
+A pan-European typology for freshwater systems was recently proposed and has already prompted exciting research.
+However, until now it lacks biological validations, which are critical given the reference state approach employed by the WFD.
+<!-- CONFRONTATION --> 
+Using cluster validity analyses, we evaluated the classification that resulted from grouping macroinvertebrate samples across Europe by river types.
+The results were compared against three other freshwater classification systems, a classification of the biological data and a null model. 
+In addition, we provide the first list of typical and indicator taxa for the new typology. 
+<!-- RESOLUTION --> 
+The results differed widely between validity metrics. 
+Classifications that were based on contiguous regions overall achieved better scores than classifications that are based on single stream-reaches. 
+Though performance differed between validity metrics, the newly proposed typology never ranked among the best. 
+<!-- EPILOGIE -->
+These findings indicate that superior alternatives to the new pan-European typology of rivers exist but also that none reliably delineate demarcations between internally homogeneous macroinvertebrate reference communities. 
+Further development of freshwater classifications remains an important goal to facilitate freshwater conservation.
+<!-- 
+
+##### ----- OLD DRAFTS ----- ##### 
+
+To reduce the impact of known stressors and prevent the emergence of new ones, comprehensive international regulatory frameworks are necessary. 
+The Water Framework Directive (WFD) aims to achieve this for the European Union.
+Despite missing its initial target of elevating all waterbodies to good quality in 2015, it has let to considerable progress in our knowledge of European waterbodies as well as new and improved methods for biomonitoring.
+Central to the WFD the division of freshwater systems into types, each with different reference conditions. 
+While national states use national typologies for their evaluations, a Pan-European typology of rivers has recently been proposed. 
+Here we evaluate whether this typology is a good classifications of aquatic macroinvertebrate communities, compare it with other freshwater typologies, and derive typical and indicator taxa for its types.
+To this end, we 
+All our analyses indicate, that macroinvertebrate differ between some of the proposed types but large redundancies reamin. 
+
+
+--> 
+
+
