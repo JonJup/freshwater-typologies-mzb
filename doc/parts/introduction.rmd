@@ -29,15 +29,13 @@ have also been recorded for invertebrates [e.g.
 stable or ambiguous trends in abundance and richness [@Floury2013;
 @VanKlink2020; @Outhwaite2020] though often associated with strong
 taxonomic and functional turnover [@Haubrock2020; @Jourdan2018;
-@Mouton2020].
-<!-- lake phytoplankton blooms are becoming more common [@Ho2019]  -->
-The main stressors to which this situation can be attributed are well
-known and can be summarized as overexploitation, water pollution, flow
-modification, habitat degradation and species invasions [@Dudgeon2006;
-@Vorosmarty2010]. Addressing these problems is complicated by the
-emergence of new stressors such as microplastics and light pollution
-[@Reid2018] and interactions between co-occurring stressors
-[@Schinegger2012; @Birk2020; @Comte2021].
+@Mouton2020]. The main stressors to which this situation can be
+attributed are well known and can be summarized as overexploitation,
+water pollution, flow modification, habitat degradation and species
+invasions [@Dudgeon2006; @Vorosmarty2010]. Addressing these problems is
+complicated by the emergence of new stressors such as microplastics and
+light pollution [@Reid2018] and interactions between co-occurring
+stressors [@Schinegger2012; @Birk2020; @Comte2021].
 <!-- A decreasing ecological status of freshwater ecosystems can reduce their capacity to provide ecosystem services [@Culhane2019].  -->
 To prevent unacceptable harm to freshwater ecosystems and secure the
 supply of ecosystem services, internationally coordinated action and
@@ -62,34 +60,24 @@ Multiple criteria determine the underlying status assessment: biological
 quality elements (benthic invertebrates, phytoplankton, benthic flora
 and fish fauna), physicochemical variables like nutrient and pollutant
 concentrations, and hydromorphology.
-<!-- The single worst score of a water body determines its status assignment.  -->
-<!-- This principle, which is known as one-out-all-out, has been criticized for obscuring the progress the WFD achieved [@kristensen2018european;@Carvalho2019].   -->
 
 The member states of the EU use national methods to assess their water
 bodies. To harmonize the national assessment methods and to ensure a
 coherent notion of 'good ecological quality', an intercalibration
-process has been initiated. <!-- ### LS Typology      --> A recent
-output of the intercalibration process is a pan-European typology of
-lentic and lotic freshwater systems [@LycheSolheim2019]. While the WFD
+process has been initiated. A recent output of the intercalibration
+process is a pan-European typology of lentic and lotic freshwater
+systems [broad river types (BRT), @LycheSolheim2019]. While the WFD
 required its members to create river typologies for the assessment,
 these typologies differ widely in the number of river types they discern
 (between 1 and 367) and the variables used to define them (between 2 and
-16).
-
-```{=html}
-<!-- 
-As these diverging classification schemes impeded the comparison of assessments between states, intercalibration types have been established [@Birk2013;@poikane2014intercalibration]. 
-This made it harder to compare streams in different counties, and intercalibration types had been establishes earlier [@Birk2013;@poikane2014intercalibration]. 
-However, many national river types (42%) are not associated with any of the intercalibration types while others are linked to multiple types [@ec19]. 
--->
-```
-The recent effort by @LycheSolheim2019 combined the national typologies
-and connected the new, broad river types (BRT) with the established
-intercalibration types [@Birk2013; @poikane2014intercalibration]. This
-pan-European typology has already been used to compare nutrient
-threshold values across river types [@Poikane2019], and in studies
-examining interaction types of multiple stressors [@Birk2020] and the
-chemical pollution of European surface waters [@Posthuma2020].
+16). The recent effort by @LycheSolheim2019 combined the national
+typologies and connected the new, broad river types (BRT) with the
+established intercalibration types [@Birk2013;
+@poikane2014intercalibration]. This pan-European typology has already
+been used to compare nutrient threshold values across river types
+[@Poikane2019], and in studies examining interaction types of multiple
+stressors [@Birk2020] and the chemical pollution of European surface
+waters [@Posthuma2020].
 
 <!-- Not biologically validated  -->
 

@@ -39,10 +39,15 @@ Next, we removed all samples from sites that were considerably impaired.
 To identify these non-reference sites, we used different criteria.
 The respective criterion depended on the data set, as some provided detailed information on environmental conditions while other solely included biological information.
 For data sets where environmental information was lacking for most sites, we identified impaired sites using the catchment land cover.
-Sampling sites from catchments where the combined area of urban and agricultural land exceeded 20% of the catchment area were considered as impaired [@Malaj2014;@Schreiner2016; @Szocs2017].
-We used the Catchment Characterization and Modeling database for geospatial data on catchments [@Vogt2007] and the Corine Landcover data from 2018 for landcover information [@clc18]. We provide detailed information on variables and thresholds used to determine the reference sites in table \@ref(tab:tab-impact-criteria). We removed these potentially imparied sites because differences between river types are more pronounced between least-imparied sites [@Verdonschot2006] and because we wanted to compare the typologies capability to delineate reference assemblages with low spatial variability.
+Sampling sites from catchments where the combined area of urban and agricultural land exceeded 20% of the catchment area were considered as impaired [@Malaj2014; @Schreiner2016; @Szocs2017]. We used the Catchment Characterization and Modeling database for geospatial data on catchments [@Vogt2007] and the Corine Landcover data from 2018 for landcover information [@clc18]. We provide detailed information on variables and thresholds used to determine the reference sites in table \@ref(tab:tab-impact-criteria). We removed these potentially imparied sites because differences between river types are more pronounced between least-imparied sites [@Verdonschot2006] and because we wanted to compare the typologies capability to delineate reference assemblages with low spatial variability.
 Removing impaired sites further decreased the number of samples to `r n_sites_impact` (`r ratio_impact`% of all samples).
 Lastly, we only considered the `r n_sites_time` samples that were taken in or after the year 2000 (`r ratio_time`% of all samples).
+
+The resulting data set had sufficient data to represent 13 of 20 broad river types.
+We considered our samples to be representative for their river type, if we had more than 20 sites, which were distributed evenly across the instances of the river type.
+\
+Maps of the sampling locations for the individual river types are provided in the Supplementary Materials.
+We had insufficient samples of the river types: BRT6, 7, 12, 13, 17, 19 and 20, consequently, these were omitted from the further analysis.
 
 ```{r fig-map, fig.cap = "Map of sampling sites. The first map (too far) shows sites that were more than 500 meters removed from the closesed river segement. The second map (impacted) shows sites that were categorized as not in referene condition. The third map (before 2000) shows sites that were sampled before 2000. The fourth map (final) shows all samples that were used for the analyses."}
 
@@ -53,64 +58,57 @@ grid.raster(img)
 <!-- How did we harmonize data sets.  -->
 
 The data originated from different sources and required adjustments to ensure taxonomic consistency.
-<!-- We used the Global Biodiversity Information Facility (GBIF) to check whether any of our species were considered synonyms and if so changed their names to the accepted names suggested in GBIF. --> We used the Global Biodiversity Information Facility (GBIF) to replace synonyms with accepted names and to assign a taxonomic level to each observation.
+We used the Global Biodiversity Information Facility (GBIF) to replace synonyms with accepted names and to assign a taxonomic level to each observation.
 To integrate the different data types we transformed all data to presence-absence.
-Next, we restricted observations to the following classes: Clitellata, Insecta, Malacostraca, Bivalvia or Gastropoda.
-<!-- We used different approaches for the different aims of this study. --> 
-Hereafter, we differentiate between two data sets: *data genus* and *data all*.
-We used *data genus* to compare the different classifications and to derive indicator taxa.
-This data set was harmonized at the genus level.
-All observations with a lower taxonomic resolution (i.e. family, order, etc.) were removed.
+Next, we restricted observations to the following classes: Clitellata, Insecta, Malacostraca, Bivalvia and Gastropoda.
+When harmonizing taxonomies across data sets, there is a trade-off between comparability among data sets and taxonomic resolution.
+If we employ a single taxonomic level (e. g. genus) for all taxa across river types, we have to agglomerate observations with finer resolutions and omit those with coarser resolutions.
+The resulting data set would be appropriate for comparisons between river types because taxa have consistent representations across river types.
+If we vary the taxonomic resolution between river types and taxa, we artificially increase the dissimilarity between river types but attain the best available representation for the individual river types.
+To compare freshwater typologies, we used the former approach and harmonized all observations at the genus level, omitting all observations with coarser taxonomic levels.
 This resulted in a data set with `r data_genus_n_genus` genera.
-We used *data all* to derive the typical assemblages.
-This data set has a mixed taxonomic levels.
-Taxa can be represented at species, genus, family, order or sublcass level. 
-<!-- Instead, we aimed to represent each taxon with a taxonomic level that would be optimal for it, given the data available for the river type.  --> <!-- This increased the number of observations that we could use but decreased the comparability between river types.  --> <!-- Since river types do not influence the typical assemblages of other river types, comparability was not necessary.  --> <!-- To this end, consistency between river types was not as important because other river types do not exert large influence on the selection process.  --> <!-- To derive the typical assemblages  --> <!-- Hence we decided to use varying taxonomic levels instead of a fixed one. --> <!-- This way some taxa might be represented at family level and others at species level, depending on the resolution of the data. --> <!-- *Oligochaetes*, for example, are usually only determined to subclass level. --> <!-- In a setting with one common taxonomic level (e.g. genus) they would have to be omitted if this level would be higher than subclass. --> <!-- By using taxon- and river type specific levels that take low-resolved taxa into account, we can thus use more of the data. --> <!-- Using different levels poses the challenge of finding an optimal level for each taxon given a data set and river type. --> <!-- We established the optimal level with a hierarchical approach. --> <!-- In the following, a higher taxonomic level refers to levels with higher resolution, i.e. species is the highest taxonomic level and kingdom the lowest. --> <!-- For each taxon, we calculated the percentage of observations represented at each higher level. --> <!-- For example, 4.12% of observations from the order *Lepidoptera* are at the species level, 74.77% at the genus level, 7.75% at the family level, and 13.35% at the order level. --> <!-- Now given a threshold X, we hold a taxon to be optimally represented at a certain taxonomic level if less than X% are represented by higher levels. --> <!-- For example, *Lepidoptera* would be represented on order level if X \> 4.12% + 74.77% + 7.75% = 86.64%. --> <!-- We used 50% as a threshold. --> <!-- Observations that had a lower resolution than what was proposed as optimal, were included at their respective level.  --> 
-We aimed to represent each taxon with a taxonomic level that would be optimal for it, given the data available for the river type.
-We aimed to represent each taxon at a taxonomic level that would be good trade-off between taxonomic resolution and comparability between data sets. 
-We thereby increased the number of observations that we could use but decreased the comparability between river types.
-Since river types do not influence the typical assemblages of other river types, comparability was not necessary.
-Using different levels posed the challenge of finding an optimal level for each taxon given a data set and river type.
-We established the optimal level with a hierarchical approach.
-For each taxon, we calculated the percentage of observations represented at each higher taxonomic level.
-If this value was below 50 %, we harmonized all observations to this, optimal, level.
-If it was above 50%, we repeated the procedure with the next higher level.
-We also included all observations with lower than optimal resolutions.
-The final *data all* contained `r data_all_n_spe` taxa represented at the species level, `r data_all_n_gen` taxa represented at genus level and `r data_all_n_fol` taxa represented at family or lower taxonomic levels.
+We established typical assemblages per river type independently, which allowed us to set an appropriate taxonomic level per river type and taxon.
+This was done using a hierarchical approach.
+For each taxon, we calculated the percentage of observations represented at each finer taxonomic resolution.
+If this value was below 50 %, we harmonized all observations to this level.
+If it was above 50%, we repeated the procedure with the next finer level.
+We also included all observations with coarser than optimal resolutions.
+The resulting data set contained `r data_all_n_spe` taxa represented at the species level, `r data_all_n_gen` taxa represented at genus level and `r data_all_n_fol` taxa represented at family or lower taxonomic levels.
 
-<!-- At which types did we look?  -->
+## Comparison of typologies
 
-After removing samples that did not meet our criteria, we did not have sufficient data to adequately represent all river types.
-We considered the data for a river type insufficient if it contained too few sites (\< 20) or the distribution of sites was not representative of the river type.\
-Maps of the sampling locations for the individual river types are provided in the Supplementary Materials.
-We were not able to represent the river types: BRT6, 7, 12, 13, 17, 19 and 20.
-Samples from these river types were removed.
-<!-- The river types we were able to represent are: RT1, RT2, RT3, RT4, RT8, RT9, RT10, RT11, RT14, RT15, RT16 and RT18. -->
+@LycheSolheim2019 proposed two versions of the BRT typology.
+BRT20 differentiates between 20 different river types, some of which are very rare.
+To reduce the number of broad river types @LycheSolheim2019 merged types which very few instances with types that covered many water bodies and match the rare type in at least two type descriptors.
+The resulting typology (BRT12) has twelve types.
+As previous publications have used both (e.g. \@Posthuma2020 used BRT12 and \@Poikane2019 used BRT20) we consider both.
 
-## Comparison of typoglogies
-
-To evaluate the two typologies proposed by @LycheSolheim2019, we compared them with the three other typologies: i) the k-means typology of the global river classification framework [GloRiC, @OuelletDallaire2019]; ii) the freshwater ecoregions proposed by @illies1978limnofauna; and iii) the biogeographical regions proposed by the European Environmental Agency [BGR, @EuropeanEnvironmentalAgencyEEA2016].
-These typologies represent two different kinds of freshwater typologies: reach-based typologies (BRT and GloRiC) and regional typologies (Illies and BGR).
+To evaluate the two versions of BRT, we compared them with the three other typologies: i) the k-means typology of the global river classification framework [GloRiC, @OuelletDallaire2019]; ii) the freshwater ecoregions proposed by @illies1978limnofauna; and iii) the biogeographical regions proposed by the European Environmental Agency [BGR, @EuropeanEnvironmentalAgencyEEA2016].
+These typologies can be categorized into: reach-based typologies (BRT and GloRiC) and regional typologies (Illies and BGR).
 Reach-based typologies classify single river reaches.
-The instances of individual types are not spatially contiguous but can be far apart and are commonly very close to instances of different types.
-Regional typologies classify large contiguous areas and there always is only one instance of each type.
-The different types are only adjacent at the regional margins.
-In addition to these five established typologies, we also evaluated BRTred, a reduced version of BRT20.
-In BRTred, we combined the river types with redundant typical assemblages (see section Indicator and typical assemblages for more details).
-Only genus-level data (*data genus*) were used for this analysis.
-We removed all observations from types that were represented by less than twenty sites from the data set.
-See table \@ref(tab:tab-types) for the remaining types per typology.
+The instances of individual types are not spatially contiguous and can be far apart.
+They are commonly very close to instances of different types.
+By contrast, regional typologies classify large contiguous areas and there is only one instance per type.
+Different types are only adjacent at the boundaries between two types.
+As with BRT before, we retained those types for which we had more than 20 samples.
+See table \@ref(tab:tab-types) for the remaining types in each typology.
 
-In order to be able to judge the results, we created two additional typologies.
-As an upper bound of what to expect, we created a classification of biological data using flexible beta clustering [@lance1967general] with the $\beta$ parameter set to -0.25 and the common parameterization $(\alpha_1 = \alpha_2 = \alpha, \beta = (1-\alpha)/2, \gamma = 0)$.
+For each typology, we computed four cluster validity metrics, each emphasizing a different aspect of cluster quality: the average silhouette width, the Calinski-Harabasz index, an indicator value score and the classification strength.
+We used the Jaccard distance between sites as a distance metric.
+
+As a reference frame for these for metrics, we created two additional typologies.
+
+As an upper bound of what to expect, we classified the biological data with flexible beta clustering [@lance1967general].
+Flexible beta clustering is a form of hierarchical agglomerate clustering, which starts with one cluster per observation and then iteratively joins the most similar observations or clusters into
+
+Since this typology is not constrained by environment or space but only represents patterns in the biological data, we expect it to delineate more clearly between different biological assemblages than the other typologies.
+
+As an upper bound, we created a classification of biological data using flexible beta clustering [@lance1967general] with the $\beta$ parameter set to -0.25 and the common parameterization $(\alpha_1 = \alpha_2 = \alpha, \beta = (1-\alpha)/2, \gamma = 0)$.
 We chose the number of groups that maximized the average silhouette width (9).
 Since this typology is not constrained by environment or space but only represents patterns in the biological data, we expect it to delineate more clearly between different biological assemblages than the other typologies.\
 As a lower bound, we created 100 random partitions of the data.
 For each partition, we first drew the number of classes as a random variable from the interval between the lowest number of types in any of the typologies tested (6 in BGR) and the highest number (14 in BRT20 and GloRiC).
 Then we assigned each observation randomly to one of the groups.
-
-We calculated four cluster quality metrics for each typology: the average silhouette width, the Calinski-Harabasz index, an indicator value score and the classification strength.
-We used the Jaccard distance between sites as a distance metric.
 
 <!-- What is ASW  -->
 
@@ -236,3 +234,9 @@ This way we can evaluate whether the ad-hoc combinations of river types used to 
 ## Software
 
 All computations were conducted in the R Statistical Environment v. 4.0.3 [@RCT2020]. Data were prepared using data.table 1.14.0 [@Dowle2021], tidyverse packages [@Wickham2019] and taxize 0.9.98 [@ScottChamberlain2013; @Chamberlain2020]. Geospatial analyses were conducted using sf [@Pebesma2018]. Clusters were created and evaluated with fpc [@Hennig2020], indicspecies [@Caceres2009], labdsv [@Roberts2019], optpart [@Roberts2020]. Generalized silhouette widths were computed with the R functions provided in the supplementary materials of @Lengyel2019. Figures and maps were created with ggplot2 [@Wickham2016] and tmap [@Tennekes2018].
+
+```{=html}
+<!-- OLD CODE 
+Hereafter, we differentiate between two data sets: data genus and data all. We used data genus to compare the different classifications and to derive indicator taxa. This data set was harmonized at the genus level. All observations with a lower taxonomic resolution (i.e. family, order, etc.) were removed. This resulted in a data set with r data_genus_n_genus genera. We used data all to derive the typical assemblages. This data set has a mixed taxonomic levels. Taxa can be represented at species, genus, family, order or sublcass level. We aimed to represent each taxon with a taxonomic level that would be optimal for it, given the data available for the river type. We aimed to represent each taxon at a taxonomic level that would be good trade-off between taxonomic resolution and comparability between data sets. We thereby increased the number of observations that we could use but decreased the comparability between river types. Since river types do not influence the typical assemblages of other river types, comparability was not necessary. Using different levels posed the challenge of finding an optimal level for each taxon given a data set and river type. We established the optimal level with a hierarchical approach.
+-->
+```
