@@ -81,7 +81,7 @@ Table \@ref(tab:tab-sm-indi) shows the indicator values for all taxa that were s
 ## Typical assemblages
 
 We combined the broad river types BRT4 and 5, BRT 2, 3, 8, 9, 10, 11 and 18 as well as BRT 15 and 16 because their Jaccard similarity exceeded 0.8. 
-The BRT4_5 type represents lowland, calcareous streams irrespective of size, BRT2_3_8_9_10_11 represents low and mid-altitude streams of varying geology and BRT 15_16 represents non-siliceous high-altitude streams. 
+The BRT4_5 type represents lowland, calcareous rivers irrespective of size, BRT2_3_8_9_10_11 represents low and mid-altitude rivers of varying geology and BRT 15_16 represents non-siliceous high-altitude rivers. 
 
 ```{r fig-final-ta-similarity, fig.cap = "test"}
 img <- readPNG("figures/ta_redundancies/round6.png")

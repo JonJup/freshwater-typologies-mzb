@@ -5,68 +5,156 @@ editor_options:
 ---
 
 # Introduction
-<!-- Freshwater ecosystems need regulatory oversight -->
-Freshwater ecosystems provide humanity with clean drinking water and food, they ensure livelihoods for fisheries and farms, and they are places of high recreational and aesthetic value to many [@bene2016contribution; @borger2021value; @youn2014inland]. 
-Combined, these contributions to people are estimated to have an annual worth of more than 4 trillion dollars [@costanza2014changes] which is approximately a twentieth of the global GDP as of 2017 [@WorldBank2021]. 
-Despite this exceptional value, humans are currently causing a biodiversity crisis in freshwater ecosystems [@Darwall2018; @almond2020living] and are thereby endangering these system's capacities to provide ecosystem services [e.g. @cardinale2011biodiversity; @Duffy2017; @Grizzetti2019].   
 
-The Living Planet Index indicates that populations of freshwater vertebrates on average declined by 84% relative to their 1970 levels (but see @Leung2020).
-Based on the same data, @He2019 found a slightly stronger decline (88%) in freshwater megafauna. 
-Declining abundances have also been recorded for invertebrates [e.g. @cumberlidge2009freshwater;  @Baranov2020], however, most studies find stable or fluctuating patterns in abundance and richness [@Floury2013; @VanKlink2020; @Outhwaite2020] but also strong taxonomic and functional turnover [@Haubrock2020; @Jourdan2018; @Mouton2020]. 
+<!-- Freshwater ecosystems need regulatory oversight -->
+
+Freshwater ecosystems provide humanity with clean drinking water and
+food, they ensure livelihoods for fisheries and farms, and they are
+places of high recreational and aesthetic value [@bene2016contribution;
+@borger2021value; @youn2014inland]. Combined, these contributions to
+people, also called ecosystem services, are estimated to have an annual
+worth of more than four trillion dollars [@costanza2014changes], which
+is approximately a twentieth of the global GDP as of 2017
+[@WorldBank2021]. Human activities have reduced biodiversity in
+freshwater ecosystems [@Darwall2018; @almond2020living] and are thereby
+endangering these systems' capacities to provide ecosystem services
+[e.g. @cardinale2011biodiversity; @Duffy2017; @Grizzetti2019].
+
+The Living Planet Index indicates that populations of freshwater
+vertebrates on average declined by 84% relative to their 1970 levels
+(but see @Leung2020). Based on the same data, @He2019 found a slightly
+stronger decline (88%) in freshwater megafauna. Declining abundances
+have also been recorded for invertebrates [e.g.
+@cumberlidge2009freshwater; @Baranov2020], however, most studies find
+stable or ambiguous trends in abundance and richness [@Floury2013;
+@VanKlink2020; @Outhwaite2020] though often associated with strong
+taxonomic and functional turnover [@Haubrock2020; @Jourdan2018;
+@Mouton2020].
 <!-- lake phytoplankton blooms are becoming more common [@Ho2019]  -->
-The main stressors are well known and can be summarized as overexploitation, water pollution, flow modification, habitat degradation and species invasions [@Dudgeon2006; @Vorosmarty2010].
-Addressing these problems is complicated by the emergence of new stressors such as microplastics and light pollution [@Reid2018] and interactions between co-occurring stressors [@Schinegger2012;@Birk2020;@Comte2021].
+The main stressors to which this situation can be attributed are well
+known and can be summarized as overexploitation, water pollution, flow
+modification, habitat degradation and species invasions [@Dudgeon2006;
+@Vorosmarty2010]. Addressing these problems is complicated by the
+emergence of new stressors such as microplastics and light pollution
+[@Reid2018] and interactions between co-occurring stressors
+[@Schinegger2012; @Birk2020; @Comte2021].
 <!-- A decreasing ecological status of freshwater ecosystems can reduce their capacity to provide ecosystem services [@Culhane2019].  -->
-To prevent unacceptable harm to freshwater ecosystems and secure the supply of ecosystem services, internationally coordinated action and regulatory frameworks are necessary [@Darwall2018;@Tickner2020;@VanRees2020].
+To prevent unacceptable harm to freshwater ecosystems and secure the
+supply of ecosystem services, internationally coordinated action and
+regulatory frameworks are necessary [@Darwall2018; @Tickner2020;
+@VanRees2020].
 
 <!-- WFD       -->
 
-The Water Framework Directive (WFD) is among the major regulatory frameworks that aim to protect freshwater systems in the European Union.
-<!-- The Water Framework directive (WFD) is one of four directives that aim to protect freshwater biodiversity in the European Union.              -->
-It aims to reach or maintain a "good ecological status" for all water bodies in the European Union [@EuropeanCommission2000]. 
-Since its implementation in 2000, the WFD has motivated improvements in methods for biomonitoring [@Birk2012;@Carvalho2019], advanced our knowledge of the ecological status of freshwater systems throughout Europe [@kristensen2018european] and has stimulated relevant research at the science-policy interface [@reyjol2014assessing].
-It has not, however, reached its explicit aim, to achieve 'good ecological quality' for all surface and groundwater bodies by 2015.
-<!-- However, it has missed the target to achieve good water quality for all surface and groundwater bodies by 2015.-->
-As of 2018, only 40% of surface water bodies had reached this status [@kristensen2018european].
-Multiple criteria determine the underlying status assessment: biological quality elements (benthic invertebrates, phytoplankton, benthic flora and fish fauna), physicochemical variables like nutrient and pollutant concentrations, and hydromorphology. 
-The single worst score of a water body determines its status assignment. 
-This principle, which is known as one-out-all-out, has been criticized for obscuring the progress the WFD achieved [@kristensen2018european;@Carvalho2019].  
+The Water Framework Directive (WFD) is among the major regulatory
+frameworks that aim to protect and restore freshwater systems in the
+European Union. It aims to reach or maintain a 'good ecological status'
+for all water bodies in the European Union [@EuropeanCommission2000].
+Since its implementation in 2000, the WFD has motivated improvements in
+methods for biomonitoring [@Birk2012; @Carvalho2019], advanced our
+knowledge of the ecological status of freshwater systems throughout
+Europe [@kristensen2018european] and has stimulated relevant research at
+the science-policy interface [@reyjol2014assessing]. It has not,
+however, reached its explicit aim, to achieve 'good ecological quality'
+for most surface and groundwater bodies by 2015. As of 2018, only 40% of
+surface water bodies had reached this status [@kristensen2018european].
+Multiple criteria determine the underlying status assessment: biological
+quality elements (benthic invertebrates, phytoplankton, benthic flora
+and fish fauna), physicochemical variables like nutrient and pollutant
+concentrations, and hydromorphology.
+<!-- The single worst score of a water body determines its status assignment.  -->
+<!-- This principle, which is known as one-out-all-out, has been criticized for obscuring the progress the WFD achieved [@kristensen2018european;@Carvalho2019].   -->
 
-The participating states use national methods to assess their water bodies.
-An intercalibration process tries to ensure a coherent notion of 'good ecological quality' and to harmonize the national assessment methods.
-<!-- A river that would receive good status in one country should receive the same status if it would hypothetically be in another country. -->
-<!-- The assessment of water quality is done with national methods but efforts to intercalibrate them internationally are ongoing.                -->
-<!-- This intercalibration process aims to create a coherent concept of "good ecological quality" across the EU-member states.   -->
-<!-- ### LS Typology      -->
-A recent output of the intercallibration process is a pan-European typology of lentic and lotic freshwater systems [@LycheSolheim2019]. 
-While the WFD required the participating states to create stream typologies for the assessment, these typologies differ widely in the number and kind of streams they recognize. 
-As these diverging classification schemes impeded the comparison of assessments between states, intercalibration types have been established [@Birk2013;@poikane2014intercalibration].
-<!-- This made it harder to compare streams in different counties, and intercalibration types had been establishes earlier [@Birk2013;@poikane2014intercalibration]. -->
-However, many national stream types (42%) are not associated with any of the intercalibration types while others are linked to multiple types [@ec19].
-The recent effort by @LycheSolheim2019 combined the national classifications and connected the new, broad river types (BRT) with the established intercalibration types. 
-This pan-European typology has already been used to compare nutrient threshold values across river types [@Poikane2019], to investigate interaction types of multiple stressors [@Birk2020] and to show that chemical pollution currently limits the ecological status of European surface waters [@Posthuma2020].  
+The member states of the EU use national methods to assess their water
+bodies. To harmonize the national assessment methods and to ensure a
+coherent notion of 'good ecological quality', an intercalibration
+process has been initiated. <!-- ### LS Typology      --> A recent
+output of the intercalibration process is a pan-European typology of
+lentic and lotic freshwater systems [@LycheSolheim2019]. While the WFD
+required its members to create river typologies for the assessment,
+these typologies differ widely in the number of river types they discern
+(between 1 and 367) and the variables used to define them (between 2 and
+16).
+
+```{=html}
+<!-- 
+As these diverging classification schemes impeded the comparison of assessments between states, intercalibration types have been established [@Birk2013;@poikane2014intercalibration]. 
+This made it harder to compare streams in different counties, and intercalibration types had been establishes earlier [@Birk2013;@poikane2014intercalibration]. 
+However, many national river types (42%) are not associated with any of the intercalibration types while others are linked to multiple types [@ec19]. 
+-->
+```
+The recent effort by @LycheSolheim2019 combined the national typologies
+and connected the new, broad river types (BRT) with the established
+intercalibration types [@Birk2013; @poikane2014intercalibration]. This
+pan-European typology has already been used to compare nutrient
+threshold values across river types [@Poikane2019], and in studies
+examining interaction types of multiple stressors [@Birk2020] and the
+chemical pollution of European surface waters [@Posthuma2020].
 
 <!-- Not biologically validated  -->
+
+The typology of @LycheSolheim2019 adopts the type descriptors that are
+most commonly used in national typologies: catchments size, altitude,
+geology, region and flow. The first three descriptors are part of the
+System A approach outlined in the Annex II of the WFD and
+@LycheSolheim2019 largely follow the thresholds proposed there. While
+System A includes a ecoregion descriptor that recognizes 25 distinct
+regions throughout Europe, the region descriptor used by
+@LycheSolheim2019 only separates between the Mediterranean and the rest
+of Europe. Flow is also a binary variables (perennial / intermittent)
+and was only applied to Mediterranean rivers. However, whether this
+typology based on geographical and environmental attributes matches
+biological classifications remains unknown. @Verdonschot2006b suggests
+that System A-type typologies only partially capture the major drivers
+or macroinvertebrate distributions in Europe, which he found to be
+temperature, slope/ flow velocity and river size. The status assessment
+of the WFD relies on stable type-specific reference conditions. If
+biological communities vary strongly between reference sites of the same
+river type erroneous assessments resulting in over- or underprotection
+are more likely. In extreme cases, where no reliable type-specific
+reference conditions can be established, e.g. due to high natural
+variability, a river type might be excluded from the status assessment.
+
+```{=html}
+<!--
 Until now, it has not been evaluated, whether biological assemblages at least-impacted sites differ between the proposed broad river types and whether they are homogeneous within them.
 While this is generally among the most important considerations when creating a typology [@Melles2014], it is especially important for the WFD because it relies on the reference condition approach.
-In this approach, a site's ecological status is evaluated by comparing it with that of least-impacted reference sites within the same stream type [@resh1993freshwater; @wright2000assessing].
+In this approach, a site's ecological status is evaluated by comparing it with that of least-impacted reference sites within the same river type [@resh1993freshwater; @wright2000assessing].
 The larger the difference between the reference and the test site, the worse the assessment.
 Therefore, the spatial stability of reference states is crucial to the validity of this approach [@Statzner2001].
-
 The typology of @LycheSolheim2019 largely follows the System A approach of the WFD in which ecoregion, altitude, geology and catchment size are used to classify river segments. 
 Earlier studies [e.g. @Verdonschot2006b] suggest that other variables might be more strongly related to the distribution of different taxa and @Borgwardt2019 showed that one of the proposed categories (BRT1-Very Large rivers) could be further divided into seven different types with distinct assemblages of benthic invertebrates.
-
+-->
+```
 <!-- What we did  -->
-In this paper, we evaluate whether assemblages of freshwater macroinvertebrates at least-impacted sites follow the classifications proposed by @LycheSolheim2019. 
-To this end, we evaluate its merits as a classification of sampling sites and compare it to other classification schemes based on cluster validity criteria. 
-Additionally, we provide lists of very common (henceforth typical) and indicator taxa for the individual broad river types. 
-The difference between the two categories is, that good indicators are often rare species [@chytry2002determination; @tichy2006statistical; @Caceres2009] which are not well suited to describe reference states. 
-Thus while the indicator taxa are indicative of a river type the typical taxa are closer to what one might reasonably expect to find within a sample from the river type. 
-Note that @LycheSolheim2019 first derived 20 BRTs and then reduced them to 12 by combining several river types with few realizations.
-As previous publications have used both (e.g. @Posthuma2020 used BRT12 and @Poikane2019 used BRT20) we will consider both in the following. 
 
+Following the typology of @LycheSolheim2019, we classified observations
+from a data set of freshwater macroinvertebrates to derive typical taxa
+for each river type and we evaluated the quality of the classification
+in comparison to those suggested by other freshwater typologies. Typical
+taxa are taxa that often occur in a given river type. The concept
+differs from indicator taxa, in that the frequency with which they occur
+in other river types is not considered. These assemblages can be used to
+define reference conditions or to compare the sensitivity of communities
+towards stressors.
+
+```{=html}
 <!-- 
-Comment Ralf  
-regionales scenarien bioassessment
-
---> 
+We evaluate whether assemblages of freshwater macroinvertebrates at
+least-impacted sites follow the typology proposed by @LycheSolheim2019.
+To this end, we evaluate its merits as a classification of sampling
+sites and compare it to other freshwater typologies based on cluster
+validity criteria. Additionally, we provide lists of very common
+(henceforth typical) and indicator taxa for the individual broad river
+types. The difference between the two categories is that good indicators
+are often rare species [@chytry2002determination; @tichy2006statistical;
+@Caceres2009] which are not well suited to describe reference states.
+Thus, while the indicator taxa are indicative of a river type the
+typical taxa are closer to what one might reasonably expect to find
+within a sample from the river type. Note that @LycheSolheim2019 first
+derived 20 BRTs and then reduced them to 12 by combining several river
+types with few realizations. As previous publications have used both
+(e.g. @Posthuma2020 used BRT12 and @Poikane2019 used BRT20) we will
+consider both in the following.
+-->
+```

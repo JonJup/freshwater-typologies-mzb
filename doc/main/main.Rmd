@@ -57,7 +57,6 @@ institute:
 bibliography: ../parts/ref.bib
 header-includes:
   - \usepackage[left]{lineno}
-  #- \linenumbers
 linestretch: 1.2
 colorlinks: true
 csl: ../template/ecology_letters.csl
@@ -81,6 +80,14 @@ nocite: |
 # Acknowledgements {-}
 This work was supported by the ENTER GETREAL DETAILS HERE. 
 We are grateful to the staff that collected and analyzed data for the AQEM, STAR, WISER and ECOSURV projects and of the various water agencies that participated in the abiotic and biotic data collection. 
+
+# Data Availability 
+Some of the monitoring data sets are freely available. 
+Data from the Ebro Hydrographic Confederation under www.datossuperficiales.chebro.es:81/WCASF/?rvn=1  
+Data from Naides under www.naiades.eaufrance.fr/france-entiere#/
+Data from the RIVPACS data base under www.ceh.ac.uk/services/rivpacs-reference-database
+Data from the Dutch monitoring agencies under waterkwaliteitsportaal.nl
+
 <!------- TODO -------->
 <!---- DISCUSSION ---> 
 

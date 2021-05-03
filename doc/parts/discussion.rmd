@@ -34,18 +34,18 @@ Similarly, @Verdonschot2006 showed that differences in classification strength w
 However, the difference was not large and their analysis does not allow to infer the loss of using genus- instead of species-level data.
 @Hawkins2000 note that, across taxa groups and typologies, higher taxonomic resolution does not always lead to greater classification strength.   
 Additionally, the likelihood of assigning an observation to the wrong type due to inaccuracies in the spatial data are lower for regional typologies, where such mistakes can only happen toward the margins between types.
-We reduced this error by using a more stringent distance-to-stream criterion for the selection of sites than similar studies. 
+We reduced this error by using a more stringent distance-to-river criterion for the selection of sites than similar studies. 
 For example, @Irving2018 used a cutoff of 3 km to assign streamflow gauging stations to rivers. 
 Very small rivers are largely missing from the river network representations used by GloRiC and the BRT as provided in @globevnik2019btfr. 
-Hence samples from these rivers are either omitted from the analysis if they are too far removed from the next stream or assigned to the next stream segment.
-In most cases, this ought to be a stream of a similar type (i.e. some type of small river) but this is not guaranteed. 
-New and highly resolved river networks [e.g. @Lin2021] might provide more accurate mapping of stream types and resolve these problems. 
+Hence, samples from these rivers are either omitted from the analysis if they are too far removed from the next river or assigned to the next river segment.
+In most cases, this ought to be a river of a similar type (i.e. some type of small river) but this is not guaranteed. 
+New and highly resolved river networks [e.g. @Lin2021] might provide more accurate mapping of river types and resolve these problems. 
 <!--Lastly, defining reference states is complicated, especially after the fact. -->
 
 However, the patterns we observed can also be interpreted in the light of metacommunity theory.
 The spatial distance between the instances of different types in reach-scale typologies is often small. 
-Typically, landscapes and catchments are made up of mosaics of different stream types. 
-In positing that assemblages vary between instances of different reach-scale types, we implicitly assume that dispersal is strong enough for species to track variation in local conditions [@leibold2004metacommunity], but not so strong that mass effect would overrule environmentally induced patterns [@mouquet2003community].
+Typically, landscapes and catchments are made up of mosaics of different river types. 
+In positing that assemblages vary between instances of different reach-scale types, we implicitly assume that dispersal is strong enough for species to track variation in local conditions [@leibold2004metacommunity] but not so strong that mass effect would overrule environmentally induced patterns [@mouquet2003community].
 If taxa are strongly limited by dispersal e.g. through historical and anthropogenic dispersal barriers [@leibold2010metacommunity;@Belletti2020] or through the sheer distance between sites, they are unable to reach potentially favorable sites.
 In our case, stronger dispersal limitation would lead to larger differences between sites of the same type. 
 Dispersal limitation leads to a pattern known as distance decay, which is often found at large spatial scales [@nekola1999distance; @morlon2008general] but varies in its magnitude between taxa, realms and degrees of latitude [@graco2021distance].
@@ -71,11 +71,11 @@ Among them are studies that have studied the explanatory potential of ecoregions
 @Verdonschot2004 used the data compiled during the AQEM project to investigate potential drivers of macroinvertebrate community composition. 
 They found that the distribution of macroinvertebrates follows Illies' freshwater ecoregions and that large-scale variables like geology explain most of the variation. 
 However, using an extended data set, that included data from both AQUEM and STAR, @Verdonschot2006b did not find ecoregions to be a strong predictor of invertebrate community composition. 
-Similarly, ecoregions explained a negligible amount of variance in community composition in Swedish boreal streams [@Johnson2004].
+Similarly, ecoregions explained a negligible amount of variance in community composition in Swedish boreal rivers [@Johnson2004].
 The review of @Hawkins2000 finds that ecoregion-based approaches usually outperform catchment-scale classifications.
-However, the classification strength was generally low
-The classification strengths of the studies they considered lay between 0.07 and 0.16, which slightly exceeds the ones we found (between `r cs_gl` to `r cs_ill`), but is in agreement with several other studies [e.g.  @Snelder2004; @Heino2006; @Mykra2009; @Vasconcelos2013]. 
-The interplay between local and regional control can not be considered removed from the previous discussion of dispersal limitation since the degree to which assemblages are regulated regionally or locally likely depends on the magnitude of dispersal [@ryabov2011graphical].
+However, the classification strength was generally low.
+The classification strengths of the studies they considered lay between 0.07 and 0.16, which slightly exceeds the ones we found (between `r cs_gl` to `r cs_ill`) but is in agreement with several other studies [e.g.  @Snelder2004; @Heino2006; @Mykra2009; @Vasconcelos2013]. 
+The interplay between local and regional control cannot be considered removed from the previous discussion of dispersal limitation since the degree to which assemblages are regulated regionally or locally likely depends on the magnitude of dispersal [@ryabov2011graphical].
 Synthesis of these findings is impeded by the fact that many of the studies relied on combinations of variance partitioning and eigenfunction analyses that have been shown to be flawed [@gilbert2010partitioning; @smith2010variation; @tuomisto2012modelling].
 An alternative method to evaluate the importance of dispersal processes for community assembly was recently proposed [@Vilmi2020] but has yet to be extensively tested and applied. 
 
@@ -88,11 +88,11 @@ While some indicate, that the role of environmental conditions is more important
 
 <!-- Combinations --> 
 Our analyses further suggest that there are large redundancies between the typical assemblages of the broad river types. 
-We found four different mid-altitude river types and two low altitude types, to have very similar typical taxa. 
-These river types extended across gradients in altitude, geology and stream size, though they did not include very large or high altitude rivers.
+We found four different mid-altitude river types and two low altitude types to have very similar typical taxa. 
+These river types extended across gradients in altitude, geology and river size, though they did not include very large or high altitude rivers.
 This might be taken to indicate, that species-level data are necessary to show differences between these types or that even the BRT typology with twenty types is too coarse.
-Our analysis identified mostly those taxa as common that sufficiently euryoecious that their distribution is not determined by the variables that delineate the different stream types. 
-Within the single stream types only a few taxa were common without also being common in other stream types. 
+Our analysis identified mostly those taxa as common that sufficiently euryoecious that their distribution is not determined by the variables that delineate the different river types. 
+Within the single river types only a few taxa were common without also being common in other river types. 
 This could indicate that even within a single river type environmental conditions vary so strongly that more stenooecious species do not commonly occur throughout them. 
 
 The typical assemblage of very large river (BRT1) harbors many genera that include invasive species like *Dreissena polymorpha*, *Dikerogammarus villosus*, *Corbicula fluminea* and  *Potamogyrus antipodarum*. 
@@ -104,11 +104,10 @@ In addition, several taxa that are more common in mid-altitude rivers are includ
 <!-- TA14 --> 
 The typical assemblage of siliceous and organic high altitude rivers  (BRT14) only contains families or lower taxonomic levels. 
 This is most likely what leads to the differentiation from the combined high altitude type BRT15_16. 
-Even thought it is difficult to assign specific ecological preferences at such a low taxonomic level , several of these taxa are known to prefer high-altitude, crenal and rhitral habitats, e.g. Nemouridae. 
 <!-- TA15_16 --> 
 The combined high altitude river type (BRT15_16) has a higher taxonomic resolution and contains the largest number of Plecoptera genera of any typical assemblage (4), among them Isoperla which is common in high-altitude rivers. 
 <!-- TA 18 --> 
-Lastly, the typical assemblage of Mediterranean mid-altitude streams also exclusively consists of families or lower taxonomic levels. 
+Lastly, the typical assemblage of Mediterranean mid-altitude rivers also exclusively consists of families or lower taxonomic levels. 
 Unique to this typical assemblage is only the family Gerridae.  
 
 <!-- Traits -->
@@ -117,7 +116,7 @@ Unique to this typical assemblage is only the family Gerridae.
 <!-- The latter has been ciritized for xxx but seems not to be a large problem.  -->
 <!-- In both kind of assemblages we derived, very large rivers differed most markedly from the other river types.  -->
 <!-- Trends that always hold -> filtering in RT1; voltinism in RT1 ; crawling dominant ; size RT1  -->
-<!-- Longer generation times were clearly associated with high altitude streams (more semi and less mutlivoltinism) in the indicator assemblages but not in the typical assemblages.  -->
+<!-- Longer generation times were clearly associated with high altitude rivers (more semi and less mutlivoltinism) in the indicator assemblages but not in the typical assemblages.  -->
 <!-- This runs counter to results of Finn and Poff (2005) Freshwater Biology -->
 <!-- Intraspecific trait variability - (https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13568) -->
 
@@ -129,7 +128,7 @@ We found the typical assemblages of BRT15 and 16 to be redundant.
 BRT14 possibly only differed from those two types due to the low taxonomic resolution of our data for this type. 
 As BRT12 generally performed better than BRT20 in this study, the combinations made by @LycheSolheim2019 seem to be warranted. 
 We suggest that future studies should rather employ the aggregated than the full typology. 
-However, given the low performance of stream-based typologies in general, we advise caution when assuming spatially homogeneous reference communities within them. 
+However, given the low performance of reach-based typologies in general, we advise caution when assuming spatially homogeneous reference communities within them. 
 
 <!-- Ways forward -->
 While there were clear and systematic differences between typologies, not one of the typologies tested in this study performed well.
@@ -137,15 +136,15 @@ All cluster validity metrics had comparatively low scores.
 It is beyond the scope of the current study to assess whether this is a problem of the implementation or a general issue, i.e. if it is theoretically possible to create environmental typologies that capture large amounts of variation between communities or if niche processes or selection (*sensu* @vellend2016theory) generally do not explain enough variance.
 The latter would constitute a serious problem for the reference state approach as this would entail that spatial stability of reference communities [@Statzner2001] should generally not be assumed. 
 However, since several studies have found typologies to explain a significant amount of variation [e.g. @Lorenz2004;@Johnson2007] we deem issues with the implementation more likely.  
-The stream typology of the WFD must be optimized not only for macroinvertebrates but for all four biological quality elements (macroinvertebrates, diatoms, fish and macrophytes) [@Dodkins2005].
+The river typology of the WFD must be optimized not only for macroinvertebrates but for all four biological quality elements (macroinvertebrates, diatoms, fish and macrophytes) [@Dodkins2005].
 Future studies should assess whether the conclusions drawn from this study are supported by the other taxa groups. 
-Stream classifications must be understood as models [@Goodwin1999, @Loveland2004]. 
+River classifications must be understood as models [@Goodwin1999, @Loveland2004]. 
 Alongside our growing knowledge about freshwater systems, we should strive to further improve them, as to increase their value for biomonitoring and to render them more effective tools for conservation. 
 Our study has shown that the typologies proposed by @LycheSolheim2019 should not be the end of this effort. 
 
 <!-- 
 Further developments would do good to consider metacommunity dynamics [@Cid2020] and to incorporate mechanisms to prepare for the possible con- and divergence between and within river types due to climate change [@Loveland2004; @Arneth2020]. 
 
-Furthermore, it remains unclear whether current ecoregions or stream classes will change uniformly with future climate change or will con- and diverge. 
+Furthermore, it remains unclear whether current ecoregions or river classes will change uniformly with future climate change or will con- and diverge. 
 Environmental legislative frameworks must acknowledge that climate change, and other anthropogenic and natural processes, will alter their subjects and encompass faculties to accommodate these changes 
 -->

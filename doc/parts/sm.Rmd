@@ -4,8 +4,8 @@
 ```{r }
 impact = matrix(nrow = 14, ncol = 6)
 impact %<>% as.data.frame()
-names(impact) = c("data set", "Area", "Time Span", "Number of Samples", "criterion", "connected publications")
-impact$`data set` = c("Monitoring data from German federal agencies", 
+names(impact) = c("Data set", "Area", "Time Span", "Number of Samples", "Criterion", "Connected Publications")
+impact$`Data set` = c("Monitoring data from German federal agencies", 
                       "Ebro Hydrographic Confederation", 
                       "Naiades",
                       "Cantabria",
@@ -20,7 +20,7 @@ impact$`data set` = c("Monitoring data from German federal agencies",
                       "Monitoring data from Dutch regional water authorities ",
                       "Monitoring data from the German Federal state of Hesse")
 
-impact$`Time Span` = c("1968 - 2013", #LD
+impact$`Time span` = c("1968 - 2013", #LD
                        "2004 - 2019", #Ebro
                        "2002 - 2020", #Naiades
                        "2005",        #Cantabria
@@ -82,7 +82,7 @@ impact$`Number of Samples` = c(65211, # LD
 #         "Link 4",# Edwin Peters
 #         "not openly available" # Peter Haase
 # )
-impact$criterion = c("Land use", 
+impact$Criterion = c("Land use", 
                      "IASPT > 4.5 & Land use",
                      "BDI   > 14.5 & Land use",
                      "Land use",
@@ -98,7 +98,7 @@ impact$criterion = c("Land use",
                      "Land use"  # Peter Haase
 )
 
-impact$`connected publications` = c(
+impact$`Reference` = c(
                                        "Bhowmik & Schäfer (2015), Berger et al. (2018), Le et al. (2021)", # LD
                                        "Escribano et al (2018)",# EBRO
                                        "",# NAIADES
@@ -147,7 +147,7 @@ impact %>%
         kbl(
                 format = "latex",
                 longtable = FALSE,
-                caption = "test ",
+                caption = "Overview of data sets used for the analysis.  ",
                 booktabs = TRUE
         ) %>%
         kable_styling(
@@ -156,8 +156,8 @@ impact %>%
                 full_width = TRUE,
                 font_size = 7
         ) %>% 
-        row_spec(0, bold = T) %>% 
-        column_spec(column = 1, width = "4cm")
+        row_spec(0, bold = T) #%>% 
+        #column_spec(column = 1, width = "4cm")
 ```
 
 \elandscape
@@ -167,12 +167,12 @@ impact %>%
 In table \@ref(tab:tab-impact-criteria), *Land use* refers to the 20% cutoff for relative area of agriculture or urban areas in a catchment. This criterion was applied wherever no other information was available. 
 IASPT is short for Iberian Average score per taxon which refers to the average Iberian biological monitoring working party score (IBMWP, between 1 and 10) of a sample. 
 The IASPT has been shown to be a reliable indicator of water quality [e.g. @Leunda2009; @Munne2009]. 
-The Biological Diatom Index (BDI) [@lenoir1996development] is a standardized way to evaluate the quality of freshwater systems in France using Diatoms.  
-In two of the data sets (RIVPACS and Koutajoki), the sampling sites were selected to represent reference conditions so we used all of the sites. 
+The Biological Diatom Index (BDI) [@lenoir1996development] is a standardized way to evaluate the quality of freshwater systems in France using diatoms.  
+In two of the data sets (RIVPACS and Koutajoki) the sampling sites were selected to represent reference conditions so we used all of the sites. 
 For the data from the RCS national network several qualitative metrics were available. 
 The measured stressors were: organic matter, nitrogen compounds (except nitrates), nitrates, phosphorous compounds, suspended matter, organic micropollutants (other), mineral micropolluants (metal), pesticides and polycyclic aromatic hydrocarbons (PAH). 
 Each was rated on a scale of high, good, intermediate, poor and bad. 
-All sites for which more two or more categories were rated as intermediate or one more were rated as either poor or bad was removed from the analysis. 
+All sites for which two or more categories were rated as intermediate or one more were rated as either poor or bad was removed from the analysis. 
 
 \newpage
 
@@ -187,8 +187,8 @@ brt20_unique = brt20_unique[c(1,9:13,2:8)]
 illies_unique = data %>% pull("illies") %>% unique %>% sort
 eea_unique    = data %>% pull("eea") %>% unique %>% sort
 
-s1 = data.table(typology = c("BRT12", "BRT20", "GloRiC", "Illies", "BGR"), 
-           types    = c(
+s1 = data.table(Typology = c("BRT12", "BRT20", "GloRiC", "Illies", "BGR"), 
+           Types    = c(
                    paste(brt12_unique, collapse = ",\ "), 
                    paste(brt20_unique , collapse = ",\ "),     
                    paste(gloric_unique, collapse = ",\ "),     
@@ -228,7 +228,7 @@ ta_table = readRDS("data/18_ta_table_for_paper.rds")
 ta_table %>%
         kbl("latex",
             longtable = TRUE,
-            caption = "Typical assemblages. Values give the proportion of sites of broad tiver type where the taxon is present. Combinations for which a taxon is found to be typical are marked with a (*).",
+            caption = "Typical assemblages. Values give the proportion of sites of broad tiver type where the taxon is present. Combinations for which a taxon is found to be typical are marked with *.",
             booktabs = TRUE
             ) %>%
         kable_styling(
@@ -282,7 +282,7 @@ indi3 %>%
         kbl(
                 format = "latex",
                 longtable = TRUE,
-                caption = "Indicator scores for all taxon and stream type combination where at least one is statistically                            significant. Statistically significat entries are marked with a *. ",
+                caption = "Indicator scores for all taxon and stream type combination where at least one is statistically                            significant. Statistically significat entries are marked with *.",
                 booktabs = TRUE
         ) %>%
         kable_styling(
