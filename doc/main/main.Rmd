@@ -87,6 +87,11 @@ Data from the Ebro Hydrographic Confederation under www.datossuperficiales.chebr
 Data from Naides under www.naiades.eaufrance.fr/france-entiere#/
 Data from the RIVPACS data base under www.ceh.ac.uk/services/rivpacs-reference-database
 Data from the Dutch monitoring agencies under waterkwaliteitsportaal.nl
+Data GLORIC
+DATA ILLIES
+DATA EEA 
+
+
 
 <!------- TODO -------->
 <!---- DISCUSSION ---> 

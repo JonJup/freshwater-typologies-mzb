@@ -3,15 +3,18 @@
 # ---------------------------------------------------------- #
 
 # --------------- #
-# date:  17.03.21
+# date:  17.03.21 
+#               + 04.05.21 (add BRT12 here)
 # files in 
         #-> m_river_fec_broad_type.shp | Broad River Types Shape file 
         #-> 01_all_mzb_combined.rds    | Combined Invertebrate data sets 
 # files out
         #<- 02_data_close.rds
-# Evaluating European Broad River Types for Macroinvertebrates  
-# Remove sites that are to far away from closest river and assign river 
-# types to remaining sites.
+# Project:
+#       Evaluating European Broad River Types for Macroinvertebrates  
+# Purpose: 
+#       Remove sites that are to far away from closest river and assign river 
+#       types to remaining sites.
 # --------------- #
 
 # Setup ----------------------------------------------------------------
@@ -29,7 +32,7 @@ dt_sites = unique(dt_data, by = "gr_sample_id")
 sf_sites = st_as_sf(dt_sites)
 sf_sites %<>% dplyr::select(gr_sample_id)
 sf_sites %<>% st_transform(crs = 3035)
-sf_river %<>% dplyr::select(m_btype20c)
+sf_river %<>% dplyr::select(m_btype20c, m_btype12)
 sf_river %<>% st_transform(crs = 3035)
 
 # add catchment info to bio data ------------------------------------------
@@ -41,19 +44,21 @@ rivers_resorted <- sf_river[nn,]
 # the code that is commented out below is time consuing to run and the resulting object (distance_list)
 # is provided as .rds file in the data directory. 
 
-distance_list <-
-        map(.x = 1:nrow(sf_sites),
-            .f = ~ as.numeric(st_distance(x = sf_sites[.x, ],
-                                          y = rivers_resorted[.x, ])))
-
-saveRDS(distance_list, "data/02_distance_list.rds")
+# distance_list <-
+#         map(.x = 1:nrow(sf_sites),
+#             .f = ~ as.numeric(st_distance(x = sf_sites[.x, ],
+#                                           y = rivers_resorted[.x, ])))
+# 
+# saveRDS(distance_list, "data/02_distance_list.rds")
 
 # load distance list 
-#distance_list = readRDS("data/02_distance_list.rds")
+distance_list = readRDS("data/02_distance_list.rds")
 
 distance_table <- data.table("gr_sample_id" = sf_sites$gr_sample_id,
                               "nn_distance" = unlist(distance_list),
-                              "ls_bd_20"    = rivers_resorted$m_btype20c)
+                              "brt20"    = rivers_resorted$m_btype20c,
+                              "brt12"    = rivers_resorted$m_btype12
+                             )
 
 hist(distance_table$nn_distance, breaks = 100)
 

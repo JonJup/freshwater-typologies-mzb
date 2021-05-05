@@ -2321,11 +2321,27 @@ The catchment size of river segments in each FEC is defined as the sum of the up
   number   = {26},
   pages    = {9549--9554},
   volume   = {111},
-  abstract = {Organic chemicals can contribute to local and regional losses of freshwater biodiversity and ecosystem services. However, their overall relevance regarding larger spatial scales remains unknown. Here, we present, to our knowledge, the first risk assessment of organic chemicals on the continental scale comprising 4,000 European monitoring sites. Organic chemicals were likely to exert acute lethal and chronic long-term effects on sensitive fish, invertebrate, or algae species in 14% and 42% of the sites, respectively. Of the 223 chemicals monitored, pesticides, tributyltin, polycyclic aromatic hydrocarbons, and brominated flame retardants were the major contributors to the chemical risk. Their presence was related to agricultural and urban areas in the upstream catchment. The risk of potential acute lethal and chronic long-term effects increased with the number of ecotoxicologically relevant chemicals analyzed at each site. As most monitoring programs considered in this study only included a subset of these chemicals, our assessment likely underestimates the actual risk. Increasing chemical risk was associated with deterioration in the quality status of fish and invertebrate communities. Our results clearly indicate that chemical pollution is a large-scale environmental problem and requires far-reaching, holistic mitigation measures to preserve and restore ecosystem health.},
-  annote   = { READ }{ 26.03.19 }{ WHY? }{ cited in GR proposal }{ SUMMARY & NOTES }{ Introduction -Large scale studies for organic chemicals missing -present CRA of three organism groups on European scale -223 chemicals -4001 sites -91 catchments Methods ART = 1/10 * LC50 CRT differs between three groups: algae - 1/50 LC50 fish - 1/100 LC50 invertebrates - 1/1000 LC50 Results 14% acutely affected 42% chronically for at least on group C > ART in 3% fish 6% invertebrates and 9% algae C > CRT in 6% 38% 13% (order as above) Risk higher in north than in south No correlation (Kendall's Tau) between sampling frequency and CR. Difference between CR in different years (ANOVA) ART: F = 1.37, p = 0.26 CRT: F = 0.57, p = 0.75 Exceedens largely (>80%) due to pesticides }{ -------------------------- }{ }{ -- ABBRV -- }{ CR - chemical risk ART - acute risk threshold CRT - cronic risk threshold ARC - acute risk chemicals }{ --------------- }{ }{ Example Qutations }{ }{ ---------------------------- }{ }{ Citation Check }{ }{ --------------------- },
+  abstract = {},
   doi      = {10.1073/pnas.1321082111},
   file     = {:C\:/Users/jonat/Documents/10_Paper/Malaj et al. - 2014 - Organic chemicals jeopardize the health of freshwater ecosystems on the continental scale.pdf:pdf},
   pmid     = {24979762},
+}
+
+@Article{Milligan1989,
+  author          = {Milligan, Glenn W.},
+  journal         = {Multivariate Behavioral Research},
+  title           = {{A Study of the Beta-Flexible Clustering Method}},
+  year            = {1989},
+  issn            = {15327906},
+  number          = {2},
+  pages           = {163--176},
+  volume          = {24},
+  abstract        = {The beta-flexible clustering method has exhibited good recovery performance in the few comparative simulation studies that have included the procedure. Further, the beta-flexible technique has not been examined in a systematic manner over the range of parameter values that can be specified for the method. The present report was designed to provide a more complete study of the recovery characteristics of the method. Artificial data were generated with a wide range of cluster configurations. Each data set was subjected to a series of different techniques for the introduction of error. The results indicate that the beta-flexible method with $\beta$ = −.25 or −.2 generally produces recovery rates that are competitive with the group average and Ward's (1963) technique. When outliers are present in the data, values in the range −.7 ≤ $\beta$ ≤ −.4 are needed. The beta-flexible method showed a more stable or robust performance pattern than the two competing procedures across the differing error conditions. Finally, results on the impact of reduced coverage levels as originally proposed by Edelbrock (1979) are reinterpreted in the light of an improved measure of recovery of true cluster structure. {\textcopyright} 1989, Taylor & Francis Group, LLC. All rights reserved.},
+  doi             = {10.1207/s15327906mbr2402_2},
+  file            = {:C\:/Users/jonat/Documents/10_Paper/Milligan - 1989 - A Study of the Beta-Flexible Clustering Method.pdf:pdf},
+  keywords        = {cluster analysis,flexible beta clustering,method comparison},
+  mendeley-groups = {01 INBOX},
+  mendeley-tags   = {flexible beta clustering,cluster analysis,method comparison},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

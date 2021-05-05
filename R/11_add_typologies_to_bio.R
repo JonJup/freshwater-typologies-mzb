@@ -15,7 +15,7 @@ source("R/setup.R")
 
 # load data -----------------------------------------------------------------------------------------------------------------------------------------------
 # typologies 
-sf_ls     = st_read(file.path(dir$ls    , "m_river_fec_broad_type.shp"))
+#sf_ls     = st_read(file.path(dir$ls    , "m_river_fec_broad_type.shp"))
 sf_gloric = readRDS(file.path(dir$gloric, "gloric_v10.RDS"))
 sf_illies = st_read(file.path(dir$ecoregions, "Ecoregions.shp"))
 sf_eea    = st_read(file.path(dir$eea, "BiogeoRegions2016.shp"))

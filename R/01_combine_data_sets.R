@@ -115,8 +115,8 @@ set_all <- rbindlist(all_files)
 #         st_as_sf() %>% 
 #         tm_shape() + tm_dots(col = "data.set")
 
-mapview(st_as_sf(unique(all_files[[2]], by = "gr_sample_id")))
-mapview(st_as_sf(unique(all_files[[3]], by = "gr_sample_id")))
+# mapview(st_as_sf(unique(all_files[[2]], by = "gr_sample_id")))
+# mapview(st_as_sf(unique(all_files[[3]], by = "gr_sample_id")))
 
 all_files[[3]][gr_sample_id == "site_00080_date_XXX_mzb_Miguel_Iglesias_PA"]
 all_files[[2]][gr_sample_id == "site_00026_date_00092_mzb_Miguel_Iglesias"]
@@ -137,7 +137,10 @@ for (i in seq_along(species_without_genus)) {
         print(i)
 }
 
+## ----------------- ## 
 ## -- Small fixes -- ## 
+## ----------------- ##
+
 set_all[family   == "Aeolosomatidae", `:=`  (class = "Polychaeta")]
 set_all[genus    == "Bothrioneurum",  `:=` (family = "Naididae", order = "Haplotaxida", subclass = NA, class = "Clitella", phylum = "Annelida", kingdom = "Animalia")   ]
 set_all[order    == "Diplostraca",    `:=`     (subclass = "Phyllopoda")]
@@ -200,6 +203,48 @@ set_all[genus == "Dugesia", family := "Dugesiidae"]
 set_all[genus == "Dugesia", order := "Tricladida"]
 set_all[phylum == "Platyhelminthes", phylum := "Plathelminthes"]
 set_all[phylum == "Nematomorpha", phylum := "Nematomorpha"]
+set_all[order == "Arhynchobdellida", subclass := "Hirudinea"]
+set_all[order == "Rhynchobdellida", subclass := "Hirudinea"]
+set_all[order == "Isopoda", subclass := "Eumalacostraca"]
+set_all[order == "Amphipoda", subclass := "Eumalacostraca"]
+set_all[order == "Spongillida", subclass := "Heteroscleromorpha"]
+set_all[order == "Littorinimorpha", subclass := "Caenogastropoda"]
+set_all[class == "Clitella", class := "Clitellata"]
+set_all[order == "Decapoda", subclass := "Eumalacostraca"]
+set_all[order == "Architaenioglossa", subclass := "Caenogastropoda"]
+set_all[order == "Terebellida", class := "Polychaeta"]
+set_all[order == "Mysida", subclass := "Eumalacostraca"]
+set_all[order == "Trombidiformes", subclass := "Acari"]
+set_all[order == "Trombidiformes", class := "Arachnida"]
+set_all[order == "Anthoathecata", subclass := "Hydroidolina"]
+set_all[order == "Stylommatophora", subclass := "Heterobranchia"]
+set_all[order == "Cladocera", subclass := "Phyllopoda"]
+set_all[order == "Cyclopoida", subclass := "Copepoda"]
+set_all[order == "Arguloida", subclass := "Branchiura"]
+set_all[subclass == "Branchiura", class := "Maxillopoda"]
+set_all[order == "Mermithida", subclass := "Dorylaimia"]
+set_all[subclass == "Dorylaimia", class := "Enoplea"]
+set_all[order == "Monostilifera", subclass := "Hoplonemertea"]
+set_all[subclass == "Hoplonemertea", class := "Enopla"]
+set_all[order == "Araneae", class := "Arachnida"]
+set_all[order == "Calanoida", subclass := "Copepoda"]
+set_all[family == "Capniidae", order := "Plecoptera"]
+set_all[order == "Plecoptera", `:=`  (subclass = NA, class = "Insecta", phylum = "Arthropoda", kingdom = "Animalia")]
+set_all[family == "Valvatidae",`:=`  (order = NA, subclass = NA,  class = "Gastropoda", phylum = "Mollusca", kingdom = "Animalia")]
+set_all[family == "Grynidae", family := "Gyrinidae"]
+set_all[genus == "Stylaria",    `:=` (family = "Naididae", order = "Haplotaxida", subclass = NA, class = "Clitellata", phylum = "Annelida", kingdom = "Animalia")]
+set_all[genus == "Micronecta",  `:=` (family = "Corixidae", order = "Hemiptera", subclass = NA, class = "Insecta", phylum = "Arthropoda", kingdom = "Animalia")]
+set_all[genus == "Stylodrilus", `:=` (family = "Lumbriculidae", order = "Lumbriculida", subclass = NA, class = "Clitellata", kingdom = "Animalia")]
+set_all[genus == "Propappus",   `:=` (family = "Propappidae", order = "Enchytraeida", subclass = NA, class = "Clitellata", phylum = "Annelida", kingdom = "Animalia")]
+set_all[genus == "Brachionus",  `:=` (family = "Brachionidae", order = "Ploima", subclass = NA, class = "Monogononta", phylum = "Rotifera", kingdom = "Animalia")]
+set_all[genus == "Anisus",      `:=` (family = "Planorbidae", order = NA, subclass = NA, class = "Gastropoda", phylum = "Mollusca", kingdom = "Animalia")]
+set_all[genus == "Hydaticus",   `:=` (family = "Dytiscidae", order = "Coleoptera", class = "Insecta", phylum = "Arthropoda", kingdom = "Animalia")]
+set_all[order == "Ploima", `:=` (subclass = NA, class = "Monogononta", phylum = "Rotifera", kingdom = "Animalia")]
+set_all[family == "Planorbidae",      `:=` (order = NA, subclass = NA, class = "Gastropoda", phylum = "Mollusca", kingdom = "Animalia")]
+# some taxonomic cleaning
+set_all[genus == "Hydracarina", `:=` (genus = NA, family = NA)]
+set_all[phylum == "Platyhelminthes", phylum := "Plathelminthes"]
+set_all[phylum == "Nematomorpha", phylum := "Nematophora"]
 set_all[order == "Arhynchobdellida", subclass := "Hirudinea"]
 set_all[order == "Rhynchobdellida", subclass := "Hirudinea"]
 set_all[order == "Isopoda", subclass := "Eumalacostraca"]

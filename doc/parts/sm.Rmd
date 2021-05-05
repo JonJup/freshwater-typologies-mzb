@@ -1,6 +1,15 @@
+---
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{=tex}
 \newpage
 \blandscape
-# Supplementary Materials 
+```
+# Supplementary Materials
+
 ```{r }
 impact = matrix(nrow = 14, ncol = 6)
 impact %<>% as.data.frame()
@@ -164,15 +173,50 @@ impact %>%
 
 \newpage
 
-In table \@ref(tab:tab-impact-criteria), *Land use* refers to the 20% cutoff for relative area of agriculture or urban areas in a catchment. This criterion was applied wherever no other information was available. 
-IASPT is short for Iberian Average score per taxon which refers to the average Iberian biological monitoring working party score (IBMWP, between 1 and 10) of a sample. 
-The IASPT has been shown to be a reliable indicator of water quality [e.g. @Leunda2009; @Munne2009]. 
-The Biological Diatom Index (BDI) [@lenoir1996development] is a standardized way to evaluate the quality of freshwater systems in France using diatoms.  
-In two of the data sets (RIVPACS and Koutajoki) the sampling sites were selected to represent reference conditions so we used all of the sites. 
-For the data from the RCS national network several qualitative metrics were available. 
-The measured stressors were: organic matter, nitrogen compounds (except nitrates), nitrates, phosphorous compounds, suspended matter, organic micropollutants (other), mineral micropolluants (metal), pesticides and polycyclic aromatic hydrocarbons (PAH). 
-Each was rated on a scale of high, good, intermediate, poor and bad. 
-All sites for which two or more categories were rated as intermediate or one more were rated as either poor or bad was removed from the analysis. 
+In table \@ref(tab:tab-impact-criteria), *Land use* refers to the 20% cutoff for relative area of agriculture or urban areas in a catchment. This criterion was applied wherever no other information was available. IASPT is short for Iberian Average score per taxon which refers to the average Iberian biological monitoring working party score (IBMWP, between 1 and 10) of a sample. The IASPT has been shown to be a reliable indicator of water quality [e.g. @Leunda2009; @Munne2009]. The Biological Diatom Index (BDI) [@lenoir1996development] is a standardized way to evaluate the quality of freshwater systems in France using diatoms.\
+In two of the data sets (RIVPACS and Koutajoki) the sampling sites were selected to represent reference conditions so we used all of the sites.
+For the data from the RCS national network several qualitative metrics were available.
+The measured stressors were: organic matter, nitrogen compounds (except nitrates), nitrates, phosphorous compounds, suspended matter, organic micropollutants (other), mineral micropolluants (metal), pesticides and polycyclic aromatic hydrocarbons (PAH).
+Each was rated on a scale of high, good, intermediate, poor and bad.
+All sites for which two or more categories were rated as intermediate or one more were rated as either poor or bad was removed from the analysis.
+
+\newpage
+
+## Flexible beta clustering
+
+This section describes in greater detail how we computed the flexible beta clustering of the sampling sites.
+We used flexible beta clustering as it has been shown to be robust to various potential problems like outliers or noisy data [@Milligan1989].
+We employed the common parameterization of $(\alpha_1 = \alpha_2 = \alpha, \beta = (1-\alpha)/2, \gamma = 0)$ and varied beta in ten steps from -1 to 1 (-1, -0.77, -0.55, -0.33, -0.11, 0.11, 0.33, 0.55, 0.77, 1).
+We cut the resulting dendograms at each split between 2 and 30 final nodes.
+For each of the resulting 290 clusterings we calculated the average silhouette, width, cophenetic correlation coefficient and the cluster membership entropy.
+
+\newpage
+
+## Cluster validity metrics
+
+### Average silhouette width
+
+The silhouette width $s(i)$ is defined as follows:
+
+1.  Compute $a_i$, the average dissimilarity between sample $i$ and all other samples from the same type
+2.  Among all other clusters $C$, find the cluster than minimizes $d(i,C)$ the average distance of $i$ to all observations of $C$. This cluster is $b$; $b_i = \min_C(d(i,C))$.
+3.  $s(i) = \dfrac{b_i-a_i}{max(a_i,b_i)}$
+4. The average silhouette width is the arithmetic mean of all silhouette widhts. $ASW = \frac{1}{n}\Sigma_{i=1}^n s(i)$
+
+@Lengyel2019 recently proposed a generalized version of the ASW.
+The classic ASW employs the arithmetic average to compute $a_i$ and $b_i$, which assumes that spherical clusters are optimal.
+Using a generalized mean instead, we can flexibly adjust our validity metric to put a stronger emphasis on compactness ($a_i$) or separation ($b_i$).
+The generalized mean of degree $p$ ($M^p$) is computed as: $$ M^p (\mathbf{x}) = \bigg( \dfrac{1}{n} \Sigma_{i=1}^n x_i^p\bigg)^{1/p} $$ The generalized mean can take the value of common summary statistics such as the minimum ($p=-\infty$), the maximum ($p=\infty$) or the harmonic mean ($p=-1$).
+For example, for $p=-\infty$ the silhouette width is the difference between the minimum distance of observation $i$ to any other observation from the same type and the minimum distance from that observation to any observation from the next closest type.
+This perspective excludes outliers and values separation over compactness.
+The weighting shifts towards compactness as we increase $p$.
+We evaluated the silhouette width for $p\ \in \{-\infty,-2,-1,1,2,\infty\}$.
+If not further specified, ASW refers to the common average silhouette width (i.e. $p = 1$) in the remainder of the text.
+
+
+### Calinski Harabasz Index 
+
+The Calinski-Harabasz Index [CH, @calinski1974dendrite] is computed as $$CH = \dfrac{BGSS}{WGSS} \times \dfrac{n-k}{k-1}$$ where $BGSS$ is the squared sum of distances between group centroids and the overall centroid (between group sum-of-squares), $WGSS$ is sum of squares of distances between observations of one group (within group sum-of-squares), $k$ is the number of clusters. High values indicate that variation within types is smaller than between types. As the second term controls for the degrees of freedom, here determined by the number of clusters, it can be understood as an analog to the F-Statistic. The algorithm assumes Euclidean data but good performance with a similar metric was shown for binary data in the context of fMRI-scans [@Dimitriadou2004].
 
 \newpage
 
@@ -241,6 +285,7 @@ ta_table %>%
 ```
 
 \newpage
+
 ```{r tab-sm-indi}
 indi = readRDS("data/15_indicator_list_w_non_significant.rds")
 #indi = readRDS("../../data/15_indicator_list_w_non_significant.rds")
@@ -312,4 +357,3 @@ indi3 %>%
 # hux_l[[1]]
 # hux_l[[2]]
 ```
-

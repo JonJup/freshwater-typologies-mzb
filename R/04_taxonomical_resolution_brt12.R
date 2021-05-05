@@ -1,16 +1,19 @@
-# ---------------------------------- #
-### --- Taxonomical Resolution --- ### 
-### ---- BRT20                 --- ### 
-# ---------------------------------- #
+# -------------------------------- #
+### --- Taxonomic Resolution --- ### 
+### --- BRT12                --- ### 
+# -------------------------------- #
 
 # --------------- #
-# date:  17.03.21
+# date:  
+#       04.05.21
 # files in 
-        #-> 03_data_low_impact.rds   | macroinvertebrate observations from reference sites 
+#       -> 03_data_low_impact.rds   | macroinvertebrate observations from reference sites 
 # files out
-        #<- 04_taxon_resolution_list.rds
-# Evaluating European Broad River Types for Macroinvertebrates 
-# 1. some more taxonomic cleaning 
+#       <- 04_taxon_resolution_list_brt12.rds
+# Project:
+#       Evaluating European Broad River Types for Macroinvertebrates 
+# Purpose: 
+#       Lists of taxa per BRT12-type
 # --------------- #
 
 # # Setup -------------------------------------------------------------------
@@ -21,12 +24,12 @@ set_all = readRDS("data/03_data_low_impact.rds")
 
 # prepare data ------------------------------------------------------------------
 # reduce to adequately represented river types
-ch_acc    = paste0("RT", c(1,2,3,4,5,8,9, 10, 11, 14, 15, 16, 18))
-set_all = set_all[ls_bd_20 %in% ch_acc]
+ch_acc    = paste0("RT", c(1,2,3, 4, 5, 6, 7, 8, 9, 10))
+set_all = set_all[brt12 %in% ch_acc]
 
 
 ## -- split into one data frame per river type 
-list_all = split.data.frame(x = set_all, f = factor(set_all$ls_bd_20))
+list_all = split.data.frame(x = set_all, f = factor(set_all$brt12))
 
 # extract number of unique entries per taxonomic level 
 n_phyl     = lapply(list_all, function(x)x[,uniqueN(phylum)])
@@ -176,8 +179,8 @@ lvl_data_class =
         lapply(lvl_data_class, 
                function (x) setorderv(x, 
                                       cols = c("phylum_name", "class_name")
-                                      )
                )
+        )
 
 # Subclass  ----------------------------------------------------------------
 
@@ -267,10 +270,10 @@ for (k in seq_along(n_order)){
 }
 
 lvl_data_order = lapply(lvl_data_order, function(x)
-setorderv(
-        x,
-        cols = c("phylum_name", "class_name", "subclass_name", "order_name")
-))
+        setorderv(
+                x,
+                cols = c("phylum_name", "class_name", "subclass_name", "order_name")
+        ))
 
 
 
@@ -376,10 +379,10 @@ lvl_data_genus = lapply(lvl_data_genus, function(x)
 # Save to file  -----------------------------------------------------------
 
 result_list = list(phylum  = lvl_data_phyl, 
-                  class    = lvl_data_class,
-                  subclass = lvl_data_subclass,
-                  order    = lvl_data_order,
-                  family   = lvl_data_family,
-                  genus    = lvl_data_genus)
+                   class    = lvl_data_class,
+                   subclass = lvl_data_subclass,
+                   order    = lvl_data_order,
+                   family   = lvl_data_family,
+                   genus    = lvl_data_genus)
 
-saveRDS(result_list, "data/04_taxon_resolution_list_brt20.rds")
+saveRDS(result_list, "data/04_taxon_resolution_list_brt12.rds")
