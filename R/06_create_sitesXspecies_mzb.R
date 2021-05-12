@@ -3,7 +3,7 @@
 # ----------------------------------------- #
 
 # --------------- #
-# date:  17.03.21
+# date:  11.05.21
 # files in 
 #               -> 05_final_taxon.rds         | macroinvertebrates at optimal resolution 
 # files out
@@ -16,86 +16,114 @@
 # --------------- #
 
 # 01. Setup  --------------------------------------------------------------
-source("R/setup_combined_inv.R")
+#source("R/setup_combined_inv.R")
+pacman::p_load(
+    data.table, 
+    fuzzySim,
+    purrr, 
+    
+    dplyr, 
+    magrittr,
+    stringr
+)
 
 # read in and prepare data ------------------------------------------------
-# load data 
-dt_mzb  = readRDS("data/05_final_taxon.rds")
+## -- load data 
+dt_mzb  = readRDS("data/05_final_taxon_all_typologies.rds")
 
-# trim names 
-dt_mzb[, final_taxon := str_trim(final_taxon, side = "both")]
+## -- trim names
+dt_mzb %<>% map(.f = ~ .x[, final_taxon := str_trim(final_taxon, side = "both")])
 
-# remove samples from before 2000
-dt_mzb$gr_sample_id %<>% as.character()
-dt_mzb[, year := lubridate::year(date)]
-dt_mzb = dt_mzb[(is.na(year) | year >= 2000)]
+## -- remove samples from before 2000
+dt_mzb %<>% map(.f = ~ .x[, gr_sample_id := as.character(gr_sample_id)])
+dt_mzb %<>% map(.f = ~ .x[, year := lubridate::year(date)])
+dt_mzb %<>% map(.f = ~ .x[(is.na(year) | year >= 2000)])
 
 # 03. Drop columns --------------------------------------------------------
-dt_genus = dt_mzb[,.(gr_sample_id, genus, final_taxon_level, ls_bd_20, geometry)]
-dt_mzb = dt_mzb[,.(gr_sample_id, final_taxon, final_taxon_level, ls_bd_20)]
-
-dt_genus = dt_genus[!is.na(genus)]
-
+dt_genus <- map(
+        .x = dt_mzb, 
+        .f = ~ .x[,.(gr_sample_id, genus, final_taxon_level, brt12, brt20, gloric, illies, eea, geometry)]
+        )
+dt_mzb2 <- map(
+        .x = dt_mzb, 
+        .f = ~ .x[,.(gr_sample_id, final_taxon, final_taxon_level, brt12, brt20, gloric, illies, eea)]
+)
+dt_genus %<>% map(.f = ~ .x[!is.na(genus)])
 
 ## -- different levels 
 ls_mzb = list()
-ls_mzb$spe = dt_mzb[final_taxon_level == "species"]
-ls_mzb$gen = dt_mzb[final_taxon_level == "genus"]
-ls_mzb$foh = dt_mzb[final_taxon_level %in% c("family", "order", "subclass", "class")]
 
-ls_mzb$spe[, final_taxon_level := NULL] 
-ls_mzb$gen[, final_taxon_level := NULL] 
-ls_mzb$foh[, final_taxon_level := NULL]
+ls_mzb$spe <-
+    map(.x = dt_mzb2,
+        .f = ~ .x[final_taxon_level == "species"]
+    )
+ls_mzb$gen <-
+    map(.x = dt_mzb2,
+        .f = ~ .x[final_taxon_level == "genus"]
+    )
+ls_mzb$foh <-
+    map(.x = dt_mzb2,
+        .f = ~ .x[final_taxon_level %in% c("family", "order", "subclass", "class")]
+    )
 
-ls_rt = list(
-        spe = unique(ls_mzb$spe[,.(gr_sample_id, ls_bd_20)], by = "gr_sample_id"),
-        gen = unique(ls_mzb$gen[,.(gr_sample_id, ls_bd_20)], by = "gr_sample_id"),
-        foh = unique(ls_mzb$foh[,.(gr_sample_id, ls_bd_20)], by = "gr_sample_id"),
-        gen2 = unique( dt_genus[,.(gr_sample_id, ls_bd_20)], by = "gr_sample_id")
-)
+ls_mzb$spe%<>% map(.f = ~ .x[, final_taxon_level := NULL]) 
+ls_mzb$gen%<>% map(.f = ~ .x[, final_taxon_level := NULL]) 
+ls_mzb$foh%<>% map(.f = ~ .x[, final_taxon_level := NULL])
 
+ls_rt <- 
+    vector(mode = "list", length = 4)
+names(ls_rt) <- c("spe", "gen", "foh", "gen2")
+type_placeholder <-  vector(mode = "list", length = 5)
+names(type_placeholder) <- c("brt12", "brt20", "gloric", "illies", "eea")
+
+ls_rt$spe <- type_placeholder
+ls_rt$gen <- type_placeholder
+ls_rt$foh <- type_placeholder
+ls_rt$gen2 <- type_placeholder
+
+ls_rt$spe$brt12  <- unique(ls_mzb$spe$brt12[ ,.(gr_sample_id, brt12)] , by = "gr_sample_id")
+ls_rt$spe$brt20  <- unique(ls_mzb$spe$brt20[ ,.(gr_sample_id, brt20)] , by = "gr_sample_id")
+ls_rt$spe$gloric <- unique(ls_mzb$spe$gloric[,.(gr_sample_id, gloric)], by = "gr_sample_id")
+ls_rt$spe$illies <- unique(ls_mzb$spe$illies[,.(gr_sample_id, illies)], by = "gr_sample_id")
+ls_rt$spe$eea    <- unique(ls_mzb$spe$bgr[   ,.(gr_sample_id, eea)]   , by = "gr_sample_id")
+ls_rt$gen$brt12  <- unique(ls_mzb$gen$brt12[ ,.(gr_sample_id, brt12)] , by = "gr_sample_id")
+ls_rt$gen$brt20  <- unique(ls_mzb$gen$brt20[ ,.(gr_sample_id, brt20)] , by = "gr_sample_id")
+ls_rt$gen$gloric <- unique(ls_mzb$gen$gloric[,.(gr_sample_id, gloric)], by = "gr_sample_id")
+ls_rt$gen$illies <- unique(ls_mzb$gen$illies[,.(gr_sample_id, illies)], by = "gr_sample_id")
+ls_rt$gen$eea    <- unique(ls_mzb$gen$bgr[   ,.(gr_sample_id, eea)]   , by = "gr_sample_id")
+ls_rt$foh$brt12  <- unique(ls_mzb$foh$brt12[ ,.(gr_sample_id, brt12)] , by = "gr_sample_id")
+ls_rt$foh$brt20  <- unique(ls_mzb$foh$brt20[ ,.(gr_sample_id, brt20)] , by = "gr_sample_id")
+ls_rt$foh$gloric <- unique(ls_mzb$foh$gloric[,.(gr_sample_id, gloric)], by = "gr_sample_id")
+ls_rt$foh$illies <- unique(ls_mzb$foh$illies[,.(gr_sample_id, illies)], by = "gr_sample_id")
+ls_rt$foh$eea    <- unique(ls_mzb$foh$bgr[   ,.(gr_sample_id, eea)]   , by = "gr_sample_id")
+ls_rt$gen2$brt12  <- unique(dt_genus$brt12[ ,.(gr_sample_id, brt12)] , by = "gr_sample_id")
+ls_rt$gen2$brt20  <- unique(dt_genus$brt20[ ,.(gr_sample_id, brt20)] , by = "gr_sample_id")
+ls_rt$gen2$gloric <- unique(dt_genus$gloric[,.(gr_sample_id, gloric)], by = "gr_sample_id")
+ls_rt$gen2$illies <- unique(dt_genus$illies[,.(gr_sample_id, illies)], by = "gr_sample_id")
+ls_rt$gen2$eea    <- unique(dt_genus$bgr[   ,.(gr_sample_id, eea)]   , by = "gr_sample_id")
 
 # 04. Turn to site X species matrix --------------------------------------------------------
-ls_mzb$spe %<>% splist2presabs(sites.col = 1, sp.col = 2) %>%  setDT 
-ls_mzb$gen %<>% splist2presabs(sites.col = 1, sp.col = 2) %>%  setDT
-ls_mzb$foh %<>% splist2presabs(sites.col = 1, sp.col = 2) %>%  setDT
-sxg = dt_genus %>%  splist2presabs(sites.col = 1, sp.col = 2) %>% setDT
+ls_mzb$spe %<>% 
+    lapply(splist2presabs,sites.col = 1, sp.col = 2) %>% 
+    lapply(setDT)
+ls_mzb$gen %<>% 
+    lapply(splist2presabs,sites.col = 1, sp.col = 2) %>% 
+    lapply(setDT)
+ls_mzb$foh %<>% 
+    lapply(splist2presabs,sites.col = 1, sp.col = 2) %>% 
+    lapply(setDT)
+dt_genus %>% 
+    lapply(splist2presabs,sites.col = 1, sp.col = 2) %>% 
+    lapply(setDT) -> 
+    sxg
 
+for (j in 1:3){
+    for (i in 1:5) ls_mzb[[j]][[i]] <- ls_mzb[[j]][[i]][ls_rt[[j]][[i]], on = "gr_sample_id"]   
+}
+for (i in 1:5) sxg[[i]] <- sxg[[i]][ls_rt$gen2[[i]], on = "gr_sample_id"]
 
-
-ls_mzb$spe = ls_rt$spe[ls_mzb$spe, on = "gr_sample_id"]
-ls_mzb$gen = ls_rt$gen[ls_mzb$gen, on = "gr_sample_id"]
-ls_mzb$foh = ls_rt$foh[ls_mzb$foh, on = "gr_sample_id"]
-sxg = ls_rt$gen2[sxg, on = "gr_sample_id"]
-
-
-# 05. remove rare species/ sites --------------------------------------------------------
-# -- low richness sites -- #
-
-# Compute number of taxa across levels for each site and output a vector of gr_sample_ids with empty sites
-# for (i in seq_along(unique(dt_mzb$gr_sample_id))){
-#         if (i == 1) ch_empty = ch_1 = ch_5 = c()
-#         ls_loop        = list()
-#         ls_loop$id     = unique(dt_mzb$gr_sample_id)[i]
-#         ls_loop$spe    = ls_mzb$spe[gr_sample_id == ls_loop$id]
-#         ls_loop$gen    = ls_mzb$gen[gr_sample_id == ls_loop$id]
-#         ls_loop$foh    = ls_mzb$foh[gr_sample_id == ls_loop$id]
-#         ls_loop$spe = sum(rowSums(ls_loop$spe[,-c(1:2)]))
-#         ls_loop$gen = sum(rowSums(ls_loop$gen[,-c(1:2)]))
-#         ls_loop$foh = sum(rowSums(ls_loop$foh[,-c(1:2)]))
-#         ls_loop$sum = ls_loop$spe + ls_loop$gen + ls_loop$foh
-#         if (ls_loop$sum == 0) ch_empty = append(ch_empty, ls_loop$id)
-#         #if (ls_loop$sum == 1) ch_1     = append(ch_1, ls_loop$id)
-#         #if (ls_loop$sum < 5)  ch_5     = append(ch_5, ls_loop$id)
-#         print(i)
-#         rm(ls_loop)
-# }
-
-# any empty sites ? 
-# ch_empty
-# -> no 
 
 # 08. Save data to file ---------------------------------------------------
-saveRDS(dt_genus, "data/05_final_taxon_genus.rds")
-saveRDS(ls_mzb,   "data/06_sxs_list.RDS")
-saveRDS(sxg,     "data/06_sxs_genus.RDS")
+saveRDS(dt_genus, "data/05_final_taxon_genus_all_typologies.rds")
+saveRDS(ls_mzb,   "data/06_sxs_list_all_typologies.rds")
+saveRDS(sxg,     "data/06_sxs_genus_all_typologies.rds")

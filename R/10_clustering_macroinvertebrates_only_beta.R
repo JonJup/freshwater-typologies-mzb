@@ -19,7 +19,8 @@
 # setup -----------------------------------------------
 setwd(here::here())
 source("R/setup.R")
-
+source("~/03_R/functions/cc2.R")
+source("~/03_R/functions/eval_cluster_fun.R")
 # load data -------------------------------------------
 data = readRDS("data/06_sxs_genus.RDS")
 
@@ -48,75 +49,167 @@ data_dist = lapply(c("binary"), function(arg) parallelDist(x = data_ot, method =
 
 # compute clusters --------------------------------------------
 
-beta_parameters = seq(from = -1, 
-                      to   =  1, 
-                      length.out = 10)
+## -- these loops keep running into problems. I will start by hand. 
+beta_clust_1 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.1)
+beta_clust_2 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.2)
+beta_clust_3 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.3)
+beta_clust_4 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.4)
+beta_clust_5 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.5)
+beta_clust_6 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.6)
+beta_clust_7 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.7)
+beta_clust_8 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.8)
+beta_clust_9 = agnes(x = data_dist[[1]], 
+                     method = "flexible",
+                     par.method = 0.9)
+beta_clust_1_h = as.hclust(beta_clust_1)
+beta_clust_2_h = as.hclust(beta_clust_2)
+beta_clust_3_h = as.hclust(beta_clust_3)
+beta_clust_4_h = as.hclust(beta_clust_4)
+beta_clust_5_h = as.hclust(beta_clust_5)
+beta_clust_6_h = as.hclust(beta_clust_6)
+beta_clust_7_h = as.hclust(beta_clust_7)
+beta_clust_8_h = as.hclust(beta_clust_8)
+beta_clust_9_h = as.hclust(beta_clust_9)
 
-## -- calling on all resulted in an error.
-## -- Call iteratively
-ls_flex  = lapply(beta_parameters, 
-                  function(i) as.hclust(
-                          agnes(
-                                  x = data_dist[[1]], 
-                                  method = "flexible", 
-                                  par.method = i)
-                          )
-                  )
+ls_clust = list(beta_clust_1_h, 
+                beta_clust_2_h,
+                beta_clust_3_h,
+                beta_clust_4_h,
+                beta_clust_5_h,
+                beta_clust_6_h,
+                beta_clust_7_h,
+                beta_clust_8_h,
+                beta_clust_9_h
+                )
 
-ls_clust[[1]][[6]] = ls_flex[[1]]
-ls_clust[[2]][[6]] = ls_flex[[2]]
-ls_clust[[3]][[6]] = ls_flex[[3]]
-
-methods = append(methods, "flexible")
-ls_clust2 = flatten(ls_clust)
-names(ls_clust2) = paste0(rep(c(
-        "bin"
-        #"och",
-        #"dic"
-), each = 6), "-",methods )
-
+saveRDS(ls_clust, "data/temp/beta_clusters.rds")
+ls_clust = readRDS("data/temp/beta_clusters.rds")
 # Copheneitc correlation plots  -------------------------------------------
-ls_coph = map(.x = ls_clust2,.f = cophenetic)
+ls_coph = map(.x = ls_clust,.f = cophenetic)
 dist_vec = lapply(data_dist, as.vector)
 ls_plot = list()
-for (i in 1:length(ls_clust2)) {
-        ls_plot[[i]] = cc(i)
-        # if (i == 1) lp_collection = plot_grid(lp_plot) 
-        # if (i > 1) lp_collection = plot_grid(lp_collection, lp_plot, nrow = 6, ncol = 3)
-}
+for (i in 1:length(ls_clust))  ls_plot[[i]] = cc2(i)
 gg_coll = do.call(grid.arrange, ls_plot)
-ggsave(plot = gg_coll, filename = "figures/cluster_eval/cophenetic_distances.pdf", height = 6.85, width = 5.88, units = "in")
+ggsave(plot = gg_coll, 
+       filename = "fig/cluster_eval/cophenetic_distances_beta.png",
+       height = 6.85, 
+       width = 5.88, 
+       units = "in")
+ggsave(plot = gg_coll, 
+       filename = "fig/cluster_eval/cophenetic_distances_beta.eps",
+       height = 6.85, 
+       width = 5.88, 
+       units = "in")
 rm(ls_coph)
 gc()
 
 # summary statistics ------------------------------------------------------
-ls_clust2.1 = ls_clust2[1:6]
-ls_clust2.2 = ls_clust2[7:12]
-ls_clust2.3 = ls_clust2[13:18]
+rm(i, ntc, beta_vec, dir, append_list, gen_mean, dist_vec)
+gc()
 
-ls_clust2.1_eval = lapply(5, function(x) eval_cluster_fun(cl = ls_clust2.1, cut = x))
+ls_clust_eval <- lapply(2:3, 
+                        function(x) eval_cluster_fun(cl = ls_clust, 
+                                                     cut = x))
+gc()
 
-for ( i in 14:20) {
-        out = eval_cluster_fun(cl = ls_clust2.1, 
-                               cut = i)
-        savename = paste0("data/temp/cluster_eval_",i,".rds")
-        saveRDS(object = out, 
-                file = savename)
-        rm(out)
-        rm(savename)
+## -- loop over clusterings (i.e. beta parameters)
+hold_sw <- vector(mode = "list", length = length(ls_clust))
+for (i in seq_along(ls_clust)){
+        lpi_clust = ls_clust[[i]]
+        lpi_hold_sw <- vector(mode = "list", length = 21)
+        for (j in 5:25){
+                lpj_lcc = cutree(lpi_clust, k = j)
+                lpj_sw = silhouette(x = lpj_lcc, dist = data_dist[[1]])
+                lpj_sw = data.table(
+                        cluster = lpj_sw[, 1],
+                        neighbour = lpj_sw[, 2],
+                        silhouette_width = lpj_sw[, 3],
+                        beta = i,
+                        groups = j
+                )
+                lpi_hold_sw[[j]] <- lpj_sw
+                rm(list = ls()[grepl(x = ls(), pattern = "^lpj_")])
+                print(paste(" -- j = ", j, " -- "))
+                rm(j)
+                gc()
+        }
+        hold_sw[[i]] <- rbindlist(lpi_hold_sw)
+        rm(list = ls()[grepl(x = ls(), pattern = "^lpi_")])
+        print(paste("i = ", i))
+        rm(i)
         gc()
 }
-# ls_clust2.2_eval = lapply(2:30, function(x) eval_cluster_fun(cl = ls_clust2.2, cut = x))
-# ls_clust2.3_eval = lapply(2:30, function(x) eval_cluster_fun(cl = ls_clust2.3, cut = x))
-beep()
+beepr::beep(
+)
 
-temp_dir = fs::dir_ls("data/temp")[grepl(pattern = "cluster_eval_", x = fs::dir_ls("data/temp"))][c(12:16,1:11)]
-ls_clust2.1_eval = list()
-for (i in 1:length(temp_dir)) {
-        
-        ls_clust2.1_eval[[i]] = readRDS(temp_dir[[i]])
-        if (i == length(temp_dir)) rm(temp_dir, i)
+hold_sw2 <- rbindlist(hold_sw)
+
+hold_sw2 %>% 
+        mutate(beta = factor(beta)) %>% 
+        group_by(groups, beta) %>% 
+        summarize(mean = mean(silhouette_width),
+                  sd   = sd(silhouette_width)) %>% 
+        ggplot(aes(y=mean, x = groups, col = beta)) + 
+        geom_point() + 
+        geom_line()
+
+hold_sw2 %>% 
+        mutate(cluster = factor(cluster)) %>% 
+        filter(beta == 5) %>%  
+        ggplot(aes(y = silhouette_width, x = cluster, col = cluster)) + 
+        geom_jitter() + 
+        geom_hline(yintercept = 0) + 
+        facet_wrap(.~groups)
+
+## -- Entropy
+my_entropy_fun = function(x, b, g){
+        counts <- 
+                filter(x, beta == b, groups == g) %>% 
+                group_by(cluster) %>% 
+                count() 
+        total <- sum(counts$n)
+        counts %<>% 
+                mutate(rel_n = n/total) %>% 
+                mutate(entropy = rel_n * log(rel_n))
+        entropy = - sum(counts$entropy)
+        out = data.table(beta = b, groups = g, entropy = entropy)
+        out        
 }
+
+l1 = vector(mode = "list", length = 2)
+for (i in 1:9){
+        l2 = vector(mode = "list", length = 21)
+        for(j in 5:25){
+                l2[[j]] <-
+                        my_entropy_fun(x = hold_sw2,
+                                       b = i,
+                                       g = j)
+        }
+        l2 = rbindlist(l2)
+        l1[[i]] = l2
+} 
+test = rbindlist(l1)
+test %<>% mutate(beta = factor(beta))
+test %>% 
+        ggplot(aes(x = groups, y = entropy, col = beta)) + 
+        geom_point(size = .2) + 
+        geom_smooth(se = FALSE)
 
 
 ls_clust2.1_eval2 = flatten(ls_clust2.1_eval)

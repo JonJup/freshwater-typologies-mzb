@@ -73,13 +73,13 @@ editor_options:
 ---
 ---
 nocite: | 
-  @Alric2021, @Mondy2013,@Huttunen2017,@peeters2013changing,@escribano2018freshwater,@berger2018towards,@bhowmik2015large,@Le2021,@Schmera2011, @Schmera2012,@turley2014evaluation,@clarke2003rivpacs,
-  @alvarez2011macroinvertebrate, @lyche2013ecological, @alvarez2010spatial
+  @Alric2021, @Mondy2013,@Huttunen2017,@peeters2013changing,@escribano2018freshwater,@berger2018towards,@bhowmik2015large,   @Le2021,@Schmera2011, @Schmera2012,@turley2014evaluation,@clarke2003rivpacs,
+  @alvarez2011macroinvertebrate, @lyche2013ecological, @alvarez2010spatial, @Leunda2009, @Munne2009,      @lenoir1996development
 ...
 
 # Acknowledgements {-}
-This work was supported by the ENTER GETREAL DETAILS HERE. 
-We are grateful to the staff that collected and analyzed data for the AQEM, STAR, WISER and ECOSURV projects and of the various water agencies that participated in the abiotic and biotic data collection. 
+This study was funded by the GETREAL (Incorporating spatial and seasonal variability in community sensitivity into chemical risk assessment) project, which was funded by the European Chemical Industry Council long-range research initiative (CEFIC-LRi project ECO 50).  
+We are grateful to the staff that collected and analyzed data for the AQUEM, STAR, WISER and ECOSURV projects and to the various water agencies that participated in the abiotic and biotic data collection. 
 
 # Data Availability 
 Some of the monitoring data sets are freely available. 
@@ -94,7 +94,11 @@ DATA EEA
 
 
 <!------- TODO -------->
-<!---- DISCUSSION ---> 
+<!---- MM 
+Why TA? 
+----> 
+  
+<!---- DISCUSSION---> 
 
 <!-- AIMING FOR --> 
 <!-- 
@@ -147,11 +151,11 @@ source("R/setup.R")
 
 <!-- LOAD DATA --> 
 ```{r setup3}
-complete_data     = readRDS("data/01_all_mzb_combined.rds")
-distannce_removed = readRDS("data/02_data_close.rds")
-impact     = readRDS("data/03_data_low_impact.rds")
-genus_data = readRDS("data/06_sxs_genus.RDS")
-all_data   = readRDS("data/06_sxs_list.rds")
+complete_data     <- readRDS("data/01_all_mzb_combined.rds")
+distannce_removed <- readRDS("data/02_data_close.rds")
+impact            <- readRDS("data/03_data_low_impact.rds")
+genus_data        <- readRDS("data/06_sxs_genus.RDS")
+all_data          <- readRDS("data/06_sxs_list_all_typologies.rds")
 ```
 
 \newpage
@@ -167,9 +171,11 @@ all_data   = readRDS("data/06_sxs_list.rds")
 <!-- Method and Materials --> 
 ```{r call mm, child="../parts/mm.rmd"}
 ```
+
 <!-- Results --> 
 ```{r call results, child="../parts/results.rmd"}
 ```
+ 
 <!-- Discussion --> 
 ```{r call discussion, child="../parts/discussion.rmd"}
 ```

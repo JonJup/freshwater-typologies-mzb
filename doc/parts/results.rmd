@@ -5,7 +5,7 @@ source("doc/scripts/prepare_cluster_evaluation.R")
 ```
 
 ```{r results prepare indval}
-source("doc/scripts/results_indval.R")
+#source("doc/scripts/results_indval.R")
 ```
 
 ```{r results prepare TA}
@@ -13,249 +13,85 @@ source("doc/scripts/results_ta.R")
 ```
 
 ```{r}
-cmn_t_1 = paste(round(cmn_a_1/n_sites,3)*100, "%")
-cmn_t_2 = paste(round(cmn_a_2/n_sites,3)*100, "%")
-cmn_t_3 = paste(round(cmn_a_3/n_sites,3)*100, "%")
-cmn_t_4 = paste(round(cmn_a_4/n_sites,3)*100, "%")
-cmn_t_5 = paste(round(cmn_a_5/n_sites,3)*100, "%")
+source("doc/scripts/redundancy_plot.R")
 ```
 
 
+```{r}
+# cmn_t_1 = paste(round(cmn_a_1/n_sites,3)*100, "%")
+# cmn_t_2 = paste(round(cmn_a_2/n_sites,3)*100, "%")
+# cmn_t_3 = paste(round(cmn_a_3/n_sites,3)*100, "%")
+# cmn_t_4 = paste(round(cmn_a_4/n_sites,3)*100, "%")
+# cmn_t_5 = paste(round(cmn_a_5/n_sites,3)*100, "%")
+```
 
 ## Comparison of classifications 
-<!-- ASW -->
-The ASW was highest in the biological classification (`r asw_b`) followed by BGR (`r asw_eea`) and Illies (`r asw_ill`)(Figure \@ref(fig:fig-res-sw)a). 
-All reach-based typologies had negative ASWs (BRTred: `r asw_brt6`; BRT12: `r asw_brt12`; BRT20: `r asw_brt20`; GloRiC: `r asw_gl`) below or equal to those of the random partitions (`r asw_null$mean` $\pm$ `r asw_null$sd`).
-<!-- CH -->
-The CH was highest in the biological classification (`r ch_b`).
-Both regional approaches had higher CH (BGR: `r ch_eea`; Illies: `r ch_ill`) than the reach-based typologies (BRT12: `r ch_brt12`; BRT20: `r ch_brt20`; GloRiC: `r ch_gl`), with the exception of BRTred (`r ch_brt6`), which had a higher CH than Illies' ecoregions.
-All typologies had higher scores than the random partitions (`r ch_null$mean` $\pm$ `r ch_null$sd`).
-<!-- classification strength --> 
-The CS was highest in the biological classification (`r cs_b`) and lowest in the random partitions (`r cs_null$mean` $\pm$ `r cs_null$sd`).
-Most typologies had very similar scores, of approximately `r cs_eea`.
-Only Illies' ecoregions exceeded 0.5 with a score of `r cs_ill`.         
-<!-- IndVal Scores -->
-The biological classification had the largest IVS (`r iv_b`) closely followed by Illies (`r iv_ill`) and GloRiC (`r iv_gl`).
-These two were followed by BRTred (`r iv_brt6`), BRT12 (`r iv_brt12`), BGR (`r iv_eea`) and BRT20 (`r iv_brt20`). 
-The random partitions received lower scores (`r iv_null$mean` $\pm$ `r iv_null$sd`).
+<!-- Overview over results --> 
+Overall Illies received the highest score, with `r rank_dat[typ == "illies", total_points]` of 20 possible points, followed by BGR (`r rank_dat[typ == "eea", total_points]`), BRT12 (`r rank_dat[typ == "brt12", total_points]`), GloRiC (`r rank_dat[typ == "gloric", total_points]`) and BRT20 (`r rank_dat[typ == "brt20", total_points]`). 
 
-The generalized silhouette width for all typologies except the random partitioning decreased with increasing degree of the mean (Figure \@ref(fig:fig-res-sw)b). 
-The rank order of silhouette widths changed little between the different degrees and generally followed the pattern: biological > BGR > Illies > BRT12 > BRTred > BRT20 > GloRiC. 
-Exceptions to this rank order were that at $p=-\infty$ GloRiC had a higher silhouette width than BRT12 and BRT20 as did BRTred.
-Additionally, Illies had a lower silhouette width than all BRT typologies at $p=\infty$. 
-The difference between typologies and random partitions is most pronounces at $p=-\infty$ and decreases with increasing degree. 
-At $p = -2$ GloRiC has a lower silhouette width than the random partitions and at $p = \infty$ all typologies silhouette widths below that of the random partitioning. 
+<!-- CH -->
+The CH was higher in regional typologies than in reach-based typologies and higher in in BGR than in Illies' ecoregions. 
+BRT12 had a higher score than BRT20 and GloRiC had the lowest CH. 
+
+<!-- classification strength --> 
+Most typologies had similar CS, approximately `r cs_eea`.
+Only Illies' ecoregions exceeded 0.05 with a score of `r cs_ill`.     
+
+<!-- IndVal Scores -->
+The Illies' ecoregions had the largest IVS closely followed by GloRiC.
+These two were very close to the biological classification.
+The three other typologies had similar IVS around `r iv_brt20`. 
+        
+<!-- ASW -->
+Increasing the emphasis on compactness (i.e. $p$) decreased the silhouette widths (Figure \@ref(fig:fig-res-sw)).
+All typologies had positive $ASW_{min}$, BGR and Illies' ecoregions were close to the biological typology.
+Reach-based typologies had lower $ASW_{min}$ than regional ones and GloRiCs was slightly higher than the similar scores of BRT12 and BRT20. 
+With $p = 1$, only the ASW of BGR exceeded zero and the random typology. 
+In the remaining typologies, the difference between region- and reach-based typologies shrunk.
+Illies' ecoregions had a slightly higher ASW than BRT12, which had a higher ASW than BRT20.
+GloRiC had the lowest ASW.
+The $ASW_{max}$ is negative for all typologies, including the biological. 
+The absolute value only declined markeldy for BGR, Ilies ecoregions and GloRiC, so that BRT12 had the highest $ASW_{max}$. 
+It was followed by BGR, BRT12, Illies' ecoregions and GloRiC. 
+
 
 ```{r fig-res-sw, fig.align="center", fig.height=5, fig.cap="Cluster validity citeria for freshwater typologies. (a) Calinski Harabasz, Classification Strength and Indicator Value score of all eight freshwater typologies. (b) Generalized Silhouette width over the degrees p of the mean. The dashed horizontal line indicates a score of zero."}
-img <- readPNG("figures/eval_cluster_combined.png")
+img <- readPNG("fig/eval_cluster_combined.png")
 grid.raster(img)
 ```
 
-Overall Illies received the highest score, with `r rank_dat[typ == "illies", total_points]` of 24 possible points, followed by BGR (`r rank_dat[typ == "eea", total_points]`), BRTred (`r rank_dat[typ == "brt6", total_points]`), BRT12 (`r rank_dat[typ == "brt12", total_points]`), GloRiC (`r rank_dat[typ == "gloric", total_points]`) and BRT20 (`r rank_dat[typ == "brt20", total_points]`). 
 
-## Indicator genera
-
-Of the `r taxa_in_data_genus` genera included in the analysis, `r ind_unique_taxa` were selected as statistically significant indicators by our analysis. 
-Most were indicative of three or fewer river types (`r ind_ot`, `r round(ind_ot_p,2)` %).
-The highest number of broad river types that a single genus was indicative of was eight.  
-Five genera were indicative of eight broad river types: the damselfly Calopteryx,  the beetle Oulimnius, the bivalve Pisidium, the mayfly Serratella and the alderfly Sialis.
-They were generally indicative for all river types that were not high-altitude (BRT14-16) and not Mediterranean (BRT18). 
-Oulimnus and Sialis were indicators for all remaining types except the very large rivers (BRT1). 
-Calopteryx indicated all remaining types except for small, lowland, siliceous rivers (BRT3). 
-However, the indicator value of Calopteryx in BRT3 (0.18) was only marginally lower than for BRT1 and 2 (0.2), while is was noticeably lower for high-altitude and Mediterranean types (0.04 - 0.11). 
-The bivalve Pisidium was indicative of all remaining types except large, mid-altitude siliceous rivers (BRT8). 
-As with Calopteryx, the indicator value for the exempt river type was only slightly lower than for some of significant types. 
-Serratella is the only genus of the five that is also indicative of a high-altitude river type. 
-It is indicative of BRT16, but not of very large (BRT1) and small, lowland, calcareous (BRT5) rivers. 
-
-`r cmn_n_1` was the most common genus overall, occurring in `r cmn_t_1` of sites followed by `r cmn_n_2` (`r cmn_t_2`), `r cmn_n_3` (`r cmn_t_3`), `r cmn_n_4` (`r cmn_t_4`) and `r cmn_n_5` (`r cmn_t_5`).
-The number of indicative genera varied strongly between river types.
-`r max_n_rt` had the most indicative genera (`r max_n`) and `r min_n_rt` had the least (`r min_n`).
-The mean number of indicative genera was `r mu_n` with a standard deviation of `r sd_n`.
-Of the `r max_n` genera that were indicative of `r max_n_rt`, `r max_rt_u` were unique to `r max_n_rt`. 
-The mean indicator value of statistically significant indicators was `r mean_indval` with a standard deviation of `r sd_indval`.
-`r high_ind_genus` in BRT1 had the highest significant indicator value with `r high_ind_value` and `r low_ind_genus` in BRT4 had the lowest significant indicator value with `r low_ind_value`.
-
-Table \@ref(tab:tab-sm-indi) shows the indicator values for all taxa that were statistically significant indicators.  
 
 ## Typical assemblages
 
-We combined the broad river types BRT4 and 5, BRT 2, 3, 8, 9, 10, 11 and 18 as well as BRT 15 and 16 because their Jaccard similarity exceeded 0.8. 
-The BRT4_5 type represents lowland, calcareous rivers irrespective of size, BRT2_3_8_9_10_11 represents low and mid-altitude rivers of varying geology and BRT 15_16 represents non-siliceous high-altitude rivers. 
+The mean similarity in BRT-type typical assemblages was higher than in the other three typologies (Figure \@ref(fig:fig-redundancy)).  
+For both BRT-type typical assemblages the mean similarity was above 0.5, approaching 0.75 in BRT12. The mean similarity for the other three typical assemblages all lay around 0.2.  
+While found high similarities (>0.75) in the typical assemblages of all five typologies, only for the BRT-type typologies did we find complete overlap (a similarity of 1).    
 
-```{r fig-final-ta-similarity, fig.cap = "test"}
-img <- readPNG("figures/ta_redundancies/round6.png")
-#grid.raster(img)
+The mean size of typical assemblages was similar in all typologies. 
+The mean size over all typologies was `r round(mean(out_list$value),1)` taxa. 
+BGR had the smallest typical assemblages on average with `r ta_small_overall_mean` taxa and Illies the largest with `r ta_large_overall_mean` taxa.
+The differences are more pronounced in the sizes of individual typical assemblages. 
+The two smallest typical assemblage were from the high-altitude calcareous/ mixed rivers (RT15) of BRT20 with then taxa and the Mediterranean Region of BGR with eleven. 
+The two largest typical assemblages were both from types of Illies freshwater ecoregions: Ireland and Northern Ireland as well as England with 66 and 62 taxa respectively. 
+Note that the two types were also similar to one another and combined for the non-redundant typical assemblages. 
+
+```{r fig-redundancy, fig.cap="Similarity between typical assemblages for five freshwater typologies. The colored dots are similarities between two types and the violins represent their frequency distribution. The bigger black dots are the arithmetic means."}
+redundancy_plot
 ```
 
 
-<!-- \@ref(fig:fig-final-ta-similarity) shows the Jaccard-similarity between the typical assemblages. -->
-<!-- ADD Corrplot of remianing TAs -->
-<!-- what were their similarities  -->
+Based on these typical assemblages, we found redundant types in all typologies except for BGR.  
+In BRT12, we combined the river types 2, 3, 4, 5, 6 and 7 which include very small to large lowland rivers as well as calcareous mid-altitude rivers. We also combined the two river types 8 and 9 - siliceous mid-altitude rivers.
+In BRT20, we found the river types 8, 9 and 16 (mid-altitude siliceous and glacial rivers) to be redundant.
+In addition, we combined the river types 2, 3, 4, 5, 10 and 11. 
+They represent very small to large lowland rivers and mid-altitude calcareous and mixed rivers. 
+In GloRic we combined two river types, 4 and 6. 
+Unfortunately, @OuelletDallaire2019 do not provide an interpretation for their types beyond the numbers. 
+For Illies, we merged the two types England and Ireland and Northern Ireland as well as Western plains and Western highlands.
 
-`r ta_used_taxa` of `r ta_total_taxa` taxa were included in the typical assemblages.
-Most at the `r ta_mostcommon_lvl` level (`r ta_mostcommon_lvl_n`), followed by `r ta_secondcommon_lvl` (`r ta_secondcommon_lvl_n`) and `r ta_leastcommon_lvl` (`r ta_leastcommon_lvl_n`). 
-On average, taxa occurred in `r ta_mu_occ` typical assemblages. 
-The family Chironomidae was included in all typical assemblages.
-The most common genera were Ancylus, Baetis, Esolus, Hydropsyche, and Limnius all of which occurred in four typical assemblages.
-*Serratella ignita* was the only species included in the typical assemblages and was typical for BRT4_5, BRT2_3_8_9_10_11 and BRT15_16.
-The average size of typical assemblages was `r ta_mean_size` with a standard deviation of `r ta_sd_size`.
-The largest typical assemblage was `r ta_biggest_name` with `r ta_biggest_size` taxa and the smallest was `r ta_smallest_name` with `r ta_smallest_size` taxa. 
-To compare taxonomic resolution across typical assemblages, we assigned a value of three to each species, two to genera and one to lower taxonomic levels. 
-The mean taxonomic resolution was `r round(ald_overall$mean2,1)` with a standard deviation of `r round(ald_overall$sd,1)`.
-The river type BRT4_5  had the highest taxonomic resolutions (2). 
-BRT14 and BRT18 had the lowest taxonomic resolution (1.0)
-<!-- Most taxa in the typical assemblages were common (i.e. B > 0.25).  -->
-<!-- `r ta_through_a_total`  taxa (`r ta_through_a_perce`%) were added because of their high concentration. -->
-<!-- These species were associated with `r ta_where_a$rt[1]` (`r ta_where_a$n[1]`), `r ta_where_a$rt[2]` (`r ta_where_a$n[2]`), `r ta_where_a$rt[3]` (`r ta_where_a$n[3]`) and `r ta_where_a$rt[4]` (`r ta_where_a$n[4]`). Overall, the typical assemblages were smaller than the indicator assemblages. -->
-
-<!--## Traits of Indicator assemblages-->
-<!-- 
-The figure X shows the community weighted mean traits of the indicator assemblages. 
-As traits were fuzzy-coded they express the tendency of the hypothetical average indicator species towards expressing a certain trait modality. 
-For improve legibility, we will henceforth refer to the indicator and typical assemblages with the name of their associated river type. Hence, in the following BRT01 does not refer to a specific river type but rather the assemblages associated with it.    
--->
-<!--  feeding  -->
-<!--
-Shredding was most pronounced in assemblages of high altitude river types, especially in BRT14 (0.43).
-In these assemblages, filterers were rare or absent. 
-The mid-altitude river types (BRT8-11,18) have higher proclivity towards shredders than lowland river types, however very large rivers (BRT1) have more shredders than other lowland types and also higher levels than some mid-altitude river types (BRT10,18). 
-Parasitic feeding strategies were rare.
-They were absent from six of thirteen assemblages and always at or below 0.05. (TODO SUCKS) 
-These values are low because i) few species with parasitic feeding mode are included in the indicator assemblages and ii) several of the included genera only have a low proclivity towards parasitism, either because only few species within the genus are parasites or because it is only employed during certain life stages (e.g. in Unio and Sisyra).
-The predation feeding strategy was most pronounced in small lowland rivers (BRT3:0.33, BRT5:0.35) and less so in larger or higher altitude rivers. 
-The modality is more common in mid-altitude rivers with siliceous geology (BRT8,9) than in those those with calcareous or mixed geology BRT(10,11).
-Herbivory was more strongly pronounced in mid- and high-altitude river types than in lowland river types. 
-The highest value were observed for calcareous river types (BRT11: 0.4, BRT15: 0.43).
-In high altitude rivers, noticeably less pronounced in siliceous river types (BRT14:0.22).
-However, we did not observe this distinction between geologies in lowland rivers.
-The prevalence of gathering was higher in lowland streams and lower in mid-and high altitude streams. 
-In both groups, it's prevalence was very similar between river types. 
-In low-altitude river types, prevalence varied between 0.26 (BRT5) and 0.3 (BRT4), with the exception of very large rivers (BRT1: 0.22).
-In mid- and high-altitude river types, the values ranged between 0.12 (BRT16) and 0.17 (BRT9), with the exception of siliceous high-altitude rivers (BRT14:0.25). 
-The value in siliceous high-altitude rivers is not caused by more gathering genera than in the other river types, but instead by a single genus (Leptophlebia) with a high (0.8) modality value.  
-Filtering was most pronounced in very large rivers (BRT1). 
-In other assemblages it played a minor role.
-It exceeded 0.1 only in BRT10 and was absent from BRT15. 
--->
-<!-- Breathing  -->
-<!-- 
-The breathing strategy was divided into three categories: gills, spiracles and tegument. 
-In most assemblages (11 out of 13) teguments were the dominant breathing strategy. 
-In the other two (BRT1 and BRT11), gills were most common.
-In two (BRT10 and BRT18) of the eleven assemblages, in which teguments were the most common strategy, gills were almost tied (differences of 0.02 and 0.01 respectively). 
-Generally teguments are more common in mid-altitude river types than in either high- or low-altitude rivers. 
-The third strategy, spiracles, is the rarest modality on all but one river type (BRT3). 
-It is most pronounced in low-land river types and absent from BRT14.  
--->
-
-<!-- Voltinism  -->
-<!-- 
-In all assemblages univoltinism was more common than semi- or multivoltinism.
-However, all stragies are pronounced to some degree in each river type. 
-In assemblages of lowland rivers, mutlivoltism was more pronounced than semivoltinism, but the latter become more common in assemblages of mid- and high-altitude rivers. 
-Semivoltinism was more common than mutlivoltinism in BRT14,16 and 18.  
--->
-<!-- Locomotion  -->
-<!-- 
-Crawling was the most common type of locomotion in all assemblages. 
-There is a clear connection between altitude and the prevealnce of this modality. 
-It is lowest in low-land rivers (between 0.52 and 0.57), higher in mid-altitude rivers (between 0.61 and 0.63) and highest in high-altitude rivers (between 0.76 and 0.78).
-This was not due to a very high scores in one other locomotion strategy but rather to high values in all others (approx. 0.2 each). 
-The opposite pattern can be observed for swimming. 
-Burrowing has similar levels throughout low- and mid-altitude rivers (0.10 to 0.16) and is lower in high-altitude rivers (0.05 to 0.07).
--->
-<!-- Ovipostion  -->
-<!-- 
-In all indicator assemblages, aquatic oviposition was the most pronounced oviposition modality. 
-Ovovivipary was most pronounced in very large rivers (0.32) and absent from mid- and high-altitude rivers, with the exception of calcareous mid-altitude streas (BRT10,11).
-Terrerstrial ovipositon was uncommon in most assemblages and almost absent in BRT2,4 and 16 () 
-It was most common in assemblages of siliceous high-altitude rivers (BRT14:0.13). 
--->
-<!-- size  -->
-<!-- 
-The prevalence of large-bodied genera decreased with altitude. 
-The low levels of the former modality in high-altitude river types (between 0.02 and 0.1) were compensated for with a higher prevalence of mid-sized genera. 
-Small size was the dominant modality in all assemblages. 
-It ranged from 0.47 (BRT2) and 0.67 (BRT11) and there was discernable pattern to its variation. 
--->
-<!-- bodyform -->
-<!-- 
-In all assemblages the most pronounced modality for body form was cylindrical.
-The trait modality's values all exceeded 0.5 and they were highest for mid-altitude streams.            
-In lowland streams, the prevalence of flattened bodies decreased with decreasing river size while in mid-altitude streams the opposite pattern was observed. 
-They 
-Spherical was the least common modality. 
-Values above 0.1 only occurred in large lowland rivers (BRT2 and 4). 
-The modality was almost or fully absent from BRT8, 9, 14, 15 and 16. 
-Streamlined bodies were most common in BRT3 where they this modality was more pronounced than the flattened body form.
--->
-<!-- TRAITS TYPICAL ASSEMBLAGES
-The community-weighted mean traits of typical assemblages differed noticeably from those of the indicator assemblages (#TODO LINK TO FIGURE).
-<!---- FEEDING 
-
-SHREDDING - NO PATTERN 
-PARASITE - VERY RARE ONLY ONE TYPE (2)
-HERBIVORY - LESS PRONOUNCED IN MID AND HIGH ALTITUDE 
-PREDATION - between 0.1 and 0.21 no pattern 
-Filter - ABSENT RT3, most common mid altitude
-gather - 
-
-
-
-
-As in the indicator assemblages, shredding was more pronounced in assemblages of smaller rivers and higher altitudes. 
-It's highest values were in RT9 and RT15 (0.24 both) but it was not dominant in either. 
-The lowest values were in RT1 (0.13), RT4_5 (0.11) and RT14 (0.12). 
-The range of affinities towards this modality was small. 
-The was same is true of predation.
-It was highest in RT14 (0.31), where it was the dominant feeding strategy, and lowest in RT1 (0.13), RT8 (0.14) and RT10_11 (0.14).
-No general patterns were observed. 
-Parasitism was the rarest feeding strategy.
-It was absent in seven of eleven assemblages and very rare in the other four (0.01 in RT8, 9, 14 and 15). 
-It only occured in assemblages of mid- or high-altitude river types. 
-The dominant feeding strategy in most assemblages was herbivory. 
-It was most pronounced in assemblages of the mid-altitude river types RT8 (0.48), 9 (0.4) and 10_11 (0.4). 
-It was rarest in the assemblages of the two high-altitude river types RT14 (0.12) and 15 (0.17). 
-Gathering was present in all assemblages. 
-It was least prevalent in the typical assemblages of the two siliceous river types, RT3 (0.12) and RT8 (0.14) and most common RT14 (0.29) and RT18 (0.3). 
-Filtering is still the most pronounced modality in RT1 (0.31) and least common in RT9 (0.01). 
-
-<!-- Breathing  
-In all typical assemblages, breathing with gills or teguments were the common modes of breathing. 
-Community mean weighted traits ranged between 0.3 and 0.6, with one high (0.73 for gills in RT1) and low (0.27 for teguments in RT1) exception.
-Breathing through spiracles was the least common modality in all typical assemblages and absent in RT1 and RT14. 
-It was most common in RT10_11 (0.21). 
-
-<!-- Voltinism  
-RT1 was the only river type in which univoltisim was not the dominant reproduction strategy. 
-Instead, mutlivoltinism was most common (0.56). 
-In all assemblages univoltinism ranged between 0.55 (RT14) and 0.73 (16).
-Mutlivoltinism was least common in RT16 and relatively common (>0.3) in RT4_5, RT14, RT15 and RT18. 
-Semivoltinism is the least common modality in all typical assemblages.
-The maximal affinity toward this modality was found in RT16 (0.12). 
-<!-- Locomotion 
-Crawling was the dominant locomotion modality in all typical assemblages. 
-Affinities ranged between 0.4 (RT1) and 0.67 (RT16). 
-Swimming was most pronounced in RT1 (0.27) and ranged between 0.1 and 0.18 in all other typical assemblages. 
-Sessil organisms were least common in RT9 (0.05) and most common in RT14 (0.22). 
-For most assemblages the affinities ranged between 0.1 and 0.2. 
-The affinity towards burrowing was also highest in RT14 (0.23) but lowest in RT15 (0.11). 
-<!-- Ovipostion 
-Terrestrial oviposition was missing from the typical assemblages. 
-Aquatic oviposition was the dominant modality in all typical assemblages and ranged between 0.6 (RT1) and 0.98 (RT16). 
-Ovovivipary was most common in RT1 (0.4), RT4_5 (0.23) and RT15 (0.18).
-<!-- size  
-In most assemblages, small or medium-sized organisms made up most of the typical assemblages. 
-Together, these two modalities exceeded 0.8 in all assemblages except RT1. 
-In most, small size was more common than medium size but the opposite was true in RT15 and they were equally common in RT3. 
-In RT1, large organisms dominated the typical assemblage (0.52) and small organisms were rare (0.15).
-
-<!-- bodyform 
-Most taxa in the typical assemblages had a cylindrical body shape. 
-The affinity towards this modality exceeded 0.5 in all typical assemblages, except RT1 (0.38), RT10_11 (0.47) and RT 18 (0.46) and was most pronounced in RT14 (0.86). 
-It was the dominant modality in all typical assemblages, except RT1, which had a larger affinity towards flattend body shapes (0.44).
-Flattend had the second highest affinity in all typical assemblages, except RT14. 
-Streamlined bodies are more common than spherical ones in assemblages. 
-The latter is rare in most types and absent from RT14 and RT15. 
--->
+The number of taxa in all typical assemblages of a typology varied considerably between typologies. The typical assemblages included `r ta.perc.brt12` of taxa for BRT12, `r ta.perc.brt20` for BRT20, `r ta.perc.gloric` for GloRic `r ta.perc.illies` for Illies and `r ta.perc.bgr` for BGR. 
+On average, taxa occurred in `r ta.mu.occ$rt1` typical assemblages in BRT12, `r ta.mu.occ$rt2` in BRT20, `r ta.mu.occ$glo` in GloRiC, `r ta.mu.occ$ill` in Illies and `r ta.mu.occ$bgr` in BGR.
+The two taxon that occurred in the most typical assemblages were both families: Chironomidae (49 of 56 typical assemblages) and Simuliidae (40). 
+The most common genera were the mayfly Baetis (38), the caddisfly Hydropsyche (37) and the gammarid Gammarus (35). 
+The most common species were two mayflies *Serratella ignita* (34) and *Baetis rhodani* (14).

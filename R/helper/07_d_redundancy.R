@@ -17,14 +17,17 @@
 
 
 #function
-source(file.path(dir$hlp, "f_01_redundant.R"))
+source("R/helper/f_01_redundant.R")
 
 names(dt_mzb)[2] = "group"
 
 ma_redundnat = redundant(dt_mzb)
+diag(ma_redundnat) = 2
+ma_data <- c(ma_redundnat)
+
 #print(ma_redundnat)
-# x11()
-ma_redundnat[which(ma_redundnat < 0.8)] = 0
+x11()
+#ma_redundnat[which(ma_redundnat < 0.8)] = 0
 corrplot::corrplot(ma_redundnat, 
                    method = "number", 
                    is.corr = FALSE, 

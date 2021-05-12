@@ -1,11 +1,11 @@
 # -------------------------------- #
 ### --- Taxonomic Resolution --- ### 
-### --- BRT12                --- ### 
+### --- All Typologies       --- ### 
 # -------------------------------- #
 
 # --------------- #
 # date:  
-#       04.05.21
+#       07.05.21
 # files in 
 #       -> 03_data_low_impact.rds   | macroinvertebrate observations from reference sites 
 # files out
@@ -18,371 +18,449 @@
 
 # # Setup -------------------------------------------------------------------
 source("R/setup_combined_inv.R")
-
+rm(fill_season, plot_list, prepare_plot, subset_with_sites)
+gc()
 # load data ---------------------------------------------------------------
-set_all = readRDS("data/03_data_low_impact.rds")
-
+set_all = readRDS("data/04_invertebrates_w_typologies.rds")
+set_all[order == "Plagiorchiida",  `:=`  (subclass = NA, class = "Rhabditophora", phylum = "Platyhelminthes")]
 # prepare data ------------------------------------------------------------------
-# reduce to adequately represented river types
-ch_acc    = paste0("RT", c(1,2,3, 4, 5, 6, 7, 8, 9, 10))
-set_all = set_all[brt12 %in% ch_acc]
+## -- reduce to adequately represented river types
+brt20_acc    = paste0("RT", c(1,2,3,4,5,8,9, 10, 11, 14, 15, 16, 18))
+brt12_acc    = paste0("RT", c(1,2,3, 4, 5, 6, 7, 8, 9, 10))
+set_all = set_all[brt12 %in% brt12_acc & brt20 %in% brt20_acc]
 
 
-## -- split into one data frame per river type 
-list_all = split.data.frame(x = set_all, f = factor(set_all$brt12))
+n_types = c(uniqueN(set_all$brt12),uniqueN(set_all$brt20), uniqueN(set_all$gloric), uniqueN(set_all$illies), uniqueN(set_all$eea))
+names(n_types) = c("brt12", "brt20", "gloric", "illies", "eea")
 
-# extract number of unique entries per taxonomic level 
-n_phyl     = lapply(list_all, function(x)x[,uniqueN(phylum)])
-n_class    = lapply(list_all, function(x)x[!is.na(class),    uniqueN(class)])
-n_subclass = lapply(list_all, function(x)x[!is.na(subclass), uniqueN(subclass)])
-n_order    = lapply(list_all, function(x)x[!is.na(order),    uniqueN(order)])
-n_family   = lapply(list_all, function(x)x[!is.na(family),   uniqueN(family)])
-n_genus    = lapply(list_all, function(x)x[!is.na(genus),    uniqueN(genus)])
+rm(brt20_acc, brt12_acc)
 
-## --  prepare empty lists for loops below 
-lvl_data_phyl     = vector(mode = "list", length = length(ch_acc))
-lvl_data_class    = vector(mode = "list", length = length(ch_acc))
-lvl_data_subclass = vector(mode = "list", length = length(ch_acc))
-lvl_data_order    = vector(mode = "list", length = length(ch_acc))
-lvl_data_family   = vector(mode = "list", length = length(ch_acc))
-lvl_data_genus    = vector(mode = "list", length = length(ch_acc))
-names(lvl_data_phyl)     = names(n_phyl)
-names(lvl_data_class)    = names(n_class)
-names(lvl_data_subclass) = names(n_subclass)
-names(lvl_data_order)    = names(n_order)
-names(lvl_data_family)   = names(n_family)
-names(lvl_data_genus)    = names(n_genus)
+## -- split into one data frame per type 
+all_typologies = list(
+        brt12 =  split.data.frame(x = set_all, f = factor(set_all$brt12)),
+        brt20 =  split.data.frame(x = set_all, f = factor(set_all$brt20)),
+        gloric = split.data.frame(x = set_all, f = factor(set_all$gloric)),
+        illies = split.data.frame(x = set_all, f = factor(set_all$illies)),
+        bgr =    split.data.frame(x = set_all, f = factor(set_all$eea))
+)
+
+
+## -- extract number of unique entries per taxonomic level 
+n_tax = list (
+        phy      = lapply(all_typologies, function(x) lapply(x, function(y) y[                 ,uniqueN(phylum, na.rm =T)])),
+        class    = lapply(all_typologies, function(x) lapply(x, function(y) y[!is.na(class),    uniqueN(class, na.rm =T)])),
+        subclass = lapply(all_typologies, function(x) lapply(x, function(y) y[!is.na(subclass), uniqueN(subclass, na.rm =T)])),
+        order    = lapply(all_typologies, function(x) lapply(x, function(y) y[!is.na(order),    uniqueN(order, na.rm =T)])),
+        family   = lapply(all_typologies, function(x) lapply(x, function(y) y[!is.na(family),   uniqueN(family, na.rm =T)])),
+        genus    = lapply(all_typologies, function(x) lapply(x, function(y) y[!is.na(genus),    uniqueN(genus, na.rm =T)]))
+)
+
+
+## --  prepare empty lists for loops below
+a = vector(mode = "list", length = n_types["brt12"])
+b = vector(mode = "list", length = n_types["brt20"])
+c = vector(mode = "list", length = n_types["gloric"])
+d = vector(mode = "list", length = n_types["illies"])
+e = vector(mode = "list", length = n_types["eea"])
+
+lvl_proto = list(brt12 = a, brt20 = b, gloric = c, illies = d, eea = e)
+
+lvl_data = list(
+        phyl = lvl_proto,
+        class = lvl_proto,
+        subclass = lvl_proto,
+        order = lvl_proto,
+        family = lvl_proto,
+        genus = lvl_proto
+)
+
+for (i in seq_along(lvl_data)){
+        for (k in 1:5){
+                names(lvl_data[[i]][[k]]) = names(n_tax[[i]][[k]]) 
+        }
+        rm(i)
+        gc()
+}
+
+rm(lvl_proto, a, b, c, d, e)
+gc()
+
+
 
 # Phylum ------------------------------------------------------------------
-for (k in seq_along(n_phyl)) {
-        level_data_phylum <-
-                data.table(
-                        phylum_name       = character(n_phyl[[k]]),
-                        species           = numeric(n_phyl[[k]]),
-                        genus             = numeric(n_phyl[[k]]),
-                        family            = numeric(n_phyl[[k]]),
-                        order             = numeric(n_phyl[[k]]),
-                        subclass          = numeric(n_phyl[[k]]),
-                        class             = numeric(n_phyl[[k]]),
-                        phylum            = numeric(n_phyl[[k]]),
-                        n_observations    = numeric(n_phyl[[k]])
-                )
-        
-        for (i in 1:n_phyl[[k]]) {
-                
-                level_data_phylum[i, phylum_name := list_all[[k]][, unique(phylum)][i]]
-                
-                loop_sub <-
-                        list_all[[k]][phylum == list_all[[k]][, unique(phylum)][i]]
-                loop_obs <- nrow(loop_sub)
-                level_data_phylum[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
-                level_data_phylum[i, genus          := round(loop_sub[is.na(species) &
-                                                                              !is.na(genus), .N] / loop_obs * 100, 2)]
-                level_data_phylum[i, family         := round(loop_sub[is.na(species) &
-                                                                              is.na(genus) &
-                                                                              !is.na(family), .N] / loop_obs * 100, 2)]
-                level_data_phylum[i, order          := round(loop_sub[is.na(species) &
-                                                                              is.na(genus) &
-                                                                              is.na(family) &
-                                                                              !is.na(order), .N] / loop_obs * 100, 2)]
-                level_data_phylum[i, subclass       := round(loop_sub[is.na(species) &
-                                                                              is.na(genus) &
-                                                                              is.na(family) &
-                                                                              is.na(order) &
-                                                                              !is.na(subclass), .N] / loop_obs * 100, 2)]
-                level_data_phylum[i, class          := round(loop_sub[is.na(species) &
-                                                                              is.na(genus) &
-                                                                              is.na(family) &
-                                                                              is.na(order) &
-                                                                              is.na(subclass) &
-                                                                              !is.na(class), .N] / loop_obs * 100, 2)]
-                level_data_phylum[i, phylum         := round(loop_sub[is.na(species) &
-                                                                              is.na(genus) &
-                                                                              is.na(family) &
-                                                                              is.na(order) &
-                                                                              is.na(subclass) &
-                                                                              is.na(class) &
-                                                                              !is.na(phylum), .N] / loop_obs * 100, 2)]
-                level_data_phylum[i, n_observations := nrow(loop_sub)]
-                
-        }
-        lvl_data_phyl[[k]] = level_data_phylum
-        rm(level_data_phylum)
-}
 
-# Class -------------------------------------------------------------------
-## -- loop over all classes 
-for (k in seq_along(n_class)) {
+## -- loop over typologies 
+for(typ in 1:5){
         
-        level_data_class <- data.table(
-                phylum_name      = character(n_class[[k]]),
-                class_name       = character(n_class[[k]]),
-                species          = numeric(n_class[[k]]),
-                genus            = numeric(n_class[[k]]),
-                family           = numeric(n_class[[k]]),
-                order            = numeric(n_class[[k]]),
-                subclass         = numeric(n_class[[k]]),
-                class            = numeric(n_class[[k]]),
-                n_observations   = numeric(n_class[[k]])
-        )
+        ### ------------- ###
+        ### --- PHYLUM -- ###
+        ### ------------- ###
         
-        for (i in 1:n_class[[k]]) { # LOOP OVER NUMBER OF CLASSES IN EACH RIVER TYPE
+        ## -- LOOP OVER TYPES 
+        
+        for (k in seq_along(n_tax$phy[[typ]])) {
+                level_data_phylum <-
+                        data.table(
+                                phylum_name     = character(n_tax$phy[[typ]][[k]]),
+                                species           = numeric(n_tax$phy[[typ]][[k]]),
+                                genus             = numeric(n_tax$phy[[typ]][[k]]),
+                                family            = numeric(n_tax$phy[[typ]][[k]]),
+                                order             = numeric(n_tax$phy[[typ]][[k]]),
+                                subclass          = numeric(n_tax$phy[[typ]][[k]]),
+                                class             = numeric(n_tax$phy[[typ]][[k]]),
+                                phylum            = numeric(n_tax$phy[[typ]][[k]]),
+                                n_observations    = numeric(n_tax$phy[[typ]][[k]])
+                        )
                 
-                ## -- select a focal class for this iteration of k 
-                loop_class <- list_all[[k]][!is.na(class), unique(class)][i]
-                ## -- enter this class as class name for row i  
-                level_data_class[i, class_name :=  loop_class]
-                ## -- what is the phylum that this class belongs to? 
-                # - check that there is only one phylum 
-                unique_phylum = list_all[[k]][class == loop_class, unique(phylum)]
-                if (length(unique_phylum)  != 1){
-                        error_message = paste("There are", length(unique_phylum), "phyla for", 
-                                              loop_class, ": \n", 
-                                              paste(unique_phylum, collapse = " and "))
-                        stop(error_message)
+                for (i in 1:n_tax$phy[[typ]][[k]]) {
+                        level_data_phylum[i, phylum_name := all_typologies[[typ]][[k]][, unique(phylum)][i]]
+                        
+                        loop_sub <-
+                                all_typologies[[typ]][[k]][phylum == all_typologies[[typ]][[k]][, unique(phylum)][i]]
+                        loop_obs <- nrow(loop_sub)
+                        level_data_phylum[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
+                        level_data_phylum[i, genus          := round(loop_sub[is.na(species) &
+                                                                                      !is.na(genus), .N] / loop_obs * 100, 2)]
+                        level_data_phylum[i, family         := round(loop_sub[is.na(species) &
+                                                                                      is.na(genus) &
+                                                                                      !is.na(family), .N] / loop_obs * 100, 2)]
+                        level_data_phylum[i, order          := round(loop_sub[is.na(species) &
+                                                                                      is.na(genus) &
+                                                                                      is.na(family) &
+                                                                                      !is.na(order), .N] / loop_obs * 100, 2)]
+                        level_data_phylum[i, subclass       := round(loop_sub[is.na(species) &
+                                                                                      is.na(genus) &
+                                                                                      is.na(family) &
+                                                                                      is.na(order) &
+                                                                                      !is.na(subclass), .N] / loop_obs * 100, 2)]
+                        level_data_phylum[i, class          := round(loop_sub[is.na(species) &
+                                                                                      is.na(genus) &
+                                                                                      is.na(family) &
+                                                                                      is.na(order) &
+                                                                                      is.na(subclass) &
+                                                                                      !is.na(class), .N] / loop_obs * 100, 2)]
+                        level_data_phylum[i, phylum         := round(loop_sub[is.na(species) &
+                                                                                      is.na(genus) &
+                                                                                      is.na(family) &
+                                                                                      is.na(order) &
+                                                                                      is.na(subclass) &
+                                                                                      is.na(class) &
+                                                                                      !is.na(phylum), .N] / loop_obs * 100, 2)]
+                        level_data_phylum[i, n_observations := nrow(loop_sub)]
+                        
+                } # END LOOP i OVER PHYLA
+                
+                lvl_data$phyl[[typ]][[k]] = level_data_phylum
+                rm(level_data_phylum)
+                gc()
+        
+        } # END LOOP k OVER TYPES 
+        
+        ### ------------- ### 
+        ### --- CLASS --- ### 
+        ### ------------- ### 
+        
+        ## -- loop over all classes
+        
+        for (k in seq_along(n_tax$class[[typ]])) {
+                level_data_class <- data.table(
+                        phylum_name    = character(n_tax$class[[typ]][[k]]),
+                        class_name     = character(n_tax$class[[typ]][[k]]),
+                        species          = numeric(n_tax$class[[typ]][[k]]),
+                        genus            = numeric(n_tax$class[[typ]][[k]]),
+                        family           = numeric(n_tax$class[[typ]][[k]]),
+                        order            = numeric(n_tax$class[[typ]][[k]]),
+                        subclass         = numeric(n_tax$class[[typ]][[k]]),
+                        class            = numeric(n_tax$class[[typ]][[k]]),
+                        n_observations   = numeric(n_tax$class[[typ]][[k]])
+                )
+                ## -- LOOP OVER NUMBER OF CLASSES IN EACH TYPE
+                for (i in 1:n_tax$class[[typ]][[k]]) {
+                        
+                        ## -- select a focal class for this iteration of k
+                        loop_class <-
+                                all_typologies[[typ]][[k]][!is.na(class), unique(class)][i]
+                        ## -- enter this class as class name for row i
+                        level_data_class[i, class_name :=  loop_class]
+                        ## -- what is the phylum that this class belongs to?
+                          # - check that there is only one phylum
+                        unique_phylum = all_typologies[[typ]][[k]][class == loop_class, unique(phylum)]
+                        if (length(unique_phylum)  != 1) {
+                                error_message = paste(
+                                        "There are",
+                                        length(unique_phylum),
+                                        "phyla for",
+                                        loop_class,
+                                        ": \n",
+                                        paste(unique_phylum, collapse = " and ")
+                                )
+                                stop(error_message)
+                        }
+                        # - assign that phylum
+                        level_data_class[i, phylum_name := all_typologies[[typ]][[k]][class == class_name, unique(phylum)]]
+                        
+                        loop_sub <- all_typologies[[typ]][[k]][class == loop_class]
+                        loop_obs <- nrow(loop_sub)
+                        
+                        level_data_class[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
+                        level_data_class[i, genus          := round(loop_sub[is.na(species) &
+                                                                                     !is.na(genus), .N] / loop_obs * 100, 2)]
+                        level_data_class[i, family         := round(loop_sub[is.na(species) &
+                                                                                     is.na(genus) &
+                                                                                     !is.na(family), .N] / loop_obs * 100, 2)]
+                        level_data_class[i, order          := round(loop_sub[is.na(species) &
+                                                                                     is.na(genus) &
+                                                                                     is.na(family) &
+                                                                                     !is.na(order), .N] / loop_obs * 100, 2)]
+                        level_data_class[i, subclass       := round(loop_sub[is.na(species) &
+                                                                                     is.na(genus) &
+                                                                                     is.na(family) &
+                                                                                     is.na(order) &
+                                                                                     !is.na(subclass), .N] / loop_obs * 100, 2)]
+                        level_data_class[i, class          := round(loop_sub[is.na(species) &
+                                                                                     is.na(genus) &
+                                                                                     is.na(family) &
+                                                                                     is.na(order) &
+                                                                                     is.na(subclass) &
+                                                                                     !is.na(class), .N] / loop_obs * 100, 2)]
+                        level_data_class[i, n_observations := nrow(loop_sub)]
+                        rm(loop_class)
+                        if("unique_phylum" %in% ls()) rm(unique_phylum)
+                        gc()
                 }
-                # - assign that phylum
-                level_data_class[i, phylum_name := list_all[[k]][class == class_name, unique(phylum)]]
-                
-                loop_sub <- list_all[[k]][class == loop_class]
-                loop_obs <- nrow(loop_sub)
-                
-                level_data_class[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
-                level_data_class[i, genus          := round(loop_sub[is.na(species) &
-                                                                             !is.na(genus), .N] / loop_obs * 100, 2)]
-                level_data_class[i, family         := round(loop_sub[is.na(species) &
-                                                                             is.na(genus) &
-                                                                             !is.na(family), .N] / loop_obs * 100, 2)]
-                level_data_class[i, order          := round(loop_sub[is.na(species) &
-                                                                             is.na(genus) &
-                                                                             is.na(family) &
-                                                                             !is.na(order), .N] / loop_obs * 100, 2)]
-                level_data_class[i, subclass       := round(loop_sub[is.na(species) &
-                                                                             is.na(genus) &
-                                                                             is.na(family) &
-                                                                             is.na(order) &
-                                                                             !is.na(subclass), .N] / loop_obs * 100, 2)]
-                level_data_class[i, class          := round(loop_sub[is.na(species) &
-                                                                             is.na(genus) &
-                                                                             is.na(family) &
-                                                                             is.na(order) &
-                                                                             is.na(subclass) &
-                                                                             !is.na(class), .N] / loop_obs * 100, 2)]
-                level_data_class[i, n_observations := nrow(loop_sub)]
-                rm(unique_pyhlum, loop_class);gc()
-        }
-        lvl_data_class[[k]] = level_data_class
-        rm(level_data_class)
-} # END OF LOOP K over all classes
+                lvl_data$class[[typ]][[k]] = level_data_class
+                rm(level_data_class)
 
-lvl_data_class = 
-        lapply(lvl_data_class, 
-               function (x) setorderv(x, 
-                                      cols = c("phylum_name", "class_name")
-               )
-        )
-
-# Subclass  ----------------------------------------------------------------
-
-for (k in seq_along(n_subclass)) {
-        level_data_subclass <- data.table(
-                phylum_name      = character(n_subclass[[k]]),
-                class_name       = character(n_subclass[[k]]),
-                subclass_name    = character(n_subclass[[k]]),
-                species          = numeric(n_subclass[[k]]),
-                genus            = numeric(n_subclass[[k]]),
-                family           = numeric(n_subclass[[k]]),
-                order            = numeric(n_subclass[[k]]),
-                subclass         = numeric(n_subclass[[k]]),
-                n_observations   = numeric(n_subclass[[k]])
-        ) 
-        for (i in 1:n_subclass[[k]]) {
-                loop_subclass <- list_all[[k]][!is.na(subclass), unique(subclass)][i]
-                
-                level_data_subclass[i, subclass_name := loop_subclass]
-                level_data_subclass[i, class_name    := list_all[[k]][subclass == loop_subclass, unique(class)]]
-                level_data_subclass[i, phylum_name   := list_all[[k]][subclass == loop_subclass, unique(phylum)]]
-                
-                loop_sub <- list_all[[k]][subclass == loop_subclass]
-                loop_obs <- nrow(loop_sub)
-                
-                level_data_subclass[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
-                level_data_subclass[i, genus          := round(loop_sub[is.na(species) &
-                                                                                !is.na(genus), .N] / loop_obs * 100, 2)]
-                level_data_subclass[i, family         := round(loop_sub[is.na(species) &
-                                                                                is.na(genus) & !is.na(family), .N] / loop_obs * 100, 2)]
-                level_data_subclass[i, order          := round(loop_sub[is.na(species) &
-                                                                                is.na(genus) &
-                                                                                is.na(family) & !is.na(order), .N] / loop_obs * 100, 2)]
-                level_data_subclass[i, subclass       := round(loop_sub[is.na(species) &
-                                                                                is.na(genus) &
-                                                                                is.na(family) &
-                                                                                is.na(order) & !is.na(subclass), .N] / loop_obs * 100, 2)]
-                level_data_subclass[i, n_observations := nrow(loop_sub)]
-        }
-        lvl_data_subclass[[k]] = level_data_subclass
-        rm(level_data_subclass)
-}
-lvl_data_subclass =
-        lapply(lvl_data_subclass, function(x)
-                setorderv(x,
-                          cols = c(
-                                  "phylum_name", "class_name", "subclass_name"
-                          )))
-
-# Order  -------------------------------------------------------------------
-
-for (k in seq_along(n_order)){
-        level_data_order <- data.table(
-                phylum_name    = character(n_order[[k]]),
-                class_name     = character(n_order[[k]]),
-                subclass_name  = character(n_order[[k]]),
-                order_name     = character(n_order[[k]]),
-                species        = numeric(n_order[[k]]),
-                genus          = numeric(n_order[[k]]),
-                family         = numeric(n_order[[k]]),
-                order          = numeric(n_order[[k]]),
-                n_observations = numeric(n_order[[k]])
-        )  
-        for (i in 1:n_order[[k]]) {
-                loop_order <-  list_all[[k]][!is.na(order), unique(order)][i]
-                
-                level_data_order[i, order_name    := loop_order]
-                level_data_order[i, subclass_name := list_all[[k]][order == loop_order, unique(subclass)]]
-                level_data_order[i, class_name    := list_all[[k]][order == loop_order, unique(class)]]
-                level_data_order[i, phylum_name   := list_all[[k]][order == loop_order, unique(phylum)]]
-                
-                loop_sub <- list_all[[k]][order == loop_order]
-                loop_obs <- nrow(loop_sub)
-                
-                level_data_order[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
-                level_data_order[i, genus          := round(loop_sub[is.na(species) &
-                                                                             !is.na(genus), .N] / loop_obs * 100, 2)]
-                level_data_order[i, family         := round(loop_sub[is.na(species) &
-                                                                             is.na(genus) & !is.na(family), .N] / loop_obs * 100, 2)]
-                level_data_order[i, order          := round(loop_sub[is.na(species) &
-                                                                             is.na(genus) &
-                                                                             is.na(family) & !is.na(order), .N] / loop_obs * 100, 2)]
-                level_data_order[i, n_observations := nrow(loop_sub)]
-        }
-        lvl_data_order[[k]] = level_data_order
-        rm(level_data_order)
-}
-
-lvl_data_order = lapply(lvl_data_order, function(x)
-        setorderv(
-                x,
-                cols = c("phylum_name", "class_name", "subclass_name", "order_name")
-        ))
-
-
-
-# Family ------------------------------------------------------------------
-
-for (k in seq_along(n_family)) {
-        level_data_family <- data.table(
-                phylum_name    = character(n_family[[k]]),
-                class_name     = character(n_family[[k]]),
-                subclass_name  = character(n_family[[k]]),
-                order_name     = character(n_family[[k]]),
-                family_name    = character(n_family[[k]]),
-                species        = numeric(n_family[[k]]),
-                genus          = numeric(n_family[[k]]),
-                family         = numeric(n_family[[k]]),
-                n_observations = numeric(n_family[[k]])
-        )
-        for (i in 1:n_family[[k]]) {
-                loop_family <- list_all[[k]][!is.na(family), unique(family)][i]
-                
-                level_data_family[i, family_name   := loop_family]
-                level_data_family[i, order_name    := list_all[[k]][family == loop_family, unique(order)]]
-                level_data_family[i, subclass_name := list_all[[k]][family == loop_family, unique(subclass)]]
-                level_data_family[i, class_name    := list_all[[k]][family == loop_family, unique(class)]]
-                level_data_family[i, phylum_name   := list_all[[k]][family == loop_family, unique(phylum)]]
-                
-                loop_sub <- list_all[[k]][family == loop_family]
-                loop_obs <- nrow(loop_sub)
-                
-                level_data_family[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
-                level_data_family[i, genus          := round(loop_sub[is.na(species) &
-                                                                              !is.na(genus), .N] / loop_obs * 100, 2)]
-                level_data_family[i, family         := round(loop_sub[is.na(species) &
-                                                                              is.na(genus) &
-                                                                              !is.na(family), .N] / loop_obs * 100, 2)]
-                level_data_family[i, n_observations := nrow(loop_sub)]
-        }
-        lvl_data_family[[k]] = level_data_family
-        rm(level_data_family)
-}
-
-lvl_data_family = lapply(lvl_data_family, function(x)
-        setorderv(
-                x,
-                cols = c(
-                        "phylum_name",
-                        "class_name",
-                        "subclass_name",
-                        "order_name",
-                        "family_name"
+        } # END OF LOOP K over all classes
+        
+        lvl_data$class[[typ]] =
+                lapply(lvl_data$class[[typ]],
+                       function (x)
+                               setorderv(x,
+                                         cols = c("phylum_name", "class_name")
+                                         )
+                       )
+        ### ---------------- ###
+        ### --- Subclass --- ### 
+        ### ---------------- ###
+        ## -- LOOP OVER SUBCLASSES         
+        for (k in seq_along(n_tax$subclass[[typ]])) {
+                level_data_subclass <- data.table(
+                        phylum_name    = character(n_tax$subclass[[typ]][[k]]),
+                        class_name     = character(n_tax$subclass[[typ]][[k]]),
+                        subclass_name  = character(n_tax$subclass[[typ]][[k]]),
+                        species          = numeric(n_tax$subclass[[typ]][[k]]),
+                        genus            = numeric(n_tax$subclass[[typ]][[k]]),
+                        family           = numeric(n_tax$subclass[[typ]][[k]]),
+                        order            = numeric(n_tax$subclass[[typ]][[k]]),
+                        subclass         = numeric(n_tax$subclass[[typ]][[k]]),
+                        n_observations   = numeric(n_tax$subclass[[typ]][[k]])
                 )
-        ))
-
-# Genus -------------------------------------------------------------------
-for (k in seq_along(n_genus)) {
-        level_data_genus <- data.table(
-                phylum_name    = character(n_genus[[k]]),
-                class_name     = character(n_genus[[k]]),
-                subclass_name  = character(n_genus[[k]]),
-                order_name     = character(n_genus[[k]]),
-                family_name    = character(n_genus[[k]]),
-                genus_name     = character(n_genus[[k]]),
-                species          = numeric(n_genus[[k]]),
-                genus            = numeric(n_genus[[k]]),
-                n_observations   = numeric(n_genus[[k]])
-        )
-        for (i in 1:n_genus[[k]]) {
-                loop_genus <- list_all[[k]][!is.na(genus), unique(genus)][i]
-                
-                level_data_genus[i, genus_name    := loop_genus]
-                level_data_genus[i, family_name   := list_all[[k]][genus == loop_genus, unique(family)]]
-                level_data_genus[i, order_name    := list_all[[k]][genus == loop_genus, unique(order)]]
-                level_data_genus[i, subclass_name := list_all[[k]][genus == loop_genus, unique(subclass)]]
-                level_data_genus[i, class_name    := list_all[[k]][genus == loop_genus, unique(class)]]
-                level_data_genus[i, phylum_name   := list_all[[k]][genus == loop_genus, unique(phylum)]]
-                
-                loop_sub <- list_all[[k]][genus == loop_genus]
-                loop_obs <- nrow(loop_sub)
-                
-                level_data_genus[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
-                level_data_genus[i, genus          := round(loop_sub[is.na(species) &
-                                                                             !is.na(genus), .N] / loop_obs * 100, 2)]
-                level_data_genus[i, n_observations := nrow(loop_sub)]
-                print(paste(i, n_genus[[k]]))
+                for (i in 1:n_tax$subclass[[typ]][[k]]) {
+                        loop_subclass <-
+                                all_typologies[[typ]][[k]][!is.na(subclass), unique(subclass)][i]
+                        
+                        level_data_subclass[i, subclass_name := loop_subclass]
+                        level_data_subclass[i, class_name    := all_typologies[[typ]][[k]][subclass == loop_subclass, unique(class)]]
+                        level_data_subclass[i, phylum_name   := all_typologies[[typ]][[k]][subclass == loop_subclass, unique(phylum)]]
+                        
+                        loop_sub <- all_typologies[[typ]][[k]][subclass == loop_subclass]
+                        loop_obs <- nrow(loop_sub)
+                        
+                        level_data_subclass[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
+                        level_data_subclass[i, genus          := round(loop_sub[is.na(species) &
+                                                                                        !is.na(genus), .N] / loop_obs * 100, 2)]
+                        level_data_subclass[i, family         := round(loop_sub[is.na(species) &
+                                                                                        is.na(genus) &
+                                                                                        !is.na(family), .N] / loop_obs * 100, 2)]
+                        level_data_subclass[i, order          := round(loop_sub[is.na(species) &
+                                                                                        is.na(genus) &
+                                                                                        is.na(family) &
+                                                                                        !is.na(order), .N] / loop_obs * 100, 2)]
+                        level_data_subclass[i, subclass       := round(loop_sub[is.na(species) &
+                                                                                        is.na(genus) &
+                                                                                        is.na(family) &
+                                                                                        is.na(order) &
+                                                                                        !is.na(subclass), .N] / loop_obs * 100, 2)]
+                        level_data_subclass[i, n_observations := nrow(loop_sub)]
+                }
+                lvl_data$subclass[[typ]][[k]] = level_data_subclass
+                rm(level_data_subclass)
         }
-        lvl_data_genus[[k]] = level_data_genus
-        rm(level_data_genus)
-}
-lvl_data_genus = lapply(lvl_data_genus, function(x)
-        setorderv(
-                x,
-                cols = c(
-                        "phylum_name",
-                        "class_name",
-                        "subclass_name",
-                        "order_name",
-                        "family_name",
-                        "genus_name"
+        lvl_data$subclass[[typ]] =
+                lapply(lvl_data$subclass[[typ]], function(x)
+                        setorderv(x,
+                                  cols = c(
+                                          "phylum_name", "class_name", "subclass_name"
+                                  )))
+        
+        ### ------------- ###
+        ### --- ORDER --- ### 
+        ### ------------- ###
+        
+        for (k in seq_along(n_tax$order[[typ]])) {
+                level_data_order <- data.table(
+                        phylum_name  = character(n_tax$order[[typ]][[k]]),
+                        class_name   = character(n_tax$order[[typ]][[k]]),
+                        subclass_name= character(n_tax$order[[typ]][[k]]),
+                        order_name   = character(n_tax$order[[typ]][[k]]),
+                        species        = numeric(n_tax$order[[typ]][[k]]),
+                        genus          = numeric(n_tax$order[[typ]][[k]]),
+                        family         = numeric(n_tax$order[[typ]][[k]]),
+                        order          = numeric(n_tax$order[[typ]][[k]]),
+                        n_observations = numeric(n_tax$order[[typ]][[k]])
                 )
-        ))
+                for (i in 1:n_tax$order[[typ]][[k]]) {
+                        loop_order <-  all_typologies[[typ]][[k]][!is.na(order), unique(order)][i]
+                        
+                        level_data_order[i, order_name    := loop_order]
+                        level_data_order[i, subclass_name := all_typologies[[typ]][[k]][order == loop_order, unique(subclass)]]
+                        level_data_order[i, class_name    := all_typologies[[typ]][[k]][order == loop_order, unique(class)]]
+                        level_data_order[i, phylum_name   := all_typologies[[typ]][[k]][order == loop_order, unique(phylum)]]
+                        
+                        loop_sub <- all_typologies[[typ]][[k]][order == loop_order]
+                        loop_obs <- nrow(loop_sub)
+                        
+                        level_data_order[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
+                        level_data_order[i, genus          := round(loop_sub[is.na(species) &
+                                                                                     !is.na(genus), .N] / loop_obs * 100, 2)]
+                        level_data_order[i, family         := round(loop_sub[is.na(species) &
+                                                                                     is.na(genus) &
+                                                                                     !is.na(family), .N] / loop_obs * 100, 2)]
+                        level_data_order[i, order          := round(loop_sub[is.na(species) &
+                                                                                     is.na(genus) &
+                                                                                     is.na(family) &
+                                                                                     !is.na(order), .N] / loop_obs * 100, 2)]
+                        level_data_order[i, n_observations := nrow(loop_sub)]
+                }
+                lvl_data$order[[typ]][[k]] = level_data_order
+                rm(level_data_order)
+        }
+        
+        lvl_data$order[[typ]] = lapply(lvl_data$order[[typ]], function(x)
+                setorderv(
+                        x,
+                        cols = c("phylum_name", "class_name", "subclass_name", "order_name")
+                ))
+
+        ### -------------- ###
+        ### --- FAMILY --- ### 
+        ### -------------- ###
+        
+        ## -- LOOP OVER FAMILIES
+        for (k in seq_along(n_tax$family[[typ]])) {
+                level_data_family <- data.table(
+                        phylum_name  = character(n_tax$family[[typ]][[k]]),
+                        class_name   = character(n_tax$family[[typ]][[k]]),
+                        subclass_name= character(n_tax$family[[typ]][[k]]),
+                        order_name   = character(n_tax$family[[typ]][[k]]),
+                        family_name  = character(n_tax$family[[typ]][[k]]),
+                        species        = numeric(n_tax$family[[typ]][[k]]),
+                        genus          = numeric(n_tax$family[[typ]][[k]]),
+                        family         = numeric(n_tax$family[[typ]][[k]]),
+                        n_observations = numeric(n_tax$family[[typ]][[k]])
+                )
+                for (i in 1:n_tax$family[[typ]][[k]]) {
+                        loop_family <- all_typologies[[typ]][[k]][!is.na(family), unique(family)][i]
+                        
+                        level_data_family[i, family_name   := loop_family]
+                        level_data_family[i, order_name    := all_typologies[[typ]][[k]][family == loop_family, unique(order)]]
+                        level_data_family[i, subclass_name := all_typologies[[typ]][[k]][family == loop_family, unique(subclass)]]
+                        level_data_family[i, class_name    := all_typologies[[typ]][[k]][family == loop_family, unique(class)]]
+                        level_data_family[i, phylum_name   := all_typologies[[typ]][[k]][family == loop_family, unique(phylum)]]
+                        
+                        loop_sub <- all_typologies[[typ]][[k]][family == loop_family]
+                        loop_obs <- nrow(loop_sub)
+                        
+                        level_data_family[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
+                        level_data_family[i, genus          := round(loop_sub[is.na(species) &
+                                                                                      !is.na(genus), .N] / loop_obs * 100, 2)]
+                        level_data_family[i, family         := round(loop_sub[is.na(species) &
+                                                                                      is.na(genus) &
+                                                                                      !is.na(family), .N] / loop_obs * 100, 2)]
+                        level_data_family[i, n_observations := nrow(loop_sub)]
+                }
+                lvl_data$family[[typ]][[k]] = level_data_family
+                rm(level_data_family)
+        }
+        
+        lvl_data$family[[typ]] = lapply(lvl_data$family[[typ]], function(x)
+                setorderv(
+                        x,
+                        cols = c(
+                                "phylum_name",
+                                "class_name",
+                                "subclass_name",
+                                "order_name",
+                                "family_name"
+                        )
+                ))
+        
+        ### ------------- ###
+        ### --- GENUS --- ###
+        ### ------------- ###
+        
+        ## -- LOOP OVER TYPES
+        
+        for (k in seq_along(n_tax$genus[[typ]])) {
+                level_data_genus <- data.table(
+                        phylum_name    = character(n_tax$genus[[typ]][[k]]),
+                        class_name     = character(n_tax$genus[[typ]][[k]]),
+                        subclass_name  = character(n_tax$genus[[typ]][[k]]),
+                        order_name     = character(n_tax$genus[[typ]][[k]]),
+                        family_name    = character(n_tax$genus[[typ]][[k]]),
+                        genus_name     = character(n_tax$genus[[typ]][[k]]),
+                        species          = numeric(n_tax$genus[[typ]][[k]]),
+                        genus            = numeric(n_tax$genus[[typ]][[k]]),
+                        n_observations   = numeric(n_tax$genus[[typ]][[k]])
+                )
+                
+                ## -- LOOP OVER GENERA
+                
+                for (i in 1:n_tax$genus[[typ]][[k]]) {
+                        loop_genus <- all_typologies[[typ]][[k]][!is.na(genus), unique(genus)][i]
+                        
+                        level_data_genus[i, genus_name    := loop_genus]
+                        level_data_genus[i, family_name   := all_typologies[[typ]][[k]][genus == loop_genus, unique(family)]]
+                        level_data_genus[i, order_name    := all_typologies[[typ]][[k]][genus == loop_genus, unique(order)]]
+                        level_data_genus[i, subclass_name := all_typologies[[typ]][[k]][genus == loop_genus, unique(subclass)]]
+                        level_data_genus[i, class_name    := all_typologies[[typ]][[k]][genus == loop_genus, unique(class)]]
+                        level_data_genus[i, phylum_name   := all_typologies[[typ]][[k]][genus == loop_genus, unique(phylum)]]
+                        
+                        loop_sub <- all_typologies[[typ]][[k]][genus == loop_genus]
+                        loop_obs <- nrow(loop_sub)
+                        
+                        level_data_genus[i, species        := round(loop_sub[!is.na(species), .N] / loop_obs * 100, 2)]
+                        level_data_genus[i, genus          := round(loop_sub[is.na(species) &
+                                                                                     !is.na(genus), .N] / loop_obs * 100, 2)]
+                        level_data_genus[i, n_observations := nrow(loop_sub)]
+                        print(paste(i, n_tax$genus[[typ]][[k]]))
+                } # END LOOP I OVER GENERA 
+                
+                lvl_data$genus[[typ]][[k]] = level_data_genus
+                rm(level_data_genus)
+                gc()
+                
+        } # END LOOP K OVER TYPES  
+        
+        lvl_data$genus[[typ]] = lapply(lvl_data$genus[[typ]], function(x)
+                setorderv(
+                        x,
+                        cols = c(
+                                "phylum_name",
+                                "class_name",
+                                "subclass_name",
+                                "order_name",
+                                "family_name",
+                                "genus_name"
+                        )
+                )
+        )
+
+} # END LOOP typ OVER typologies 
+
 
 
 # Save to file  -----------------------------------------------------------
 
-result_list = list(phylum  = lvl_data_phyl, 
-                   class    = lvl_data_class,
-                   subclass = lvl_data_subclass,
-                   order    = lvl_data_order,
-                   family   = lvl_data_family,
-                   genus    = lvl_data_genus)
-
-saveRDS(result_list, "data/04_taxon_resolution_list_brt12.rds")
+saveRDS(lvl_data, "data/04_taxon_resolution_list_all_typologies.rds")

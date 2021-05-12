@@ -71,25 +71,3 @@ my_sil = function(x, dist) {
         )
         out
 }
-internal_cluster_fun = function(y, di){
-        cs = cluster.stats(d = data_dist[[di]], clustering = y)
-        cs = as.data.table(cs)
-        cs[, cluster_size_range := max(cs$cluster.size) - min(cs$cluster.size)]
-        cs = cs[1,]
-        options(warn = -1)
-        cs[, c("cluster.size", "min.cluster.size", "noisen", "diameter", "average.distance", 
-               "median.distance", "separation", "average.toother", "separation.matrix.V1", "separation.matrix.V2",
-               "separation.matrix.V3", "separation.matrix.V4", "separation.matrix.V5", "ave.between.matrix.V1", 
-               "ave.between.matrix.V2", "ave.between.matrix.V3", "ave.between.matrix.V4", "ave.between.matrix.V5",
-               "clus.avg.silwidths", "ave.between.matrix", "separation.matrix", "vi", "corrected.rand", "g3", "g2") := NULL]
-        options(warn = 1)
-        return(cs)
-}
-eval_cluster_fun = function(cl, cut) {
-        lcc = lapply(cl, cutree, k = cut)
-        distance_indicator = ifelse(all(grepl(pattern = "bin", x = names(lcc))), 1, ifelse(all(grepl(
-                pattern = "och", x = names(lcc)
-        )), 2, 3))
-        ls_clust_sum = lapply(lcc, internal_cluster_fun, di = distance_indicator)
-        return(ls_clust_sum)
-}

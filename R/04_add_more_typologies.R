@@ -141,4 +141,3 @@ macro2 %<>% left_join(sites4,
 macro2 %<>% dplyr::select(!i.WSO1_ID)
 # save to file ------------------------------------------------------------
 saveRDS(macro2, "data/04_invertebrates_w_typologies.rds")
-

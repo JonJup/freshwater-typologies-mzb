@@ -3,7 +3,7 @@
 # ---------------------------------------- #
 
 # --------------- #
-# date:  17.03.21
+# date:  11.05..21
 # files out:
 #               <- 07_indicator_list.rds | list of indicators 
 # calls scripts: 
@@ -20,42 +20,57 @@
 
 
 # setup -------------------------------------------------------------------
-source("R/setup_combined_inv.R")
+#source("R/setup_combined_inv.R")
+library(data.table)
+library(dplyr)
+library(magrittr)
+# load data  --------------------------------------------------------------
+ls_mzb = readRDS("data/06_sxs_list_all_typologies.rds")
 
 # settings ----------------------------------------------------------------
-# thresholds to derive typical assemblages; # the following line is referred to in "08_seasonal_typical_assemblages.R" as line 27:29 
-x_ls_thesholds = list(spe = list(a = 2, b = .15, b2 = 0.05),
-                      gen = list(a = 2, b = .33, b2 = 0.05), 
-                      fol = list(a = 2, b = .66, b2 = 0.05))
+## -- thresholds to derive typical assemblages
+thresholds = list(
+        spe = list(a = 2, b = .20, b2 = 0.05),
+        gen = list(a = 2, b = .33, b2 = 0.05),
+        fol = list(a = 2, b = .66, b2 = 0.05)
+)
 
-# the following line is referred to in "08_seasonal_typical_assemblages.R" as line 32 
-#x_ls_combine = list(c(2,3,8,9, 10, 11), c(4,5), c(15,16))
-x_ls_combine = list(c(2,3,8,9,10,11), c(4,5), c(15,16))
-#x_ls_combine = list(c(4,5), c(8,10,11,18), c(14,15,16))
+## -- typology 
+choose_typology = c("brt12")
+#combine_types = list()
+## -- brt12 
+combine_types = list(c(2,3,4,5,6,7), c(8,9))
+## -- brt20 
+#combine_types = list(c(8,9,16), c(2,3,4,5,10,11))
+## -- GloRiC
+#combine_types = list(c(4,6))
+## -- Illies 
+# combine_types = list(c("Western plains", "Western highlands"), 
+#                      c("England", "Ireland and Northern Ireland")
+# )
+# ## -- BRG 
+#combine_types = list()
 
 # compute indvals ---------------------------------------------------------
-source(file.path(dir$hlp, "07_b_compute_indvals.R"))
+source("R/helper/07_b_compute_indvals.R")
 
 # setup ta analysis -------------------------------------------------------
-source(file.path(dir$hlp, "07_c_setup_ta_analysis.R"))
+source("R/helper/07_c_setup_ta_analysis.R")
 
 # redundancy analysis -----------------------------------------------------
-source(file.path(dir$hlp, "07_d_redundancy.R"))
+source("R/helper/07_d_redundancy.R")
 
-## -- save plot to file 
-setEPS()                                             # Set postscript arguments
-postscript("figures/ta_redundancies/round6.eps")                           # Start graphics device driver
-corrplot::corrplot(ma_redundnat, 
-                   method = "number", 
-                   is.corr = FALSE, 
-                   #order = "FPC", 
-                   #diag = F, 
-                   #type = "lower", 
-                   tl.cex = .7,
-                   number.cex = 0.6)                                  # Create plot
-dev.off()   
-beepr::beep()
-stop()
+
+# save similarities -----------------------------------------------------------------
+#saveRDS(ma_redundnat, "data/20_bgr_redundancy.rds")
+
+# lists of typical taxa -------------------------------------------------------------
+source(file.path("R/helper/07_g_ta_table.R"))
+saveRDS(dt_mzb_list, "data/21_brt12_ta_non-redundant.rds")
+xlsx::write.xlsx2(excel_table, "data/22_brt12_ta_non-redundant.xlsx")
+
+
+
 # # sensitivity analysis -----------------------------------------------------
 #source(file.path(dir$rs, "07_e_sensitivity_analysis.R"))
 
@@ -66,3 +81,15 @@ stop()
 source(file.path(dir$hlp, "07_g_ta_table.R"))
 
 
+## -- save plot to file 
+# setEPS()                                             # Set postscript arguments
+# postscript("fig/ta_redundancies/glroic_round6.eps")                           # Start graphics device driver
+# corrplot::corrplot(ma_redundnat, 
+#                    method = "number", 
+#                    is.corr = FALSE, 
+#                    #order = "FPC", 
+#                    #diag = F, 
+#                    #type = "lower", 
+#                    tl.cex = .7,
+#                    number.cex = 0.6)                                  # Create plot
+# dev.off()   

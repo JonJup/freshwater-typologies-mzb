@@ -20,21 +20,23 @@
 <!-- SETUP --> 
 Human actions are altering the composition and functioning of ecological communities globally. 
 This transformation is especially rapid and intensive in freshwater ecosystems. 
-Comprehensive and international regulatory frameworks are necessary to slow down and halt the current biodiversity crisis. 
-Like all such frameworks, the Water Framework Directive (WFD) needs to reduce the inherent complexity of its subjects by categorizing them. 
-A pan-European typology for freshwater systems was recently proposed and has already prompted exciting research.
-However, until now it lacks biological validations, which are critical given the reference state approach employed by the WFD.
+Comprehensive and international regulatory frameworks are necessary to slow down and halt the current loss of biodiversity. 
+These regulatory frameworks, such as the Water Framework Directive (WFD), typically reduce the inherent complexity of their subjects through classification systems that use selected features to classify the subjects into a typology. 
+A recently proposed pan-European typology for freshwater systems has unified the assortment of existing national typologies.
+However, it lacks biological validation. 
 <!-- CONFRONTATION --> 
-Using cluster validity analyses, we evaluated the classification that resulted from grouping macroinvertebrate samples across Europe by river types.
-The results were compared against three other freshwater classification systems, a classification of the biological data and a null model. 
-In addition, we provide the first list of typical and indicator taxa for the new typology. 
+Using cluster validity analyses, we evaluated whether freshwater macroinvertebrate communities are more similar within then among types. 
+To compare the typology's performance, we conducted the same analyses with three additional freshwater typologies.
+Beyond the typologies themselves, our analyses enabled us to compare two typologies based on river reaches with those based on ecoregions. 
+Lastly, we provide lists of typical macroinvertebrate taxa for the types of each typologies.   
 <!-- RESOLUTION --> 
-The results differed widely between validity metrics. 
-Classifications that were based on contiguous regions overall achieved better scores than classifications that are based on single stream-reaches. 
-Though performance differed between validity metrics, the newly proposed typology never ranked among the best. 
+Though performance differed between validity metrics, the newly proposed typology rarely ranked among the best. 
+Overall, regional typologies achieved better scores than those based on river reaches.  
+However, all typologies failed to achieve high cluster validity scores. 
+SART ZU TYPICAL ASSEMBLAGES
 <!-- EPILOGIE -->
-These findings indicate that superior alternatives to the new pan-European typology of rivers exist but also that none reliably delineate demarcations between internally homogeneous macroinvertebrate reference communities. 
-Further development of freshwater classifications remains an important goal to facilitate freshwater conservation.
+Our findings indicate that superior alternatives to the new pan-European rivers typology exist but also that none reliably delineate demarcations between internally homogeneous macroinvertebrate reference communities. 
+Hence, it remains important to further improve freshwater typologies to improve biomonitoring and facilitate conservation efforts. 
 <!-- 
 
 ##### ----- OLD DRAFTS ----- ##### 

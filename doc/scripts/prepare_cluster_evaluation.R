@@ -19,12 +19,14 @@
 
 
 # load data -------------------------------------------------------------------------
-cluster_eval  = readRDS(file.path(dir$dt, "13_class_eval_mzb.rds"))
+cluster_eval  = readRDS("data/13_class_eval_mzb.rds")
 
 # prepare data ----------------------------------------------------------------------
 ## --  same name for all null clustering 
 cluster_eval %<>% 
-        mutate(typology = ifelse(str_detect(typology, "null"), "null", typology))
+        mutate(typology = ifelse(str_detect(typology, "null"), "null", typology)) %>% 
+        ## -- drop BRTred
+        filter(typology != "brt6")
 
 ## -- reshape data 
 plot_data <- 
@@ -42,7 +44,7 @@ plot_data <-
                 "classification_strength"
                 )
         ) %>% 
-        mutate(typology = case_when(typology == "brt6" ~ "BRTred",
+        mutate(typology = case_when(#typology == "brt6" ~ "BRTred",
                                     typology == "brt12" ~ "BRT12", 
                                     typology == "brt20" ~ "BRT20",
                                     typology == "gloric" ~ "GloRiC",
@@ -52,13 +54,14 @@ plot_data <-
                                     typology == "null" ~ "Random"
                                     )) %>% 
         mutate(typology = factor(typology, 
-                                 levels = c("Bio", "BRTred","BRT12", "BRT20", 
+                                 levels = c("Bio", "BRT12", "BRT20", 
                                             "GloRiC", "Illies", "BGR", "Random")
                                  )
                ) %>% 
         mutate(name = replace(name, name == "ch", "Calinski Harabasz")) %>% 
         mutate(name = replace(name, name == "classification_strength", "Classification Strength")) %>% 
-        mutate(name = replace(name, name == "indval", "Indicator Value score")) 
+        mutate(name = replace(name, name == "indval", "Indicator Value score"))  
+    
 
 
 data_plot2 =
@@ -75,166 +78,134 @@ data_plot2 =
         )) %>%
         filter(name %in% c("- infinity", "- 2", "- 1", "1", "2", "infinity"))
 
+### --- collapse randoms 
+data_plot2 %>% filter(typology=="Random") %>% 
+        group_by(name) %>% 
+        summarize(value = mean(value)) %>% 
+        mutate(typology = "Random") -> 
+        random_means
 
 # plot 1  ---------------------------------------------------------------------------
-cluster_eval_plot1 =
-        plot_data %>%
-        mutate(name = factor(name),
-               typology = factor(typology)) %>%
-        filter(!name %in% c("arithmetic",
-                            "harmonic",
-                            "max",
-                            "min",
-                            "m2",
-                            "quadratic")) %>%
-         
-        ggplot(aes(x = typology, y = value)) +
-        #geom_text(aes(label = typology, col = typology)) +
-        geom_point(aes(fill = typology), shape = 22, size =4) +
-        geom_boxplot(data = filter(
-                plot_data,
-                typology == "null" &
-                        !name %in% c("arithmetic",
-                                     "harmonic",
-                                     "max",
-                                     "min",
-                                     "m2",
-                                     "quadratic")
-        )) +
-        facet_wrap(. ~ name, scales = "free") + 
-        scale_color_brewer(palette = "Dark2", guide = guide_legend()) + 
-        scale_fill_brewer(palette = "Dark2", guide = guide_legend()) + 
-        theme(
-                panel.grid = element_blank(),
-                axis.title.x = element_blank(),
-                axis.text.x = element_blank(),
-                axis.ticks = element_blank(), 
-                legend.position="top",
-                legend.title = element_blank(),
-                legend.direction = "horizontal"
-        ) + 
-        guides(
-                fill = guide_legend(nrow = 1)      
-        ) + 
-        ylab("")
+
+plot1_fun <-
+        function(x,
+                 y,
+                 legend = FALSE) {
+                
+                x2 <-
+                        x %>%
+                        filter(name == y) %>%
+                        filter(!typology %in% c("Bio", "Random"))
+                bio <-
+                        pull(filter(x, typology == "Bio" &
+                                            name == y), value)
+                ran <-
+                        pull(filter(x, typology == "Random" &
+                                            name == y), value)
+                ran <- mean(ran)
+                
+                p <- ggplot(x2, aes(x = typology, y = value)) +
+                        geom_point(aes(fill = typology),
+                                   shape = 21,
+                                   size = 2)
+                p <- p + geom_hline(aes(lty = "bio", yintercept = bio))
+                p <- p + geom_hline(aes(lty = "random", yintercept = ran))
+                p <- p +
+                        scale_color_brewer(palette = "Dark2", guide = guide_legend()) +
+                        scale_fill_brewer(palette = "Dark2", guide = guide_legend()) +
+                        scale_linetype_manual(name = "",
+                                              values = c(bio = "twodash", random = "dotted"))
+                p <- p + theme(
+                        axis.title.x = element_blank(),
+                        axis.text.x = element_blank(),
+                        axis.ticks = element_blank(),
+                        #legend.position = "top",
+                        legend.title = element_blank(),
+                        #legend.direction = "horizontal"
+                ) +
+                        guides(fill = guide_legend(ncol = 1)) +
+                        ylab("")
+                
+                if (!legend)
+                        p <- p + theme(legend.position = "none")
+                
+                p
+}
+
+p1_l <-
+        plot1_fun(plot_data, "Calinski Harabasz", legend = TRUE) %>% 
+        get_legend
+
+p1 <- plot1_fun(plot_data, "Calinski Harabasz")
+p2 <- plot1_fun(plot_data, "Classification Strength")
+p3 <- plot1_fun(plot_data, "Indicator Value score")
+p4 <- plot1_fun(data_plot2, "- infinity")
+p5 <- plot1_fun(data_plot2, "1")
+p6 <- plot1_fun(data_plot2, "infinity")
+
+plot1 <-
+        plot_grid(
+                plotlist = list(NULL, NULL,  NULL, NULL, NULL, NULL,
+                                NULL, p1  ,  NULL, p2  , NULL, p3  ,
+                                NULL, NULL,  NULL, NULL, NULL, NULL,
+                                NULL, p4  ,  NULL, p5  , NULL, p6  ,
+                                NULL, NULL,  NULL, NULL, NULL, NULL),
+                labels = c("", ""  , "", ""      , "",  "", 
+                           "", "CH", "","CS"    , "","IVS", 
+                           "", ""  , "", ""      , "",  "", 
+                           "","min", "","average", "","max",
+                           "", ""  , "", ""      , "",  ""
+                           ),
+                hjust = 0,
+                vjust = .3,
+                nrow = 5,
+                ncol = 6,
+                rel_heights = c(.1,1,.1,1,.1),
+                rel_widths = c(0.1,1,0.1,1,0.1,1)
+        )
+plot1 %>% 
+        plot_grid(p1_l, ncol = 2, nrow = 1, rel_widths = c(4,1)) -> 
+        plot2
+
+# save plot to file  ----------------------------------------------------------------
+
+## -- png 
+ggsave(filename = "fig/eval_cluster_combined.png", 
+       plot = plot2,
+       dpi = 600) 
+## -- eps
+ggsave(filename = "fig/eval_cluster_combined.eps", 
+       plot = plot2,
+       dpi = 600) 
 
 
-# plot 2 ----------------------------------------------------------------------------
+# extract values  -------------------------------------------------------------------
 
-
-# cluster_eval_plot2 =
-#         data_plot2 %>% 
-#         ggplot(aes(x = name, y = value)) +
-#         geom_hline(yintercept = 0, lty = 2) + 
-#         geom_line(data = data_plot2, aes(col = typology, group = typology), size = 1) +
-#         #geom_smooth(data = filter(data_plot2, typology != "null"), aes(col = typology, group = typology), method = "loess") +
-#         annotate(geom = "label", 
-#                  label = "Biological",
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[1],
-#                  x = .5, y = pull(filter(data_plot2,  name == "- infinity" & typology == "Biological"),value)) + 
-#         annotate(geom = "label", 
-#                  label = "BGR", 
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[7],
-#                  x = .5, y =( pull(filter(data_plot2, name == "- infinity" & typology == "BGR"),value)) - 0.005) + 
-#         annotate(geom = "label", 
-#                  label = "Illies", 
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[6],
-#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "Illies"),value)) - .01) + 
-#         annotate(geom = "label", 
-#                  label = "BRT6", 
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[2],
-#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "BRT6"),value)) - .01) + 
-#         annotate(geom = "label", 
-#                  label = "BRT12", 
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[3],
-#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "BRT12"),value)) + .01) + 
-#         annotate(geom = "label", 
-#                  label = "BRT20", 
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[4],
-#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "BRT20"),value)) - .01) + 
-#         annotate(geom = "label", 
-#                  label = "GloRiC", 
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[5],
-#                  x = .5, y = pull(filter(data_plot2, name == "- infinity" & typology == "GloRiC"),value)) + 
-#         annotate(geom = "label", 
-#                  label = "Null", 
-#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[8],
-#                  x = .5, y = mean(pull(filter(data_plot2, name == "- infinity" & typology == "Null"),value))) + 
-#                                                                            
-#         theme(panel.grid = element_blank(),
-#               #panel.background = element_blank(), 
-#               legend.position = "none") + 
-#         coord_cartesian(xlim = c(.5,6)) + 
-#         scale_color_brewer(palette = "Dark2") + 
-#         scale_fill_brewer(palette = "Dark2") 
-
-
-# plot 3  ---------------------------------------------------------------------------
-
-## -- The idea is to make a plot of the silhouette widths but in the style of plot 1.
-
-cluster_eval_plot2 = 
-        data_plot2 %>% 
-        mutate(size = ifelse(typology == "Null", .3,1)) %>% 
-        ggplot(aes(x = name, y = value, fill = typology)) +
-        geom_hline(yintercept = 0, lty = 2, alpha = .5) + 
-        geom_line(aes(group = typology,col = typology), lty = 1)  +
-        stat_summary(
-                fun = mean,
-                fun.min = min,
-                fun.max = max,
-                group = "typology",
-                geom = "pointrange",
-                shape = 22,
-                size = .5
-        ) +
-        scale_color_brewer(palette = "Dark2", guide = guide_legend()) + 
-        scale_fill_brewer(palette = "Dark2", guide = guide_legend()) + 
-        theme(
-                panel.grid = element_blank(),
-                legend.position="none"
-        ) + 
-        ylab("silhouette width") + 
-        xlab("degree of mean")
-
-
-
-# combine plots  ---------------------------------------------------------------------
-final_plot = cowplot::plot_grid(cluster_eval_plot1, cluster_eval_plot2, nrow = 2, labels = c("a", "b"), rel_heights = c(1,1.5))
-
-ggsave(filename = "figures/eval_cluster_combined.png", 
-       plot = final_plot) 
-ggsave(filename = "figures/eval_cluster_sw.png", 
-       plot = cluster_eval_plot2) 
-ggsave(filename = "figures/eval_cluster_ce.png", 
-       plot = cluster_eval_plot1) 
-        
-              
 asw_b     = filter(cluster_eval, typology == "bio")    %>% pull('arithmetic') %>% round(2)
 asw_ill   = filter(cluster_eval, typology == "illies") %>% pull('arithmetic') %>% round(2)
 asw_eea   = filter(cluster_eval, typology == "eea")    %>% pull('arithmetic') %>% round(2)
-asw_brt6  = filter(cluster_eval, typology == "brt6")  %>% pull('arithmetic') %>% round(2)
+#asw_brt6  = filter(cluster_eval, typology == "brt6")  %>% pull('arithmetic') %>% round(2)
 asw_brt12 = filter(cluster_eval, typology == "brt12")  %>% pull('arithmetic') %>% round(2)
 asw_brt20 = filter(cluster_eval, typology == "brt20")  %>% pull('arithmetic') %>% round(2)
 asw_gl    = filter(cluster_eval, typology == "gloric") %>% pull('arithmetic') %>% round(2)
 ch_b      = filter(cluster_eval, typology == "bio")    %>% pull('ch') %>% round(2)
 ch_ill    = filter(cluster_eval, typology == "illies") %>% pull('ch') %>% round(2)
 ch_eea    = filter(cluster_eval, typology == "eea")    %>% pull('ch') %>% round(2)
-ch_brt6   = filter(cluster_eval, typology == "brt6")  %>% pull('ch') %>% round(2)
+# ch_brt6   = filter(cluster_eval, typology == "brt6")  %>% pull('ch') %>% round(2)
 ch_brt12  = filter(cluster_eval, typology == "brt12")  %>% pull('ch') %>% round(2)
 ch_brt20  = filter(cluster_eval, typology == "brt20")  %>% pull('ch') %>% round(2)
 ch_gl     = filter(cluster_eval, typology == "gloric") %>% pull('ch') %>% round(2)
 cs_b      = filter(cluster_eval, typology == "bio")    %>% pull('classification_strength') %>% round(2)
 cs_ill    = filter(cluster_eval, typology == "illies") %>% pull('classification_strength') %>% round(2)
 cs_eea    = filter(cluster_eval, typology == "eea")    %>% pull('classification_strength') %>% round(2)
-cs_brt6   = filter(cluster_eval, typology == "brt6")  %>% pull('classification_strength') %>% round(2)
+#cs_brt6   = filter(cluster_eval, typology == "brt6")  %>% pull('classification_strength') %>% round(2)
 cs_brt12  = filter(cluster_eval, typology == "brt12")  %>% pull('classification_strength') %>% round(2)
 cs_brt20  = filter(cluster_eval, typology == "brt20")  %>% pull('classification_strength') %>% round(2)
 cs_gl     = filter(cluster_eval, typology == "gloric") %>% pull('classification_strength') %>% round(2)
 iv_b      = filter(cluster_eval, typology == "bio")    %>% pull('indval') %>% round(2)
 iv_ill    = filter(cluster_eval, typology == "illies") %>% pull('indval') %>% round(2)
 iv_eea    = filter(cluster_eval, typology == "eea")    %>% pull('indval') %>% round(2)
-iv_brt6   = filter(cluster_eval, typology == "brt6")  %>% pull('indval') %>% round(2)
+# iv_brt6   = filter(cluster_eval, typology == "brt6")  %>% pull('indval') %>% round(2)
 iv_brt12  = filter(cluster_eval, typology == "brt12")  %>% pull('indval') %>% round(2)
 iv_brt20  = filter(cluster_eval, typology == "brt20")  %>% pull('indval') %>% round(2)
 iv_gl     = filter(cluster_eval, typology == "gloric") %>% pull('indval') %>% round(2)
@@ -332,7 +303,7 @@ for (i in 1:ncol(crit_diff)){
 }
 
 
-rank_dat$iv_r = c(1.5, 1.5, 3, 4, 5.5, 5.5)
+#rank_dat$iv_r = c(1.5, 1.5, 3, 4, 5.5, 5.5)
 
 rank_dat[, total_points := sum(asw_r, 
                                ch_r, 
@@ -379,3 +350,124 @@ rank_dat[, total_points := sum(asw_r,
 #         rename(focal = 'harmonic') %>%
 #         summarise(mean = round(mean(focal), 2),
 #                   sd   = round(sd(focal), 2))
+
+# plot 1  ---------------------------------------------------------------------------
+
+# cluster_eval_plot1 =
+#         plot_data %>%
+#         mutate(name = factor(name),
+#                typology = factor(typology)) %>%
+#         filter(!name %in% c("arithmetic",
+#                             "harmonic",
+#                             "max",
+#                             "min",
+#                             "m2",
+#                             "quadratic")) %>%
+#         filter(!typology %in% c("Bio", "Random")) %>%  
+#         ggplot(aes(x = typology, y = value)) +
+#         geom_hline(yintercept = )
+# geom_point(aes(fill = typology), shape = 22, size =4) +
+#         geom_boxplot(data = filter(
+#                 plot_data,
+#                 typology == "null" &
+#                         !name %in% c("arithmetic",
+#                                      "harmonic",
+#                                      "max",
+#                                      "min",
+#                                      "m2",
+#                                      "quadratic")
+#         )) +
+#         facet_wrap(. ~ name, scales = "free") + 
+#         scale_color_brewer(palette = "Dark2", guide = guide_legend()) + 
+#         scale_fill_brewer(palette = "Dark2", guide = guide_legend()) + 
+#         theme(
+#                 panel.grid = element_blank(),
+#                 axis.title.x = element_blank(),
+#                 axis.text.x = element_blank(),
+#                 axis.ticks = element_blank(), 
+#                 legend.position="top",
+#                 legend.title = element_blank(),
+#                 legend.direction = "horizontal"
+#         ) + 
+#         guides(
+#                 fill = guide_legend(nrow = 1)      
+#         ) + 
+#         ylab("")
+
+# plot 2 ----------------------------------------------------------------------------
+
+
+# cluster_eval_plot2 =
+#         data_plot2 %>% 
+#         ggplot(aes(x = name, y = value)) +
+#         geom_hline(yintercept = 0, lty = 2) + 
+#         geom_line(data = data_plot2, aes(col = typology, group = typology), size = 1) +
+#         #geom_smooth(data = filter(data_plot2, typology != "null"), aes(col = typology, group = typology), method = "loess") +
+#         annotate(geom = "label", 
+#                  label = "Biological",
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[1],
+#                  x = .5, y = pull(filter(data_plot2,  name == "- infinity" & typology == "Biological"),value)) + 
+#         annotate(geom = "label", 
+#                  label = "BGR", 
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[7],
+#                  x = .5, y =( pull(filter(data_plot2, name == "- infinity" & typology == "BGR"),value)) - 0.005) + 
+#         annotate(geom = "label", 
+#                  label = "Illies", 
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[6],
+#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "Illies"),value)) - .01) + 
+#         annotate(geom = "label", 
+#                  label = "BRT6", 
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[2],
+#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "BRT6"),value)) - .01) + 
+#         annotate(geom = "label", 
+#                  label = "BRT12", 
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[3],
+#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "BRT12"),value)) + .01) + 
+#         annotate(geom = "label", 
+#                  label = "BRT20", 
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[4],
+#                  x = .5, y = (pull(filter(data_plot2, name == "- infinity" & typology == "BRT20"),value)) - .01) + 
+#         annotate(geom = "label", 
+#                  label = "GloRiC", 
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[5],
+#                  x = .5, y = pull(filter(data_plot2, name == "- infinity" & typology == "GloRiC"),value)) + 
+#         annotate(geom = "label", 
+#                  label = "Null", 
+#                  color = RColorBrewer::brewer.pal(n = 8, name = "Dark2")[8],
+#                  x = .5, y = mean(pull(filter(data_plot2, name == "- infinity" & typology == "Null"),value))) + 
+#                                                                            
+#         theme(panel.grid = element_blank(),
+#               #panel.background = element_blank(), 
+#               legend.position = "none") + 
+#         coord_cartesian(xlim = c(.5,6)) + 
+#         scale_color_brewer(palette = "Dark2") + 
+#         scale_fill_brewer(palette = "Dark2") 
+
+
+# plot 3 ----------------------------------------------------------------------------
+
+
+# cluster_eval_plot2 = 
+#         data_plot2 %>% 
+#         mutate(size = ifelse(typology == "Null", .3,1)) %>% 
+#         ggplot(aes(x = name, y = value, fill = typology)) +
+#         geom_hline(yintercept = 0, lty = 2, alpha = .5) + 
+#         geom_line(aes(group = typology,col = typology), lty = 1)  +
+#         stat_summary(
+#                 fun = mean,
+#                 fun.min = min,
+#                 fun.max = max,
+#                 group = "typology",
+#                 geom = "pointrange",
+#                 shape = 22,
+#                 size = .5
+#         ) +
+#         scale_color_brewer(palette = "Dark2", guide = guide_legend()) + 
+#         scale_fill_brewer(palette = "Dark2", guide = guide_legend()) + 
+#         theme(
+#                 panel.grid = element_blank(),
+#                 legend.position="none"
+#         ) + 
+#         ylab("silhouette width") + 
+#         xlab("degree of mean")
+

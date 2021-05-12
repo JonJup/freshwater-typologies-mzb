@@ -4,174 +4,15 @@ editor_options:
     wrap: sentence
 ---
 
-```{=tex}
-\newpage
-\blandscape
-```
 # Supplementary Materials
 
-```{r }
-impact = matrix(nrow = 14, ncol = 6)
-impact %<>% as.data.frame()
-names(impact) = c("Data set", "Area", "Time Span", "Number of Samples", "Criterion", "Connected Publications")
-impact$`Data set` = c("Monitoring data from German federal agencies", 
-                      "Ebro Hydrographic Confederation", 
-                      "Naiades",
-                      "Cantabria",
-                      "Picos de Europa",
-                      "Ecosurv",
-                      "RIVPACS database",
-                      "STAR",
-                      "WISER",
-                      "AQUEM Sweden",
-                      "Koutajoki drainage basin",
-                      "Monitoring data from the RCS national network managed by the French water agencies",
-                      "Monitoring data from Dutch regional water authorities ",
-                      "Monitoring data from the German Federal state of Hesse")
+## Distribution of removed sampling sites 
 
-impact$`Time span` = c("1968 - 2013", #LD
-                       "2004 - 2019", #Ebro
-                       "2002 - 2020", #Naiades
-                       "2005",        #Cantabria
-                       "2015-2017",   # Picos
-                       "2005",        # Ecosurv
-                       "1978-2004",   #RIVPACS
-                       "2002-2003",   # STAR
-                       "2000-2008",   # WISER
-                       "2000",        # AQUEM SWEDEN
-                       "2000-2013",   # Kaiser Lena Huttunen
-                       "2007-2013",   # PUP
-                       "1978 - 2017", # Edwin Peters 
-                       "2005-2018"    # Peter Haase 
-                       )
+```{r fig-map-removed, fig.cap = "Maps of removed sampling sites. The first map (too far) shows sites that were more than 500 meters removed from the closesed BRT river segement. The second map (imparied) shows sites that were categorized as impaired. The third map (before 2000) shows sites that were sampled before 2000. "}
 
-impact$Area = c("Germany",     # LD
-                "Spain",       # EBRO
-                "France",      # NAIADES
-                "Spain",       # Cantabria
-                "Spain",       # Picos
-                "Hungary",     # ECOSURV
-                "UK",          # RIVPACS
-                "Europe",      # STARS
-                "Europe",      # WISER
-                "Sweden",      # LEONARD SANDIN
-                "Finnland",    # KLH
-                "France",      # PUP 
-                "Netherlands", # EDWIN PETERS 
-                "Germany"      # PETER HAASE 
-                )
-impact$`Number of Samples` = c(65211, # LD
-                               3668,  # EBRO
-                               27052, # NAIADES
-                               55,    # Cantabria
-                               24,    # Picos
-                               491,   # ECOSURV
-                               2504,  # RIVPACS
-                               91,    # STARS
-                               2565,  # WISER
-                               150,   # LEONARD SANDIN
-                               322,   # KLH
-                               2694,  # PUP
-                               44702,  # Edwin Peters 
-                               3044  # Peter Haase 
-                               )
-# impact$availability = c(
-#         "not openly available",
-#         "Link 1",
-#         "Link 2",
-#         "not openly available",
-#         "not openly available",
-#         "not openly available",
-#         "Link 3",
-#         "not openly available",# STARS
-#         "not openly available",# WISER
-#         "not openly available",# Leonard Sandin
-#         "not openly available",# KLH
-#         "not openly available",# PUP
-#         "Link 4",# Edwin Peters
-#         "not openly available" # Peter Haase
-# )
-impact$Criterion = c("Land use", 
-                     "IASPT > 4.5 & Land use",
-                     "BDI   > 14.5 & Land use",
-                     "Land use",
-                     "Land use",
-                     "Land use", # 
-                     "original site selection", # RIVPACS
-                     "classification in data set & Land use", #STARS
-                     "Land use", # WISER
-                     "Land use", # LEONARD SANDIN
-                     "original site selection", # KLH
-                     "qualitative ratings of multiple anthropogenic stressors", # PUP
-                     "Land use", # Edwin Peters 
-                     "Land use"  # Peter Haase
-)
-
-impact$`Reference` = c(
-                                       "Bhowmik & Schäfer (2015), Berger et al. (2018), Le et al. (2021)", # LD
-                                       "Escribano et al (2018)",# EBRO
-                                       "",# NAIADES
-                                       "Alvarez et al. (2010), Alvarez et al. (2011)", # Cantabria
-                                       "",# Picos
-                                       "Schmera & Baur (2011), Schmera et al. (2012)",# ECOSURV
-                                       "Clark et al. (2003), Turley et al. (2014)",# RIVPACS
-                                       "Verdonschot (2006a), Johnson et al. (2007)",# STARS
-                                       "Lyche-Solheim et al. (2013)",# WISER
-                                       "Verdonschot (2006a)",# LEONARD
-                                       "Huttunen et al. (2017)",# KLH
-                                       "Mondy & Usseglio-Polaterra (2013), Alric et al. (2021)",# PUP
-                                       "Peters et al. (2013)",# EDWIN
-                                       "Haubrock et al. (2020)"# PETER
-)
-# impact_hux =
-#         impact %>%
-#         dplyr::select(`data set`, `Time Span`) %>%
-#         as_hux()
-# escape_contents(impact_hux) = FALSE
-# impact_hux
-# impact_hux =
-#         impact %>%
-#         as_hux(add_colnames = TRUE) %>%
-#         set_wrap(TRUE) %>%
-#         set_bold(1, everywhere) %>% 
-#         set_bottom_border(1, everywhere) %>% 
-#         set_width(1.5) %>% 
-#         set_number_format(0) %>%
-#         set_font_size(6) %>% 
-#         #set_right_border(everywhere, everywhere, brdr(1, "solid", "black")) %>% 
-#         set_col_width(col = 1, value = .2) %>% 
-#         set_col_width(col = 2, value = .07) %>% 
-#         set_col_width(col = 3, value = .08) %>% 
-#         set_col_width(col = 4, value = .08) %>% 
-#         set_col_width(col = 5, value = .2) %>% 
-#         set_col_width(col = 6, value = .2) 
-# 
-# caption(impact_hux) = "Overview of data sets used for the analysis. "
-# # The respective data sets are available under link 1: www.datossuperficiales.chebro.es:81/WCASF/?rvn=1 ; link 2: www.naiades.eaufrance.fr/france-entiere#/ ; link 3: www.ceh.ac.uk/services/rivpacs-reference-database , link 4: waterkwaliteitsportaal.nl"
-# impact_hux
+readPNG("fig/map_sites_removed.png") %>% 
+  grid.raster()
 ```
-
-```{r tab-impact-criteria}
-impact %>% 
-        kbl(
-                format = "latex",
-                longtable = FALSE,
-                caption = "Overview of data sets used for the analysis.  ",
-                booktabs = TRUE
-        ) %>%
-        kable_styling(
-                latex_options = c("hold_position",
-                                  "repeat_header"),
-                full_width = TRUE,
-                font_size = 7
-        ) %>% 
-        row_spec(0, bold = T) #%>% 
-        #column_spec(column = 1, width = "4cm")
-```
-
-\elandscape
-
-\newpage
 
 In table \@ref(tab:tab-impact-criteria), *Land use* refers to the 20% cutoff for relative area of agriculture or urban areas in a catchment. This criterion was applied wherever no other information was available. IASPT is short for Iberian Average score per taxon which refers to the average Iberian biological monitoring working party score (IBMWP, between 1 and 10) of a sample. The IASPT has been shown to be a reliable indicator of water quality [e.g. @Leunda2009; @Munne2009]. The Biological Diatom Index (BDI) [@lenoir1996development] is a standardized way to evaluate the quality of freshwater systems in France using diatoms.\
 In two of the data sets (RIVPACS and Koutajoki) the sampling sites were selected to represent reference conditions so we used all of the sites.
@@ -183,6 +24,8 @@ All sites for which two or more categories were rated as intermediate or one mor
 \newpage
 
 ## Flexible beta clustering
+
+Flexible beta clustering has four parameters but it is common to only specify one, $\beta$, while the other three parameters are derived from it.
 
 This section describes in greater detail how we computed the flexible beta clustering of the sampling sites.
 We used flexible beta clustering as it has been shown to be robust to various potential problems like outliers or noisy data [@Milligan1989].
@@ -217,6 +60,18 @@ If not further specified, ASW refers to the common average silhouette width (i.e
 ### Calinski Harabasz Index 
 
 The Calinski-Harabasz Index [CH, @calinski1974dendrite] is computed as $$CH = \dfrac{BGSS}{WGSS} \times \dfrac{n-k}{k-1}$$ where $BGSS$ is the squared sum of distances between group centroids and the overall centroid (between group sum-of-squares), $WGSS$ is sum of squares of distances between observations of one group (within group sum-of-squares), $k$ is the number of clusters. High values indicate that variation within types is smaller than between types. As the second term controls for the degrees of freedom, here determined by the number of clusters, it can be understood as an analog to the F-Statistic. The algorithm assumes Euclidean data but good performance with a similar metric was shown for binary data in the context of fMRI-scans [@Dimitriadou2004].
+
+### Indicator Value Statistic 
+
+The IndVal itself will be explained in detail below.
+Here, we only note that we used 999 permutations to compute *p*-values and ignored the family-wise error rate.
+
+<!-- old text from methods section --> 
+Both indicator and typical assemblages were derived for BRT20.
+We used the IndVal approach of @dufrene1997species to identify indicator taxa. For this analysis, we used *data genus* which consists of genus-level presence-absence data. The IndVal can be understood as the product of the two quantities $A$ and $B$. For our purposes, $A$ is the relative number of observations of taxon $i$ that are within type $j$. It was initially described as specificity [@dufrene1997species] but is better understood as concentration [@Podani2010] because it is independent of the total number of types. $B$ is the relative frequency with which species $i$ occurs in type $j$. The maximum score is assigned to a species that only occurs in one type ($A=1$) and occurs in all samples of that type ($B=1$). Here, we used the group-equalized version of the IndVal which accounts for the fact that the number of samples differs between types. The statistical significance of the IndVal statistic was assessed with a permutation test that computes IndVal values for random permutations of sites and types and compares the observed IndVal against this empirical distribution. We used $2*10^5$ permutations. We controlled the family-wise error rate with Bonferroni's correction [@bonferroni1935calcolo]. This correction is conservative and has low statistical power [@Nakagawa2004; @Garcia2004].
+Hence, we regard the hypothesis, that a genus is an indicator for a broad river type, strongly supported by our data if we find the indication to be statistically significant.
+We used 0.05 as the base significance level.
+
 
 \newpage
 
@@ -263,81 +118,81 @@ s1_hux
 \newpage
 
 ```{r tab-sm-typicals}
-ta_table = readRDS("data/18_ta_table_for_paper.rds")
-#ta_table = readRDS("../../data/18_ta_table_for_paper.rds")
-# sig_id =map(.x = 2:ncol(ta_table),
-#     .f = ~ str_detect(pull(ta_table[,.x]), "\\*")
-# )
-
-ta_table %>%
-        kbl("latex",
-            longtable = TRUE,
-            caption = "Typical assemblages. Values give the proportion of sites of broad tiver type where the taxon is present. Combinations for which a taxon is found to be typical are marked with *.",
-            booktabs = TRUE
-            ) %>%
-        kable_styling(
-                latex_options = c("hold_position",
-                                  "repeat_header"),
-                full_width = TRUE,
-                font_size = 9
-        ) %>%
-        row_spec(0, bold = T) 
+# ta_table = readRDS("data/18_ta_table_for_paper.rds")
+# #ta_table = readRDS("../../data/18_ta_table_for_paper.rds")
+# # sig_id =map(.x = 2:ncol(ta_table),
+# #     .f = ~ str_detect(pull(ta_table[,.x]), "\\*")
+# # )
+# 
+# ta_table %>%
+#         kbl("latex",
+#             longtable = TRUE,
+#             caption = "Typical assemblages. Values give the proportion of sites of broad tiver type where the taxon is present. Combinations for which a taxon is found to be typical are marked with *.",
+#             booktabs = TRUE
+#             ) %>%
+#         kable_styling(
+#                 latex_options = c("hold_position",
+#                                   "repeat_header"),
+#                 full_width = TRUE,
+#                 font_size = 9
+#         ) %>%
+#         row_spec(0, bold = T) 
 ```
 
 \newpage
 
 ```{r tab-sm-indi}
-indi = readRDS("data/15_indicator_list_w_non_significant.rds")
-#indi = readRDS("../../data/15_indicator_list_w_non_significant.rds")
-names(indi) = paste0("RT", c(1,2,3,4,5,8,9, 10, 11, 14, 15, 16, 18))
-for (i in 1:length(indi)){
-                indi[[i]]$rt = names(indi)[i]
-}
-## - drop empty types 
-indi2 <- rbindlist(indi)
-
-indi2 %>%
-        arrange(taxon) %>%
-        filter(taxon != "Hydracarina") %>% 
-        mutate(indval = round(indval, 2))  %>% 
-        mutate(indval_chr = as.character(indval))  %>% 
-        mutate(indval_chr = case_when(indicator ~ paste0(indval_chr, "*"),
-                                      !indicator ~ indval_chr))  %>% 
-        pivot_wider(id_cols = taxon,
-                    names_from = rt,
-                    values_from = indval_chr) %>%
-        relocate(RT3, .before = RT4) %>%
-        relocate(RT2, .before = RT3) %>%
-        relocate(RT1, .before = RT2) %>%
-        relocate(RT8, .before = RT9) %>%
-        relocate(RT10, .before = RT11) %>% 
-        mutate(across(!taxon, function(x)ifelse(is.na(x),0,x))) ->
-        indi3
-
-## -- which rows contain taxa that are indicative for any stream type 
-indi3$id = apply(indi3, 1, function(x) any(str_detect(string = x, pattern = "\\*")))
-
-## -- make kable table 
-indi3 %>%
-        ## -- only genera that are indicators
-        filter(id == TRUE) %>%
-        ## -- drop id column 
-        dplyr::select(!id) %>% 
-        ## -- kbl as wrapper for kable()
-        kbl(
-                format = "latex",
-                longtable = TRUE,
-                caption = "Indicator scores for all taxon and stream type combination where at least one is statistically                            significant. Statistically significat entries are marked with *.",
-                booktabs = TRUE
-        ) %>%
-        kable_styling(
-                latex_options = c("hold_position",
-                                  "repeat_header"),
-                full_width = TRUE,
-                font_size = 7
-        ) %>% 
-        row_spec(0, bold = T) %>% 
-        column_spec(column = 1, width = "4cm")
+# indi = readRDS("data/15_indicator_list_w_non_significant.rds")
+# #indi = readRDS("../../data/15_indicator_list_w_non_significant.rds")
+# names(indi) = paste0("RT", c(1,2,3,4,5,8,9, 10, 11, 14, 15, 16, 18))
+# for (i in 1:length(indi)){
+#                 indi[[i]]$rt = names(indi)[i]
+# }
+# ## - drop empty types 
+# indi2 <- rbindlist(indi)
+# 
+# indi2 %>%
+#         arrange(taxon) %>%
+#         filter(taxon != "Hydracarina") %>% 
+#         mutate(indval = round(indval, 2))  %>% 
+#         mutate(indval_chr = as.character(indval))  %>% 
+#         mutate(indval_chr = case_when(indicator ~ paste0(indval_chr, "*"),
+#                                       !indicator ~ indval_chr))  %>% 
+#         pivot_wider(id_cols = taxon,
+#                     names_from = rt,
+#                     values_from = indval_chr) %>%
+#         relocate(RT3, .before = RT4) %>%
+#         relocate(RT2, .before = RT3) %>%
+#         relocate(RT1, .before = RT2) %>%
+#         relocate(RT8, .before = RT9) %>%
+#         relocate(RT10, .before = RT11) %>% 
+#         mutate(across(!taxon, function(x)ifelse(is.na(x),0,x))) ->
+#         indi3
+# 
+# ## -- which rows contain taxa that are indicative for any stream type 
+# indi3$id = apply(indi3, 1, function(x) any(str_detect(string = x, pattern = "\\*")))
+# 
+# ## -- make kable table 
+# indi3 %>%
+#         ## -- only genera that are indicators
+#         filter(id == TRUE) %>%
+#         ## -- drop id column 
+#         dplyr::select(!id) %>% 
+#         ## -- kbl as wrapper for kable()
+#         kbl(
+#                 format = "latex",
+#                 longtable = TRUE,
+#                 caption = "Indicator scores for all taxon and stream type combination where at least one is statistically                            significant. Statistically significat entries are marked with *.",
+#                 booktabs = TRUE
+#         ) %>%
+#         kable_styling(
+#                 latex_options = c("hold_position",
+#                                   "repeat_header"),
+#                 full_width = TRUE,
+#                 font_size = 7
+#         ) %>% 
+#         row_spec(0, bold = T) %>% 
+#         column_spec(column = 1, width = "4cm")
 ```
 
 ```{r old hux code typical}

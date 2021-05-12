@@ -24,6 +24,7 @@ library(magrittr)
 library(tmap)
 setwd(here::here())
 tmap_mode("plot")
+
 # load data -------------------------------------------------------------------------
 europe <- st_read("D://Arbeit/Data/natural_earth/2020_06_29_europe.gpkg")
 brt    <- st_read("D://Arbeit/Data/broad_river_types/m_river_fec_broad_type.shp")
@@ -36,7 +37,7 @@ sites  <- readRDS("data/04_invertebrates_w_typologies.rds")
 
 ## -- remove sites from before 2000 
 sites =
-        sites[year(date) >= 2000] %>%
+        sites[year(date) >= 2000 | is.na(date)] %>%
         unique(by = "gr_sample_id") %>%
         st_as_sf
 
@@ -110,11 +111,11 @@ for (i in 1:12) {
 }
 ## -- gloric 
 uniqueN(typologies$gloric$Kmeans_30)
-for (i in 1:30) {
+for (i in unique(sites$gloric)) {
         
         print(paste(i))
         # declare variables 
-        river     <- paste(i)
+        river     <- i
         map_title <- paste("Rivertype", i) 
         save_name <- paste0("figures/sampling_sites_per_river_type/gloric_", river, ".pdf")
         
@@ -136,4 +137,55 @@ for (i in 1:30) {
         print(paste(i))
 }
 ## -- Illies
-       
+uniqueN(typologies$gloric$Kmeans_30)
+for (i in unique(sites$illies)) {
+        
+        print(paste(i))
+        # declare variables 
+        river     <- i
+        map_title <- paste("Rivertype", i) 
+        save_name <- paste0("figures/sampling_sites_per_river_type/illies_", river, ".pdf")
+        
+        loop_sub_rivers <- filter(typologies$illies, NAME == river)
+        loop_sub_sites  <- filter(sites, illies == river) 
+        
+        if (nrow(loop_sub_sites) == 0) next()
+        
+        loop_map <- tm_shape(europe) + tm_polygons() + 
+                tm_shape(loop_sub_rivers) + tm_polygons(col = "blue") + 
+                tm_shape(loop_sub_sites) + tm_dots(col = "red", size = .1) + 
+                tm_layout(title = map_title) + 
+                tm_compass(position = c("left", "top")) + 
+                tm_scale_bar(position = c("center", "bottom"))
+        
+        tmap_save(tm = loop_map, 
+                  filename = save_name, 
+        )
+        print(paste(i))
+}    
+## -- BGR
+for (i in unique(sites$eea)) {
+        
+        print(paste(i))
+        # declare variables 
+        river     <- i
+        map_title <- paste("Rivertype", i) 
+        save_name <- paste0("figures/sampling_sites_per_river_type/eea_", river, ".pdf")
+        
+        loop_sub_rivers <- filter(typologies$biogeo, name == river)
+        loop_sub_sites  <- filter(sites, eea == river) 
+        
+        if (nrow(loop_sub_sites) == 0) next()
+        
+        loop_map <- tm_shape(europe) + tm_polygons() + 
+                tm_shape(loop_sub_rivers) + tm_polygons(col = "blue") + 
+                tm_shape(loop_sub_sites) + tm_dots(col = "red", size = .1) + 
+                tm_layout(title = map_title) + 
+                tm_compass(position = c("left", "top")) + 
+                tm_scale_bar(position = c("center", "bottom"))
+        
+        tmap_save(tm = loop_map, 
+                  filename = save_name, 
+        )
+        print(paste(i))
+}   
