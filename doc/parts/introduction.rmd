@@ -32,15 +32,13 @@ taxonomic and functional turnover [@Haubrock2020; @Jourdan2018;
 @Mouton2020]. The main stressors to which this situation can be
 attributed are well known and can be summarized as overexploitation,
 water pollution, flow modification, habitat degradation and species
-invasions [@Dudgeon2006; @Vorosmarty2010]. Addressing these problems is
-complicated by the emergence of new stressors such as microplastics and
-light pollution [@Reid2018] and interactions between co-occurring
-stressors [@Schinegger2012; @Birk2020; @Comte2021].
-<!-- A decreasing ecological status of freshwater ecosystems can reduce their capacity to provide ecosystem services [@Culhane2019].  -->
-To prevent unacceptable harm to freshwater ecosystems and secure the
-supply of ecosystem services, internationally coordinated action and
-regulatory frameworks are necessary [@Darwall2018; @Tickner2020;
-@VanRees2020].
+invasions [@Dudgeon2006; @Vorosmarty2010]. This set is complemented by
+emerging new stressors such as microplastics and light pollution
+[@Reid2018] and complex interactions between co-occurring stressors
+[@Schinegger2012; @Birk2020; @Comte2021]. To prevent unacceptable harm
+to freshwater ecosystems and secure the supply of ecosystem services,
+internationally coordinated action and regulatory frameworks are
+necessary [@Darwall2018; @Tickner2020; @VanRees2020].
 
 <!-- WFD       -->
 
@@ -56,11 +54,6 @@ the science-policy interface [@reyjol2014assessing]. It has not,
 however, reached its explicit aim, to achieve 'good ecological quality'
 for most surface and groundwater bodies by 2015. As of 2018, only 40% of
 surface water bodies had reached this status [@kristensen2018european].
-Multiple criteria determine the underlying status assessment: biological
-quality elements (benthic invertebrates, phytoplankton, benthic flora
-and fish fauna), physicochemical variables like nutrient and pollutant
-concentrations, and hydromorphology.
-
 The member states of the EU use national methods to assess their water
 bodies. To harmonize the national assessment methods and to ensure a
 coherent notion of 'good ecological quality', an intercalibration
@@ -71,37 +64,36 @@ required its members to create river typologies for the assessment,
 these typologies differ widely in the number of river types they discern
 (between 1 and 367) and the variables used to define them (between 2 and
 16). The recent effort by @LycheSolheim2019 combined the national
-typologies and connected the new, broad river types (BRT) with the
-established intercalibration types [@Birk2013;
-@poikane2014intercalibration]. This pan-European typology has already
-been used to compare nutrient threshold values across river types
-[@Poikane2019], and in studies examining interaction types of multiple
-stressors [@Birk2020] and the chemical pollution of European surface
-waters [@Posthuma2020].
+typologies and connected the new, broad river types with the established
+intercalibration types [@Birk2013; @poikane2014intercalibration]. This
+pan-European typology has already been used to compare nutrient
+threshold values across river types [@Poikane2019], and in studies
+examining interaction types of multiple stressors [@Birk2020] and the
+chemical pollution of European surface waters [@Posthuma2020].
 
 <!-- Not biologically validated  -->
 
-The typology of @LycheSolheim2019 adopts the type descriptors that are
-most commonly used in national typologies: catchments size, altitude,
-geology, region and flow. The first three descriptors are part of the
-System A approach outlined in the Annex II of the WFD and
-@LycheSolheim2019 largely follow the thresholds proposed there. While
-System A includes a ecoregion descriptor that recognizes 25 distinct
-regions throughout Europe, the region descriptor used by
-@LycheSolheim2019 only separates between the Mediterranean and the rest
-of Europe. Flow is also a binary variables (perennial / intermittent)
-and was only applied to Mediterranean rivers. However, whether this
-typology based on geographical and environmental attributes matches
-biological classifications remains unknown. @Verdonschot2006b suggests
-that System A-type typologies only partially capture the major drivers
-or macroinvertebrate distributions in Europe, which he found to be
-temperature, slope/ flow velocity and river size. The status assessment
-of the WFD relies on stable type-specific reference conditions. If
-biological communities vary strongly between reference sites of the same
-river type erroneous assessments resulting in over- or underprotection
-are more likely. In extreme cases, where no reliable type-specific
-reference conditions can be established, e.g. due to high natural
-variability, a river type might be excluded from the status assessment.
+The BRT-typology adopts the type descriptors that are most commonly used
+in national typologies: catchments size, altitude, geology, region and
+flow. The first three descriptors are part of the System A approach
+outlined in the Annex II of the WFD and @LycheSolheim2019 largely follow
+the thresholds proposed there. While System A includes an ecoregion
+descriptor that recognizes 25 distinct regions throughout Europe, the
+region descriptor used by @LycheSolheim2019 only separates between the
+Mediterranean and the rest of Europe. Flow is also considered as a
+binary variable (perennial / intermittent) and was only applied to
+Mediterranean rivers. Whether this typology based on geographical and
+environmental attributes matches biological classifications remains
+unknown. @Verdonschot2006b suggests that System A-type typologies only
+partially capture the major drivers or macroinvertebrate distributions
+in Europe, which he found to be temperature, slope/ flow velocity and
+river size. The status assessment of the WFD relies on stable
+type-specific reference conditions. If biological communities vary
+strongly between reference sites of the same river type erroneous
+assessments resulting in over- or underprotection are more likely. If no
+reliable type-specific reference conditions can be established, e.g. due
+to high natural variability, a river type might be excluded from the
+status assessment [@EuropeanCommission2000].
 
 ```{=html}
 <!--
@@ -116,15 +108,20 @@ Earlier studies [e.g. @Verdonschot2006b] suggest that other variables might be m
 ```
 <!-- What we did  -->
 
-Following the typology of @LycheSolheim2019, we classified observations
-from a data set of freshwater macroinvertebrates to derive typical taxa
-for each river type and we evaluated the quality of the classification
-in comparison to those suggested by other freshwater typologies. Typical
-taxa are taxa that often occur in a given river type. The concept
-differs from indicator taxa, in that the frequency with which they occur
-in other river types is not considered. These assemblages can be used to
+Following the BRT-typology, we classified observations from a data set
+of freshwater macroinvertebrate occurrences to find the taxa that
+commonly occur in each river type. These typical taxa can be used to
 define reference conditions or to compare the sensitivity of communities
-towards stressors.
+towards stressors between river types. In addition, we used cluster
+validity metrics to compare the BRT typology to three other freshwater
+typologies. While BRT classifies river reaches, earlier typologies
+classified ecoregions. Two of the typologies we evaluated were such
+regional typologies. They are simpler to use in practical application
+since their basic spatial units are larger and the water body type is
+easier to determine in the field. Because practical applications is the
+main purpose of freshwater typologies, reach-based typologies need to
+have better classification performance to legitimate their added
+complexity.
 
 ```{=html}
 <!-- 

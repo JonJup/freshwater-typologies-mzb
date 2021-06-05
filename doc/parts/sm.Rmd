@@ -4,7 +4,27 @@ editor_options:
     wrap: sentence
 ---
 
-# Supplementary Materials
+# Supplementary Information
+
+## Exclusion criteria 
+
+In this section the exclusion criteria from Table 1 of the main text are described in more detail. 
+
+**anthropogenic land use > 20% catchment area**. We used the Corine Land Cover data from 2018 to assign relative areas of land cover categories to each catchment in the Catchment Characteristics and Modelling data base of watersheds. 
+On the first level there are five different categories in Corine Land Cover: 1. Artificial surfaces, 2. Agricultural areas, 3. Forest and semi natural areas, 4. Wetlands and 5. Water bodies. We combined the fractions of category 1 and 2 to obtain a measure of anthropogenic land use. If the relative catchment area of anthropogenic land use exceeded 20% all sites in that catchment were categorized as impaired. 
+
+**IASPT** The Iberian average score per taxon was introduced by @alba1988metodo who developed the original metric proposed by @party1978final and @armitage1983performance. The score that the name refers to is the biological monitoring working party (BMWP) score. Many freshwater invertebrate families were assigned scores between 1 (indicator of strongly impaired conditions) and 10 (indicator of least-impaired conditions). For example, Oligochaetes have a low score and  Heptageniidae, a caddisfly family, a high score. The BMWP is the sum of scores for all taxa that occur at a site. Since the absolute score depends on the number of taxa, general thresholds for good or bad conditions can not be derived. This problem is solved by taking the average score of a sites (ASPT). Scores above 4.5 are generally taken to indicate good conditions.  
+
+**BDI** The Biological Diatom Index was proposed by @lenoir1996development and is a standardized method used in France to monitor the biological quality of running waters. The original score was based on 209 diatom taxa and their ecological profiles. These profiles are probability distributions over the occurrence of a given species in the seven quality classes. By multiplying the presence probabilities for all taxa at a site one can derive the quality class which a site belongs to. The score is then mapped on a scale from 0 to 20 where 20 represents the highest ecological quality. @Coste2009 further improved the index by extending the taxon pool to 838 species and updating the ecological profiles of the available taxa. Scores above 14.5 are generally taken to indacte good conditions.  
+
+**original site selection**. Two of the data sets we used resulted from studies that only took samples from least-impacted sites. We did not exclude any sites from these sites on the basis of anthropogenic impairment. 
+
+**classification in data set** The STARS data set provided a qualitative rating of ecological conditions that ranged from high over good, moderate and poor to bad. We rated sites with a  good or high rating as least-impaired. 
+
+**qualitative ratings of multiple anthropogenic stressors**. 
+The data from the RCS monitoring program provided qualitative rating of several anthropogenic stressors. They included organic matter, nitrogen compounds (except nitrates), nitrates (mg/l NO3), phosphorous compounds, suspended matter, organic pollutants, mineral micropollutants, pesticides, and polycyclic aromatic hydrocarbon. 
+Each stressor received a rating as high, good, intermediate, poor or bad. 
+We considered all sites where two or more variables were rated as intermediate or one received a rating of poor or bad as impaired. 
 
 ## Distribution of removed sampling sites 
 
@@ -14,24 +34,39 @@ readPNG("fig/map_sites_removed.png") %>%
   grid.raster()
 ```
 
-In table \@ref(tab:tab-impact-criteria), *Land use* refers to the 20% cutoff for relative area of agriculture or urban areas in a catchment. This criterion was applied wherever no other information was available. IASPT is short for Iberian Average score per taxon which refers to the average Iberian biological monitoring working party score (IBMWP, between 1 and 10) of a sample. The IASPT has been shown to be a reliable indicator of water quality [e.g. @Leunda2009; @Munne2009]. The Biological Diatom Index (BDI) [@lenoir1996development] is a standardized way to evaluate the quality of freshwater systems in France using diatoms.\
-In two of the data sets (RIVPACS and Koutajoki) the sampling sites were selected to represent reference conditions so we used all of the sites.
-For the data from the RCS national network several qualitative metrics were available.
-The measured stressors were: organic matter, nitrogen compounds (except nitrates), nitrates, phosphorous compounds, suspended matter, organic micropollutants (other), mineral micropolluants (metal), pesticides and polycyclic aromatic hydrocarbons (PAH).
-Each was rated on a scale of high, good, intermediate, poor and bad.
-All sites for which two or more categories were rated as intermediate or one more were rated as either poor or bad was removed from the analysis.
-
 \newpage
 
 ## Flexible beta clustering
 
-Flexible beta clustering has four parameters but it is common to only specify one, $\beta$, while the other three parameters are derived from it.
-
 This section describes in greater detail how we computed the flexible beta clustering of the sampling sites.
 We used flexible beta clustering as it has been shown to be robust to various potential problems like outliers or noisy data [@Milligan1989].
-We employed the common parameterization of $(\alpha_1 = \alpha_2 = \alpha, \beta = (1-\alpha)/2, \gamma = 0)$ and varied beta in ten steps from -1 to 1 (-1, -0.77, -0.55, -0.33, -0.11, 0.11, 0.33, 0.55, 0.77, 1).
-We cut the resulting dendograms at each split between 2 and 30 final nodes.
-For each of the resulting 290 clusterings we calculated the average silhouette, width, cophenetic correlation coefficient and the cluster membership entropy.
+Flexible beta clustering has four parameters but it is common to only specify one, $\beta$, while the other three parameters are derived from it.
+We employed the common parameterization of $(\alpha_1 = \alpha_2 = \alpha, \beta = (1-\alpha)/2, \gamma = 0)$ and used a beta of 0.25.
+We cut the resulting dendograms at each split between 4 and 30 final nodes.
+For each of the resulting clusterings we calculated the average silhouette width and the cluster membership entropy.
+The average silhouette width is already explained in the main text as well as in the following section on cluster validity metrics. 
+The cluster membership entropy measures how similar the number of observation within different groups is. 
+Clusterings with only few clusters tend to produce high silhouette widths by singling out individual outliers. 
+Such solutions have very low entropies. 
+To correct this tendency, we looked for a solutions that had high scores for both entropy and silhouette width. 
+While entropy increased monotonically with the number of clusters (Figure \@ref(fig:beta-clust-qual)) without obvious jumps or dips, the average silhouette width started very low (4 clusters) then increased to a stable higher level (6-8 clusters) and lastly decreased sharply in three steps.  
+
+```{r beta-clust-qual, fig.cap = "Average silhouette width and entropy of flexible beta clustering of the macroinvertebrate data with cluster numbers between 4 and 30. The black dashed horizontal line highlights the number of clusters we chose.", fig.height=4}
+sm_beta_eval <- readRDS("fig/sm_beta_plot.RDS")
+sm_beta_eval %>% 
+        filter(name %in% c("avg.silwidth","entropy")) %>% 
+        ggplot(aes(x = cluster.number, 
+                   y = value)) + 
+        geom_line() + 
+        geom_point() +
+        facet_wrap(.~name, 
+                   scales = "free", 
+                   labeller = labeller(name = c("avg.silwidth"= "ASW", 
+                               "entropy" = "Entropy")) ) + 
+        xlab("Cluster Number") + 
+  geom_vline(xintercept = 9, lty = 2)
+```
+
 
 \newpage
 
@@ -53,8 +88,6 @@ The generalized mean of degree $p$ ($M^p$) is computed as: $$ M^p (\mathbf{x}) =
 For example, for $p=-\infty$ the silhouette width is the difference between the minimum distance of observation $i$ to any other observation from the same type and the minimum distance from that observation to any observation from the next closest type.
 This perspective excludes outliers and values separation over compactness.
 The weighting shifts towards compactness as we increase $p$.
-We evaluated the silhouette width for $p\ \in \{-\infty,-2,-1,1,2,\infty\}$.
-If not further specified, ASW refers to the common average silhouette width (i.e. $p = 1$) in the remainder of the text.
 
 
 ### Calinski Harabasz Index 
@@ -63,21 +96,26 @@ The Calinski-Harabasz Index [CH, @calinski1974dendrite] is computed as $$CH = \d
 
 ### Indicator Value Statistic 
 
-The IndVal itself will be explained in detail below.
-Here, we only note that we used 999 permutations to compute *p*-values and ignored the family-wise error rate.
+The indicator value score (IVS) is based on the Indicator value (IndVal) proposed by @dufrene1997species.
+The IndVal can be understood as the product of the two quantities $A$ and $B$. 
+For our purposes, $A$ is the relative number of observations of taxon $i$ that are within type $j$. 
+It was initially described as specificity [@dufrene1997species] but is better understood as concentration [@Podani2010] because it is independent of the total number of types. 
+$B$ is the relative frequency with which species $i$ occurs in type $j$. 
+The maximum score is assigned to a species that only occurs in one type ($A=1$) and occurs in all samples of that type ($B=1$). 
+We used the group-equalized version of the IndVal which accounts for the fact that the number of samples differs between types. 
+The statistical significance of the IndVal statistic was assessed with a permutation test that computes IndVal values for random permutations of sites and types and compares the observed IndVal against this empirical distribution. 
+We determined statistical significance with 999 permutations and a significance level of 0.01. 
+The IndVal score is the fraction of statitically significant taxa X type combinations. 
+A score of 1 would indicate that every taxon tested is a statitically significant indicator for every type and a score of 0 that no taxon is an statistically significant indicator for any type. 
 
-<!-- old text from methods section --> 
-Both indicator and typical assemblages were derived for BRT20.
-We used the IndVal approach of @dufrene1997species to identify indicator taxa. For this analysis, we used *data genus* which consists of genus-level presence-absence data. The IndVal can be understood as the product of the two quantities $A$ and $B$. For our purposes, $A$ is the relative number of observations of taxon $i$ that are within type $j$. It was initially described as specificity [@dufrene1997species] but is better understood as concentration [@Podani2010] because it is independent of the total number of types. $B$ is the relative frequency with which species $i$ occurs in type $j$. The maximum score is assigned to a species that only occurs in one type ($A=1$) and occurs in all samples of that type ($B=1$). Here, we used the group-equalized version of the IndVal which accounts for the fact that the number of samples differs between types. The statistical significance of the IndVal statistic was assessed with a permutation test that computes IndVal values for random permutations of sites and types and compares the observed IndVal against this empirical distribution. We used $2*10^5$ permutations. We controlled the family-wise error rate with Bonferroni's correction [@bonferroni1935calcolo]. This correction is conservative and has low statistical power [@Nakagawa2004; @Garcia2004].
-Hence, we regard the hypothesis, that a genus is an indicator for a broad river type, strongly supported by our data if we find the indication to be statistically significant.
-We used 0.05 as the base significance level.
 
 
 \newpage
 
+### Analysed river types/ ecoregions
+
 ```{r tab-types}
 data = readRDS("data/12_sxs_genus_typology_wo_bio.rds")
-#data = readRDS("../../data/12_sxs_genus_typology_wo_bio.rds")
 gloric_unique = data %>% pull("gloric") %>% unique %>% sort
 brt12_unique  = data %>% pull("ls12") %>% unique %>% sort
 brt12_unique = brt12_unique[c(1,4:11,2,3)]
@@ -86,33 +124,65 @@ brt20_unique = brt20_unique[c(1,9:13,2:8)]
 illies_unique = data %>% pull("illies") %>% unique %>% sort
 eea_unique    = data %>% pull("eea") %>% unique %>% sort
 
-s1 = data.table(Typology = c("BRT12", "BRT20", "GloRiC", "Illies", "BGR"), 
+s1 = data.table(Typology = c("BRT12", "BRT20", "GloRiC", "Illies", "BGR"),
            Types    = c(
-                   paste(brt12_unique, collapse = ",\ "), 
-                   paste(brt20_unique , collapse = ",\ "),     
-                   paste(gloric_unique, collapse = ",\ "),     
-                   paste(illies_unique, collapse = ",\ "),     
-                   paste(eea_unique, collapse = ",\ ")     
+                   paste(brt12_unique, collapse = ",\ "),
+                   paste(brt20_unique , collapse = ",\ "),
+                   paste(gloric_unique, collapse = ",\ "),
+                   paste(illies_unique, collapse = ",\ "),
+                   paste(eea_unique, collapse = ",\ ")
                         )
            )
-s1_hux =
-        s1 %>%
-        as_hux(add_colnames = TRUE) %>%
-        set_wrap(TRUE) %>%
-        set_bold(1, everywhere) %>% 
-        set_bottom_border(1, everywhere) %>% 
-        set_width(1) %>% 
-        set_number_format(0) %>%
-        set_font_size(7) 
-        #set_right_border(everywhere, everywhere, brdr(1, "solid", "black")) %>% 
-        # set_col_width(col = 1, value = .2) %>% 
-        # set_col_width(col = 2, value = .07) %>% 
-        # set_col_width(col = 3, value = .08) %>% 
-        # set_col_width(col = 4, value = .08) %>% 
-        # set_col_width(col = 5, value = .2) %>% 
-        # set_col_width(col = 6, value = .2) 
-caption(s1_hux) = "Types of different typologies that were used in the analyses."
-s1_hux
+s1[1,2] = c("
+            Very large rivers (RT1); 
+            Lowland, calcareous or mixed, medium-large (RT2);
+            Lowland, calcareous or mixed, very small-small (RT3);
+            Lowland, siliceous incl. organic, medium-large (RT4);
+            Lowland, siliceous incl. organic, medium-large (RT5);
+            Mid-altitude, calcareous incl. organic, medium-large (RT6);
+            Mid-altitude, calcareous or mixed, very small-small (RT7);
+            Mid-altitude, siliceous incl. organic, medium-large (RT8);
+            Mid-altitude, siliceous incl. organic, very small-small (RT9);
+            Highland and glacial (RT10)
+            ")
+
+
+s1[2,2] = c("Very large rivers (RT1); Lowland, siliceous, medium-large (RT2); Lowland, siliceous, very small-small (RT3); Lowland, calcareous or mixed, medium-large (RT4); Lowland, calcareous or mixed, very small-small (RT5); Mid-altitude, siliceous, medium-large (RT8); Mid-altitude, siliceous, very small-small (RT9); Mid-altitude, calcareous or mixed, medium-large (RT10); Mid-altitude, calcareous or mixed, very small-small (RT11) Highland (all Europe), siliceous, incl. organic (humic) (RT14); Highland (all Europe), calcareous/mixed (RT15); Glacial rivers (all Europe) (RT16); Mediterranean, mid altitude, medium-large, perennial (RT18)")
+s1 %>%
+        kbl(
+                format = "latex",
+                longtable = FALSE,
+                caption = "Types per typology that were analysed. We had insufficient data for the types that are not shown in this table.",
+                escape = F,
+                booktabs = TRUE
+        ) %>%
+        kable_styling(
+                latex_options = c("hold_position",
+                                  "repeat_header"),
+                full_width = TRUE,
+                font_size = 9
+        ) %>%
+        row_spec(0, bold = T) %>% 
+        column_spec(column = 1, width = "2cm")
+
+# s1_hux =
+#         s1 %>%
+#         as_hux(add_colnames = TRUE) %>%
+#         set_wrap(TRUE) %>%
+#         set_bold(1, everywhere) %>% 
+#         set_bottom_border(1, everywhere) %>% 
+#         set_width(1) %>% 
+#         set_number_format(0) %>%
+#         set_font_size(7) 
+#         #set_right_border(everywhere, everywhere, brdr(1, "solid", "black")) %>% 
+#         # set_col_width(col = 1, value = .2) %>% 
+#         # set_col_width(col = 2, value = .07) %>% 
+#         # set_col_width(col = 3, value = .08) %>% 
+#         # set_col_width(col = 4, value = .08) %>% 
+#         # set_col_width(col = 5, value = .2) %>% 
+#         # set_col_width(col = 6, value = .2) 
+# caption(s1_hux) = "Types of different typologies that were used in the analyses."
+# s1_hux
 ```
 
 \newpage

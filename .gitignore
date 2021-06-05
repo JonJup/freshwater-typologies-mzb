@@ -42,3 +42,5 @@ vignettes/*.pdf
 data/
 Rmd/
 figures/
+doc/feedback/
+*.pdf

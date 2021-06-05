@@ -27,71 +27,68 @@ source("doc/scripts/redundancy_plot.R")
 
 ## Comparison of classifications 
 <!-- Overview over results --> 
-Overall Illies received the highest score, with `r rank_dat[typ == "illies", total_points]` of 20 possible points, followed by BGR (`r rank_dat[typ == "eea", total_points]`), BRT12 (`r rank_dat[typ == "brt12", total_points]`), GloRiC (`r rank_dat[typ == "gloric", total_points]`) and BRT20 (`r rank_dat[typ == "brt20", total_points]`). 
-
+Overall Illies received the highest score, with `r rank_dat[typ == "illies", total_points]` of 20 possible points, followed by BGR (`r rank_dat[typ == "eea", total_points]`), BRT12 (`r rank_dat[typ == "brt12", total_points]`), GloRiC (`r rank_dat[typ == "gloric", total_points]`) and BRT20 (`r rank_dat[typ == "brt20", total_points]`).
 <!-- CH -->
-The CH was higher in regional typologies than in reach-based typologies and higher in in BGR than in Illies' ecoregions. 
-BRT12 had a higher score than BRT20 and GloRiC had the lowest CH. 
-
+The CH was higher in regional typologies than in reach-based typologies and higher in in BGR than in Illies' ecoregions (Figure \@ref(fig:fig-res-sw)). 
+BRT12 had a higher score than BRT20 and GloRiC had the lowest CH.
 <!-- classification strength --> 
 Most typologies had similar CS, approximately `r cs_eea`.
-Only Illies' ecoregions exceeded 0.05 with a score of `r cs_ill`.     
-
+Only Illies' ecoregions exceeded 0.05 with a score of `r cs_ill`.
 <!-- IndVal Scores -->
-The Illies' ecoregions had the largest IVS closely followed by GloRiC.
-These two were very close to the biological classification.
-The three other typologies had similar IVS around `r iv_brt20`. 
-        
+Illies' ecoregions had the highest IVS closely followed by GloRiC.
+Their scores were similar to that of the biological typology.
+The three other typologies had similar IVS around `r iv_brt20`.
 <!-- ASW -->
-Increasing the emphasis on compactness (i.e. $p$) decreased the silhouette widths (Figure \@ref(fig:fig-res-sw)).
-All typologies had positive $ASW_{min}$, BGR and Illies' ecoregions were close to the biological typology.
-Reach-based typologies had lower $ASW_{min}$ than regional ones and GloRiCs was slightly higher than the similar scores of BRT12 and BRT20. 
-With $p = 1$, only the ASW of BGR exceeded zero and the random typology. 
-In the remaining typologies, the difference between region- and reach-based typologies shrunk.
+Increasing the emphasis on compactness (i.e. $p$) decreased the silhouette widths.
+All typologies had positive $ASW_{min}$, the regional typologies had scores similar to that of the biological typology.
+Reach-based typologies had lower $ASW_{min}$ than regional ones and GloRiC's was higher than those of the BRT-typologies. 
+With $p = 1$, only the ASW of BGR exceeded zero and hence the random typology. 
+The difference between region- and reach-based typologies narrowed.
 Illies' ecoregions had a slightly higher ASW than BRT12, which had a higher ASW than BRT20.
 GloRiC had the lowest ASW.
-The $ASW_{max}$ is negative for all typologies, including the biological. 
-The absolute value only declined markeldy for BGR, Ilies ecoregions and GloRiC, so that BRT12 had the highest $ASW_{max}$. 
-It was followed by BGR, BRT12, Illies' ecoregions and GloRiC. 
+The $ASW_{max}$ was negative for all typologies, including the biological. 
+It declined most noticably for BGR, Illies and GloRiC.
+BRT12 had the highest $ASW_{max}$. 
+It was followed by BGR, BRT20, Illies and GloRiC.
 
 
-```{r fig-res-sw, fig.align="center", fig.height=5, fig.cap="Cluster validity citeria for freshwater typologies. (a) Calinski Harabasz, Classification Strength and Indicator Value score of all eight freshwater typologies. (b) Generalized Silhouette width over the degrees p of the mean. The dashed horizontal line indicates a score of zero."}
-img <- readPNG("fig/eval_cluster_combined.png")
-grid.raster(img)
+```{r fig-res-sw, fig.align="center", fig.height=5, fig.cap="Cluster validity citeria for freshwater typologies. The points represent the different typologies which are indicated by their color. The biological typology and the mean of random typologies are represented by lines. Each plot shows a different cluster validity criterion: Calinski Harabasz (CH), Classification Strength (CS), Indicator Value score (IVS), average minimal silhouette width (min), average silhouette width (ASW) and average maximal silhouette width."}
+
+grid.raster(readPNG("fig/eval_cluster_combined.png"))
+
 ```
-
-
 
 ## Typical assemblages
 
 The mean similarity in BRT-type typical assemblages was higher than in the other three typologies (Figure \@ref(fig:fig-redundancy)).  
-For both BRT-type typical assemblages the mean similarity was above 0.5, approaching 0.75 in BRT12. The mean similarity for the other three typical assemblages all lay around 0.2.  
-While found high similarities (>0.75) in the typical assemblages of all five typologies, only for the BRT-type typologies did we find complete overlap (a similarity of 1).    
+For both BRT-type typical assemblages the mean similarity was above 0.5, approaching 0.75 in BRT12. 
+The mean similarity for the other three typical assemblages centered around 0.2.  
+While we found high similarities (>0.75) in the typical assemblages of all five typologies, only for the BRT-type typologies did we find complete overlap (a similarity of 1).    
 
 The mean size of typical assemblages was similar in all typologies. 
 The mean size over all typologies was `r round(mean(out_list$value),1)` taxa. 
 BGR had the smallest typical assemblages on average with `r ta_small_overall_mean` taxa and Illies the largest with `r ta_large_overall_mean` taxa.
 The differences are more pronounced in the sizes of individual typical assemblages. 
-The two smallest typical assemblage were from the high-altitude calcareous/ mixed rivers (RT15) of BRT20 with then taxa and the Mediterranean Region of BGR with eleven. 
-The two largest typical assemblages were both from types of Illies freshwater ecoregions: Ireland and Northern Ireland as well as England with 66 and 62 taxa respectively. 
-Note that the two types were also similar to one another and combined for the non-redundant typical assemblages. 
+The two smallest typical assemblage were from the high-altitude calcareous/ mixed rivers (RT15) of BRT20 with ten taxa and the Mediterranean Region of BGR with eleven. 
+The two largest typical assemblages were both from types of Illies' freshwater ecoregions: Ireland and Northern Ireland as well as England with 66 and 62 taxa respectively. 
+Note that the two types were also similar to one another and were combined for the non-redundant typical assemblages. 
 
-```{r fig-redundancy, fig.cap="Similarity between typical assemblages for five freshwater typologies. The colored dots are similarities between two types and the violins represent their frequency distribution. The bigger black dots are the arithmetic means."}
+```{r fig-redundancy, fig.cap="Similarity between typical assemblages for five freshwater typologies. The colored dots are similarities between two types and the violins represent their frequency distributions. The bigger black dots are the arithmetic means."}
 redundancy_plot
 ```
 
+The number of taxa across typical assemblages of a typology varied considerably between typologies. The typical assemblages included `r ta.perc.brt12` of taxa for BRT12, `r ta.perc.brt20` for BRT20, `r ta.perc.gloric` for GloRiC, `r ta.perc.illies` for Illies and `r ta.perc.bgr` for BGR. 
+On average, taxa occurred in `r ta.mu.occ$rt1` typical assemblages in BRT12, `r ta.mu.occ$rt2` in BRT20, `r ta.mu.occ$glo` in GloRiC, `r ta.mu.occ$ill` in Illies and `r ta.mu.occ$bgr` in BGR.
+The two taxa that occurred in the most typical assemblages were both families: Chironomidae (49 of 56 typical assemblages) and Simuliidae (40). 
+The most common genera were the mayfly Baetis (38), the caddisfly Hydropsyche (37) and the gammarid Gammarus (35). 
+The most common species were two mayflies *Serratella ignita* (34) and *Baetis rhodani* (14).
 
-Based on these typical assemblages, we found redundant types in all typologies except for BGR.  
+Based on these typical assemblages, we found redundant types in all typologies except for BGR.
 In BRT12, we combined the river types 2, 3, 4, 5, 6 and 7 which include very small to large lowland rivers as well as calcareous mid-altitude rivers. We also combined the two river types 8 and 9 - siliceous mid-altitude rivers.
 In BRT20, we found the river types 8, 9 and 16 (mid-altitude siliceous and glacial rivers) to be redundant.
 In addition, we combined the river types 2, 3, 4, 5, 10 and 11. 
 They represent very small to large lowland rivers and mid-altitude calcareous and mixed rivers. 
-In GloRic we combined two river types, 4 and 6. 
-Unfortunately, @OuelletDallaire2019 do not provide an interpretation for their types beyond the numbers. 
+In GloRiC, we combined two river types, 4 and 6. 
+Unfortunately, @OuelletDallaire2019 do not provide an interpretation for their types beyond these numbers so neither can we.  
 For Illies, we merged the two types England and Ireland and Northern Ireland as well as Western plains and Western highlands.
 
-The number of taxa in all typical assemblages of a typology varied considerably between typologies. The typical assemblages included `r ta.perc.brt12` of taxa for BRT12, `r ta.perc.brt20` for BRT20, `r ta.perc.gloric` for GloRic `r ta.perc.illies` for Illies and `r ta.perc.bgr` for BGR. 
-On average, taxa occurred in `r ta.mu.occ$rt1` typical assemblages in BRT12, `r ta.mu.occ$rt2` in BRT20, `r ta.mu.occ$glo` in GloRiC, `r ta.mu.occ$ill` in Illies and `r ta.mu.occ$bgr` in BGR.
-The two taxon that occurred in the most typical assemblages were both families: Chironomidae (49 of 56 typical assemblages) and Simuliidae (40). 
-The most common genera were the mayfly Baetis (38), the caddisfly Hydropsyche (37) and the gammarid Gammarus (35). 
-The most common species were two mayflies *Serratella ignita* (34) and *Baetis rhodani* (14).

@@ -28,7 +28,7 @@ red %>%
                                   levels = c("BRT12", "BRT20", "GloRiC", "Illies", "BGR"))
                 ) %>% 
         ggplot(aes(x = typology, y = similarity, fill = typology)) + 
-        geom_violin() + 
+        geom_violin(alpha = 0.5) + 
         geom_jitter(shape = 21, width = .05) + 
         stat_summary(geom="point",
                      fun=mean, 

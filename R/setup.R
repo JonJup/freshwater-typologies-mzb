@@ -43,10 +43,10 @@ dir$mzb = here("../../02_getreal/02_wp2/data/invertebrates/")
 dir$trt = "D://Arbeit/Data/trait data/stefan_freshwater_ecology/"
 
 # load functions ----------------------------------------------------------
-source("~/03_R/functions/cc.R")
-source("~/03_R/functions/extr_traits.r")
-source("~/03_R/functions/pcoa_project_variables.R")
-source("~/03_R/functions/plot_pcoa.R")
+# source("~/03_R/functions/cc.R")
+# source("~/03_R/functions/extr_traits.r")
+# source("~/03_R/functions/pcoa_project_variables.R")
+# source("~/03_R/functions/plot_pcoa.R")
 
 
 append_list = function(x,y,i){

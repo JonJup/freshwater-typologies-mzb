@@ -83,15 +83,10 @@ We are grateful to the staff that collected and analyzed data for the AQUEM, STA
 
 # Data Availability 
 Some of the monitoring data sets are freely available. 
-Data from the Ebro Hydrographic Confederation under www.datossuperficiales.chebro.es:81/WCASF/?rvn=1  
-Data from Naides under www.naiades.eaufrance.fr/france-entiere#/
-Data from the RIVPACS data base under www.ceh.ac.uk/services/rivpacs-reference-database
-Data from the Dutch monitoring agencies under waterkwaliteitsportaal.nl
-Data GLORIC
-DATA ILLIES
-DATA EEA 
-
-
+Data from the Ebro Hydrographic Confederation is available under www.datossuperficiales.chebro.es:81/WCASF/?rvn=1,   
+data from Naides under www.naiades.eaufrance.fr/france-entiere, 
+data from the RIVPACS data base under www.ceh.ac.uk/services/rivpacs-reference-database and 
+data from the Dutch monitoring agencies under waterkwaliteitsportaal.nl.
 
 <!------- TODO -------->
 <!---- MM 
@@ -146,7 +141,17 @@ opts_knit$set(root.dir = here::here())
 
 <!-- SETUP -->
 ```{r setup2}
-source("R/setup.R")
+#source("R/setup.R")
+library(data.table)
+library(png)
+library(jpeg)
+library(grid)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(magrittr)
+library(cowplot)
 ```
 
 <!-- LOAD DATA --> 
@@ -179,6 +184,8 @@ all_data          <- readRDS("data/06_sxs_list_all_typologies.rds")
 <!-- Discussion --> 
 ```{r call discussion, child="../parts/discussion.rmd"}
 ```
+
+\newpage
 <!-- Supplementary Materials --> 
 ```{r call supplementary materials, child="../parts/sm.rmd"}
 ```

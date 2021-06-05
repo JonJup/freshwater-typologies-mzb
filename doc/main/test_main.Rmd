@@ -1,0 +1,28 @@
+---
+title: "Untitled"
+author: "Jonathan Jupke"
+date: "13 5 2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+opts_knit$set(root.dir = here::here())
+```
+
+<!-- SETUP -->
+```{r setup2}
+library(grid)
+library(jpeg)
+library(magick)
+```
+
+```{r fig-workflow, fig.cap="Schema of the steps in the analysis. Blue boxes represent data sets and yellow boxes steps. Names of typologies have been abbreviated to BRT (broad river typology), GloRiC (Global River Classification), Illies (Illies freshwater ecoregions) and BGR (Biogeographic Regions).",  fig.fullwidth=TRUE}
+
+img <- image_read("fig/workflow.jpg")
+img2 <- image_crop(img)
+grid.raster(img2)
+
+```
