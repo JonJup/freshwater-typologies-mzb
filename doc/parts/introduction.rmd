@@ -14,7 +14,7 @@ places of high recreational and aesthetic value [@bene2016contribution;
 @borger2021value; @youn2014inland]. Combined, these contributions to
 people, also called ecosystem services, are estimated to have an annual
 worth of more than four trillion dollars [@costanza2014changes], which
-is approximately a twentieth of the global GDP as of 2017
+corresponds approximately to a twentieth of the global GDP as of 2017
 [@WorldBank2021]. Human activities have reduced biodiversity in
 freshwater ecosystems [@Darwall2018; @almond2020living] and are thereby
 endangering these systems' capacities to provide ecosystem services
@@ -74,7 +74,7 @@ chemical pollution of European surface waters [@Posthuma2020].
 <!-- Not biologically validated  -->
 
 The BRT-typology adopts the type descriptors that are most commonly used
-in national typologies: catchments size, altitude, geology, region and
+in national typologies: catchment size, altitude, geology, region and
 flow. The first three descriptors are part of the System A approach
 outlined in the Annex II of the WFD and @LycheSolheim2019 largely follow
 the thresholds proposed there. While System A includes an ecoregion

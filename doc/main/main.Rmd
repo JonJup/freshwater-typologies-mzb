@@ -78,7 +78,7 @@ nocite: |
 ...
 
 # Acknowledgements {-}
-This study was funded by the GETREAL (Incorporating spatial and seasonal variability in community sensitivity into chemical risk assessment) project, which was funded by the European Chemical Industry Council long-range research initiative (CEFIC-LRi project ECO 50).  
+This study was part of the GETREAL (Incorporating spatial and seasonal variability in community sensitivity into chemical risk assessment) project, which was funded by the European Chemical Industry Council long-range research initiative (CEFIC-LRi project ECO 50).  
 We are grateful to the staff that collected and analyzed data for the AQUEM, STAR, WISER and ECOSURV projects and to the various water agencies that participated in the abiotic and biotic data collection. 
 
 # Data Availability 

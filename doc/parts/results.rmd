@@ -65,12 +65,11 @@ For both BRT-type typical assemblages the mean similarity was above 0.5, approac
 The mean similarity for the other three typical assemblages centered around 0.2.  
 While we found high similarities (>0.75) in the typical assemblages of all five typologies, only for the BRT-type typologies did we find complete overlap (a similarity of 1).    
 
-The mean size of typical assemblages was similar in all typologies. 
-The mean size over all typologies was `r round(mean(out_list$value),1)` taxa. 
+The mean number of taxa in typical assemblages was similar in all typologies (`r round(mean(out_list$value),1)`). 
 BGR had the smallest typical assemblages on average with `r ta_small_overall_mean` taxa and Illies the largest with `r ta_large_overall_mean` taxa.
-The differences are more pronounced in the sizes of individual typical assemblages. 
+The differences are more pronounced between individual typical assemblages. 
 The two smallest typical assemblage were from the high-altitude calcareous/ mixed rivers (RT15) of BRT20 with ten taxa and the Mediterranean Region of BGR with eleven. 
-The two largest typical assemblages were both from types of Illies' freshwater ecoregions: Ireland and Northern Ireland as well as England with 66 and 62 taxa respectively. 
+The two largest typical assemblages were both from types of Illies' freshwater ecoregions: Ireland and Northern Ireland as well as England with 66 and 62 taxa, respectively. 
 Note that the two types were also similar to one another and were combined for the non-redundant typical assemblages. 
 
 ```{r fig-redundancy, fig.cap="Similarity between typical assemblages for five freshwater typologies. The colored dots are similarities between two types and the violins represent their frequency distributions. The bigger black dots are the arithmetic means."}
@@ -79,12 +78,12 @@ redundancy_plot
 
 The number of taxa across typical assemblages of a typology varied considerably between typologies. The typical assemblages included `r ta.perc.brt12` of taxa for BRT12, `r ta.perc.brt20` for BRT20, `r ta.perc.gloric` for GloRiC, `r ta.perc.illies` for Illies and `r ta.perc.bgr` for BGR. 
 On average, taxa occurred in `r ta.mu.occ$rt1` typical assemblages in BRT12, `r ta.mu.occ$rt2` in BRT20, `r ta.mu.occ$glo` in GloRiC, `r ta.mu.occ$ill` in Illies and `r ta.mu.occ$bgr` in BGR.
-The two taxa that occurred in the most typical assemblages were both families: Chironomidae (49 of 56 typical assemblages) and Simuliidae (40). 
+The two taxa that occurred most frequently in typical assemblages were both families: Chironomidae (49 of 56 typical assemblages) and Simuliidae (40). 
 The most common genera were the mayfly Baetis (38), the caddisfly Hydropsyche (37) and the gammarid Gammarus (35). 
 The most common species were two mayflies *Serratella ignita* (34) and *Baetis rhodani* (14).
 
 Based on these typical assemblages, we found redundant types in all typologies except for BGR.
-In BRT12, we combined the river types 2, 3, 4, 5, 6 and 7 which include very small to large lowland rivers as well as calcareous mid-altitude rivers. We also combined the two river types 8 and 9 - siliceous mid-altitude rivers.
+In BRT12, we combined the river types 2, 3, 4, 5, 6 and 7, which include very small to large lowland rivers as well as calcareous mid-altitude rivers. We also combined the two river types 8 and 9 - siliceous mid-altitude rivers.
 In BRT20, we found the river types 8, 9 and 16 (mid-altitude siliceous and glacial rivers) to be redundant.
 In addition, we combined the river types 2, 3, 4, 5, 10 and 11. 
 They represent very small to large lowland rivers and mid-altitude calcareous and mixed rivers. 

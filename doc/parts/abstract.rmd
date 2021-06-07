@@ -21,17 +21,17 @@
 Human actions are altering the composition and functioning of ecological communities globally. 
 This transformation is especially rapid and intensive in freshwater ecosystems. 
 Comprehensive and international regulatory frameworks are necessary to slow down and halt the current loss of freshwater biodiversity. 
-These regulatory frameworks, such as the Water Framework Directive (WFD), typically reduce the inherent complexity of freshwater ecosystems through classification systems that use selected features to classify them into a typology. 
-A recently proposed pan-European typology for freshwater systems (BRT) has unified the assortment of existing national typologies but lacks biological validation. 
+These regulatory frameworks, such as the Water Framework Directive (WFD), typically reduce the inherent complexity of freshwater ecosystems through classification systems that use selected features to derive a typology. 
+A recently proposed pan-European typology for lotic freshwater systems (broad river types, BRT) has unified the assortment of existing national typologies but lacks biological validation. 
 <!-- CONFRONTATION --> 
 Using cluster validity analyses, we evaluated whether freshwater macroinvertebrate communities are more similar within then among the BRT river types. 
-To compare the typology's performance, we conducted the same analyses with three additional freshwater typologies.
-In addition, we derived lists of taxa that typically occur within the types of each typology and evaluated their similarities. 
-Using the assayed typologies as surrogates, we also compared two fundamentally different approaches to classifying rivers: reach-based and region-based typologies.   
+In addition, we compared the performance to delineate assemblages to three other freshwater typologies.
+Moreover, we derived lists of taxa that typically occur within the types of each typology and evaluated their similarities.
+Finaly, we also compared two fundamentally different approaches to classifying rivers: reach-based and region-based typologies.   
 <!-- RESOLUTION --> 
 Though performance differed between validity metrics, the BRT typology rarely ranked among the best.
 This was confirmed by our finding that, macroinvertebrate faunas of different BRT types were more similar to each other than in alternative typologies. 
-Overall, regional typologies achieved better scores than those based on river reaches.
+Overall, regional typologies achieved better scores than those based on reaches.
 However, all typologies failed to achieve high cluster validity scores.
 <!-- EPILOGIE -->
 Our findings indicate that superior alternatives to the new pan-European rivers typology already exist but also that none reliably delineate demarcations between internally homogeneous macroinvertebrate reference communities. 
