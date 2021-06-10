@@ -3,7 +3,6 @@
 # ---------------------------------------- #
 
 # --------------- #
-# date:  11.05..21
 # files out:
 #               <- 07_indicator_list.rds | list of indicators 
 # calls scripts: 
@@ -12,18 +11,16 @@
 #               -> 07_d_redundancy.R
 #               -> 07_f_make_ta_lists.R
 #               -> 07_g_ta_table.R
-# Project:
-#               Evaluating European Broad River Types for Macroinvertebrates
 # Purpose: 
 #               Derive typical assemblages  
 # --------------- #
 
 
 # setup -------------------------------------------------------------------
-#source("R/setup_combined_inv.R")
 library(data.table)
 library(dplyr)
 library(magrittr)
+
 # load data  --------------------------------------------------------------
 ls_mzb = readRDS("data/06_sxs_list_all_typologies.rds")
 
@@ -68,28 +65,3 @@ source("R/helper/07_d_redundancy.R")
 source(file.path("R/helper/07_g_ta_table.R"))
 saveRDS(dt_mzb_list, "data/21_brt12_ta_non-redundant.rds")
 xlsx::write.xlsx2(excel_table, "data/22_brt12_ta_non-redundant.xlsx")
-
-
-
-# # sensitivity analysis -----------------------------------------------------
-#source(file.path(dir$rs, "07_e_sensitivity_analysis.R"))
-
-# # make lists -----------------------------------------------------
-#source(file.path(dir$hlp, "07_f_make_ta_lists.R"))
-
-#make table for paper----------------------------------------------------------------------------------------------------------------------------------------------
-source(file.path(dir$hlp, "07_g_ta_table.R"))
-
-
-## -- save plot to file 
-# setEPS()                                             # Set postscript arguments
-# postscript("fig/ta_redundancies/glroic_round6.eps")                           # Start graphics device driver
-# corrplot::corrplot(ma_redundnat, 
-#                    method = "number", 
-#                    is.corr = FALSE, 
-#                    #order = "FPC", 
-#                    #diag = F, 
-#                    #type = "lower", 
-#                    tl.cex = .7,
-#                    number.cex = 0.6)                                  # Create plot
-# dev.off()   

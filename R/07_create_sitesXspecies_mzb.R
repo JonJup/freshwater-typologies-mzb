@@ -3,25 +3,20 @@
 # ----------------------------------------- #
 
 # --------------- #
-# date:  11.05.21
 # files in 
 #               -> 05_final_taxon.rds         | macroinvertebrates at optimal resolution 
 # files out
-#               <- 06_sxs_list.RDS          | taxa  X sites table    
+#               <- 06_sxs_list.RDS           | taxa  X sites table    
 #               <- 06_sxs_genus.RDS          | genus  X sites table    
-# Project:
-#               Evaluating European Broad River Types for Macroinvertebrates 
 # Purpose:
 #               Create species X sites table 
 # --------------- #
 
 # 01. Setup  --------------------------------------------------------------
-#source("R/setup_combined_inv.R")
 pacman::p_load(
     data.table, 
     fuzzySim,
     purrr, 
-    
     dplyr, 
     magrittr,
     stringr
@@ -126,4 +121,4 @@ for (i in 1:5) sxg[[i]] <- sxg[[i]][ls_rt$gen2[[i]], on = "gr_sample_id"]
 # 08. Save data to file ---------------------------------------------------
 saveRDS(dt_genus, "data/05_final_taxon_genus_all_typologies.rds")
 saveRDS(ls_mzb,   "data/06_sxs_list_all_typologies.rds")
-saveRDS(sxg,     "data/06_sxs_genus_all_typologies.rds")
+saveRDS(sxg,      "data/06_sxs_genus_all_typologies.rds")

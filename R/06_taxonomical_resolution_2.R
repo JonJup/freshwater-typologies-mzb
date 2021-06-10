@@ -3,14 +3,12 @@
 # ----------------------------------- #
 
 # --------------- #
-# date:  17.03.21
 # files in 
-        #-> 03_data_low_impact.rds         | macroinvertebrate observations from reference sites 
-        #-> 04_taxon_resolution_list.rds   | percent of taxa that are represented at different levels 
+        #-> 04_invertebrates_w_typologies.rds             | macroinvertebrate observations from reference sites 
+        #-> 04_taxon_resolution_list_all_typologies.rds   | percent of taxa that are represented at different levels 
 # files out
         #<- 04_taxon_resolution_list.rds
-# Evaluating European Broad River Types for Macroinvertebrates 
-# 1. some more taxonomic cleaning 
+#  more taxonomic cleaning 
 # --------------- #
 
 # Setup -------------------------------------------------------------------
