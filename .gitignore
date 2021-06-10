@@ -40,7 +40,8 @@ vignettes/*.pdf
 
 # folders
 data/
-data_
+fig/
+doc/
 Rmd/
 figures/
 doc/feedback/
