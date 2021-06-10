@@ -7,9 +7,9 @@
 # date:  
 #       07.05.21
 # files in 
-#       -> 03_data_low_impact.rds   | macroinvertebrate observations from reference sites 
+#       -> 04_invertebrates_w_typologies.rds   | macroinvertebrate observations from least impacted sites with all typologies 
 # files out
-#       <- 04_taxon_resolution_list_brt12.rds
+#       <- 05_taxon_resolution_list_brt12.rds
 # Project:
 #       Evaluating European Broad River Types for Macroinvertebrates 
 # Purpose: 
@@ -17,14 +17,21 @@
 # --------------- #
 
 # # Setup -------------------------------------------------------------------
-source("R/setup_combined_inv.R")
-rm(fill_season, plot_list, prepare_plot, subset_with_sites)
-gc()
+pacman::p_load(
+        data.table,
+        magrittr,
+        dplyr,
+        sf
+)
+
 # load data ---------------------------------------------------------------
 set_all = readRDS("data/04_invertebrates_w_typologies.rds")
 set_all[order == "Plagiorchiida",  `:=`  (subclass = NA, class = "Rhabditophora", phylum = "Platyhelminthes")]
+
 # prepare data ------------------------------------------------------------------
+
 ## -- reduce to adequately represented river types
+
 brt20_acc    = paste0("RT", c(1,2,3,4,5,8,9, 10, 11, 14, 15, 16, 18))
 brt12_acc    = paste0("RT", c(1,2,3, 4, 5, 6, 7, 8, 9, 10))
 set_all = set_all[brt12 %in% brt12_acc & brt20 %in% brt20_acc]
@@ -463,4 +470,4 @@ for(typ in 1:5){
 
 # Save to file  -----------------------------------------------------------
 
-saveRDS(lvl_data, "data/04_taxon_resolution_list_all_typologies.rds")
+saveRDS(lvl_data, "data/05_taxon_resolution_list_all_typologies.rds")

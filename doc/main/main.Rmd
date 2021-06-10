@@ -141,8 +141,8 @@ library(cowplot)
 complete_data     <- readRDS("data/01_all_mzb_combined.rds")
 distannce_removed <- readRDS("data/02_data_close.rds")
 impact            <- readRDS("data/03_data_low_impact.rds")
-genus_data        <- readRDS("data/06_sxs_genus.RDS")
-all_data          <- readRDS("data/06_sxs_list_all_typologies.rds")
+genus_data        <- readRDS("data/07_sxs_genus_all_typologies.rds")
+all_data          <- readRDS("data/07_sxs_list_all_typologies.rds")
 ```
 
 # Corresponding Author {-} 

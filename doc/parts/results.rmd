@@ -4,10 +4,6 @@
 source("doc/scripts/prepare_cluster_evaluation.R")
 ```
 
-```{r results prepare indval}
-#source("doc/scripts/results_indval.R")
-```
-
 ```{r results prepare TA}
 source("doc/scripts/results_ta.R")
 ```
@@ -16,14 +12,6 @@ source("doc/scripts/results_ta.R")
 source("doc/scripts/redundancy_plot.R")
 ```
 
-
-```{r}
-# cmn_t_1 = paste(round(cmn_a_1/n_sites,3)*100, "%")
-# cmn_t_2 = paste(round(cmn_a_2/n_sites,3)*100, "%")
-# cmn_t_3 = paste(round(cmn_a_3/n_sites,3)*100, "%")
-# cmn_t_4 = paste(round(cmn_a_4/n_sites,3)*100, "%")
-# cmn_t_5 = paste(round(cmn_a_5/n_sites,3)*100, "%")
-```
 
 ## Comparison of classifications 
 <!-- Overview over results --> 

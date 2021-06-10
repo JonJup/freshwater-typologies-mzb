@@ -4,10 +4,10 @@
 
 # --------------- #
 # files in 
-#               -> 05_final_taxon.rds         | macroinvertebrates at optimal resolution 
+#               -> 06_final_taxon_all_typologies.rds         | macroinvertebrates at optimal resolution 
 # files out
-#               <- 06_sxs_list.RDS           | taxa  X sites table    
-#               <- 06_sxs_genus.RDS          | genus  X sites table    
+#               <- 07_sxs_list.RDS           | taxa  X sites table    
+#               <- 07_sxs_genus.RDS          | genus  X sites table    
 # Purpose:
 #               Create species X sites table 
 # --------------- #
@@ -24,7 +24,7 @@ pacman::p_load(
 
 # read in and prepare data ------------------------------------------------
 ## -- load data 
-dt_mzb  = readRDS("data/05_final_taxon_all_typologies.rds")
+dt_mzb  = readRDS("data/06_final_taxon_all_typologies.rds")
 
 ## -- trim names
 dt_mzb %<>% map(.f = ~ .x[, final_taxon := str_trim(final_taxon, side = "both")])
@@ -119,6 +119,6 @@ for (i in 1:5) sxg[[i]] <- sxg[[i]][ls_rt$gen2[[i]], on = "gr_sample_id"]
 
 
 # 08. Save data to file ---------------------------------------------------
-saveRDS(dt_genus, "data/05_final_taxon_genus_all_typologies.rds")
-saveRDS(ls_mzb,   "data/06_sxs_list_all_typologies.rds")
-saveRDS(sxg,      "data/06_sxs_genus_all_typologies.rds")
+saveRDS(dt_genus, "data/06_final_taxon_genus_all_typologies.rds")
+saveRDS(ls_mzb,   "data/07_sxs_list_all_typologies.rds")
+saveRDS(sxg,      "data/07_sxs_genus_all_typologies.rds")

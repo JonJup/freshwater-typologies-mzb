@@ -14,7 +14,13 @@
 # --------------- #
 
 # Setup ----------------------------------------------------------------
-source("R/setup_combined_inv.R")
+pacman::p_load(
+        data.table, dplyr, sf
+)
+
+dir <- list()
+## -- enter directory of broad river types shape file 
+dir$ls = 
 
 # load data  -----------------------------------------------------------
 sf_river = st_read(file.path(dir$ls, "m_river_fec_broad_type.shp"))

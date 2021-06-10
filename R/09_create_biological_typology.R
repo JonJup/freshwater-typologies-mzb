@@ -1,34 +1,82 @@
 ### -------------------------------------------- ###
 ### --- Clustering of Macroinvertebrate data --- ### 
-### --- Only flexible beta                   --- ### 
 ### -------------------------------------------- ###
 
 # --------------- #
-# date:  
-#       04.05.21
 # files in:  
-#       sxs_genus_typology_wo_bio.rds
+#       <- sxs_genus_typology_wo_bio.rds
 # files out:
-#      sxs_genus_typology_w_bio_beta.rds
-# Project:
-#         Evaluating European Broad River Types for Macroinvertebrates
+#      -> sxs_genus_typology_w_bio_beta.rds
 # Purpose:
-#       Find the optimal clustering of the biological data 
+#       find the optimal number of clusters for the biological data 
 # --------------- #
 
 # setup -----------------------------------------------
 setwd(here::here())
-source("R/setup.R")
-source("~/my documents/R/functions/cc2.R")
-source("~/my documents/R/functions/eval_cluster_fun.R")
+pacman::p_load(
+        cluster, 
+        data.table,
+        dplyr,
+        fpc,
+        ggplot2, 
+        magrittr
+)
+# functions -------------------------------------------------------------------------
+
+cc2 = function(x) {
+        
+        beta_vec = c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9)
+        list_name = names(ls_clust)[x]
+        base1 = 1
+        #base2 = grep(gsub(x=list_name, "^.*-", replacement = ""), methods)
+        
+        ft = tibble("distance" = dist_vec[[base1]], 
+                    "cophenetic" = as.vector(ls_coph[[x]]))
+        correlation = cor(ft)[2] %>% round(2)
+        
+        ft_sub = sample(1:nrow(ft), 3000)
+        ft_sub = ft[ft_sub, ]
+        
+        cophcor = ggplot(ft_sub, aes(x=distance,y=cophenetic)) + 
+                geom_point(alpha = 1, size = 0.1) + 
+                geom_smooth(se = FALSE) + 
+                geom_smooth(se = FALSE, method = "lm", col = "goldenrod2", linetype = 2) + 
+                ggtitle(label = paste("beta = ", beta_vec[i], ": ", correlation)) + 
+                theme(axis.title.x = element_blank(), axis.title.y = element_blank(), 
+                      panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(), 
+                      axis.ticks = element_blank(), 
+                      axis.text = element_blank(), 
+                      title =element_text(size=8))
+        return(cophcor)
+}
+
+internal_cluster_fun = function(y, di){
+        cs = cluster.stats(d = data_dist[[1]], clustering = y)
+        cs = as.data.table(cs)
+        cs[, cluster_size_range := max(cs$cluster.size) - min(cs$cluster.size)]
+        cs = cs[1,]
+        options(warn = -1)
+        cs[, c("cluster.size", "min.cluster.size", "noisen", "diameter", "average.distance", 
+               "median.distance", "separation", "average.toother", "separation.matrix.V1", "separation.matrix.V2",
+               "separation.matrix.V3", "separation.matrix.V4", "separation.matrix.V5", "ave.between.matrix.V1", 
+               "ave.between.matrix.V2", "ave.between.matrix.V3", "ave.between.matrix.V4", "ave.between.matrix.V5",
+               "clus.avg.silwidths", "ave.between.matrix", "separation.matrix", "vi", "corrected.rand", "g3", "g2") := NULL]
+        options(warn = 1)
+        return(cs)
+}
+eval_cluster_fun = function(cl, cut) {
+        lcc = lapply(cl, cutree, k = cut)
+        ls_clust_sum = lapply(lcc, internal_cluster_fun)
+        return(ls_clust_sum)
+}
+
+
 # load data -------------------------------------------
 data = readRDS("data/06_sxs_genus.RDS")
 
 # prepare data ----------------------------------------
 
-## ---------------------- ## 
-## -- remove rare taxa -- ## 
-## ---------------------- ## 
 ## -- remove all taxa that occur in less than 5 samples 
 rare = which(colSums(data[,-c(1,2)])<5) + 2
 rare = names(rare)
@@ -49,182 +97,63 @@ data_dist = lapply(c("binary"), function(arg) parallelDist(x = data_ot, method =
 
 # compute clusters --------------------------------------------
 
-## -- these loops keep running into problems. I will start by hand. 
-# beta_clust_1 = agnes(x = data_dist[[1]], 
-#                      method = "flexible",
-#                      par.method = 0.625)
-# beta_clust_1_h = as.hclust(beta_clust_1)
-# 
-# 
-# ls_clust = list(beta_clust_1_h
-#                 )
-
-#saveRDS(ls_clust, "data/temp/beta_clusters_210515.rds")
-ls_clust = readRDS("data/temp/beta_clusters_210515.rds")
+beta_clust_1 = agnes(x = data_dist[[1]],
+                     method = "flexible",
+                     par.method = 0.625)
+beta_clust_1_h = as.hclust(beta_clust_1)
+ls_clust = list(beta_clust_1_h)
 
 # Copheneitc correlation plots  -------------------------------------------
-ls_coph = map(.x = ls_clust,.f = cophenetic)
+ls_coph = map(.x = ls_clust, .f = cophenetic)
 dist_vec = lapply(data_dist, as.vector)
 ls_plot = list()
-for (i in 1:length(ls_clust))  ls_plot[[i]] = cc2(i)
+for (i in 1:length(ls_clust))
+        ls_plot[[i]] = cc2(i)
 gg_coll = do.call(grid.arrange, ls_plot)
-ggsave(plot = gg_coll, 
-       filename = "fig/cluster_eval/cophenetic_distances_beta.png",
-       height = 6.85, 
-       width = 5.88, 
-       units = "in")
-ggsave(plot = gg_coll, 
-       filename = "fig/cluster_eval/cophenetic_distances_beta.eps",
-       height = 6.85, 
-       width = 5.88, 
-       units = "in")
-rm(ls_coph)
+ggsave(
+        plot = gg_coll,
+        filename = "fig/cluster_eval/cophenetic_distances_beta.png",
+        height = 6.85,
+        width = 5.88,
+        units = "in"
+)
+ggsave(
+        plot = gg_coll,
+        filename = "fig/cluster_eval/cophenetic_distances_beta.eps",
+        height = 6.85,
+        width = 5.88,
+        units = "in"
+)
+rm(ls_coph,i, ntc, beta_vec, dir, append_list, gen_mean, dist_vec)
 gc()
 
 # summary statistics ------------------------------------------------------
-rm(i, ntc, beta_vec, dir, append_list, gen_mean, dist_vec)
-gc()
 
+## -- compute quality metrics for all clusterings with between 4 and 30 clusters 
 ls_clust_eval <- lapply(4:30, 
                         function(x) eval_cluster_fun(cl = ls_clust, 
                                                      cut = x))
 
-
-
-
-
-
-
-saveRDS(ls_clust_eval, "data/temp/ls_clust_eval_210531.rds")
-ls_clust_eval <- readRDS("data/temp/ls_clust_eval_210515.rds")
-gc()
-
-ls_clust = vector(mode = "list", length = 1)
-# ## -- loop over clusterings (i.e. beta parameters)
-# hold_sw <- vector(mode = "list", length = length(ls_clust))
-# for (i in seq_along(ls_clust)){
-#         lpi_clust = ls_clust[[i]]
-#         lpi_hold_sw <- vector(mode = "list", length = 21)
-#         for (j in 5:25){
-#                 lpj_lcc = cutree(lpi_clust, k = j)
-#                 lpj_sw = silhouette(x = lpj_lcc, dist = data_dist[[1]])
-#                 lpj_sw = data.table(
-#                         cluster = lpj_sw[, 1],
-#                         neighbour = lpj_sw[, 2],
-#                         silhouette_width = lpj_sw[, 3],
-#                         beta = i,
-#                         groups = j
-#                 )
-#                 lpi_hold_sw[[j]] <- lpj_sw
-#                 rm(list = ls()[grepl(x = ls(), pattern = "^lpj_")])
-#                 print(paste(" -- j = ", j, " -- "))
-#                 rm(j)
-#                 gc()
-#         }
-#         hold_sw[[i]] <- rbindlist(lpi_hold_sw)
-#         rm(list = ls()[grepl(x = ls(), pattern = "^lpi_")])
-#         print(paste("i = ", i))
-#         rm(i)
-#         gc()
-# }
-# beepr::beep(
-# )
-
-# hold_sw2 <- rbindlist(hold_sw)
-# 
-# hold_sw2 %>% 
-#         mutate(beta = factor(beta)) %>% 
-#         group_by(groups, beta) %>% 
-#         summarize(mean = mean(silhouette_width),
-#                   sd   = sd(silhouette_width)) %>% 
-#         ggplot(aes(y=mean, x = groups, col = beta)) + 
-#         geom_point() + 
-#         geom_line()
-# 
-# hold_sw2 %>% 
-#         mutate(cluster = factor(cluster)) %>% 
-#         filter(beta == 5) %>%  
-#         ggplot(aes(y = silhouette_width, x = cluster, col = cluster)) + 
-#         geom_jitter() + 
-#         geom_hline(yintercept = 0) + 
-#         facet_wrap(.~groups)
-# 
-# ## -- Entropy
-# my_entropy_fun = function(x, b, g){
-#         counts <- 
-#                 filter(x, beta == b, groups == g) %>% 
-#                 group_by(cluster) %>% 
-#                 count() 
-#         total <- sum(counts$n)
-#         counts %<>% 
-#                 mutate(rel_n = n/total) %>% 
-#                 mutate(entropy = rel_n * log(rel_n))
-#         entropy = - sum(counts$entropy)
-#         out = data.table(beta = b, groups = g, entropy = entropy)
-#         out        
-# }
-# 
-# l1 = vector(mode = "list", length = 2)
-# for (i in 1:9){
-#         l2 = vector(mode = "list", length = 21)
-#         for(j in 5:25){
-#                 l2[[j]] <-
-#                         my_entropy_fun(x = hold_sw2,
-#                                        b = i,
-#                                        g = j)
-#         }
-#         l2 = rbindlist(l2)
-#         l1[[i]] = l2
-# } 
-# test = rbindlist(l1)
-# test %<>% mutate(beta = factor(beta))
-# test %>% 
-#         ggplot(aes(x = groups, y = entropy, col = beta)) + 
-#         geom_point(size = .2) + 
-#         geom_smooth(se = FALSE)
-# 
-# 
-
-
+## -- reshape results 
 ls_clust2 = flatten(ls_clust_eval)
 ls_clust2 = rbindlist(ls_clust2, fill = TRUE)
-dt_eval = ls_clust2
-# dt_eval = dt_eval[,c(1:20)]
-# dt_eval[, cluster := c(names(ls_clust2))]
-# dt_eval[, cluster_algorithm := sub(pattern = "^.*-", x = cluster, replacement = "")]
-# dt_eval[, distance_metric := sub(pattern = "-.*$", x = cluster, replacement = "")]
-# dt_eval[, distance_metric := ifelse(distance_metric == "bin", "Jaccard", ifelse(distance_metric == "dic", "Dice", "Ochiai"))]
-# dt_eval[, cluster := NULL]
-library(tidyr)
-dt_eval2 = pivot_longer(data=dt_eval,cols=!c("cluster.number"))
-setDT(dt_eval2)
-
-# quicksave ----------------------------------------------------------------
-saveRDS(dt_eval2, "data/temp/dt_eval2_210531.rds")
-# quickload ---------------------------------------------------------------
-#dt_eval2 = readRDS("data/10_bio_cluster_evaluation.rds")
-dt_eval2 = readRDS("data/temp/dt_eval2_210531.rds") 
+dt_eval = pivot_longer(data=ls_clust2,cols=!c("cluster.number"))
+setDT(dt_eval)
 
 # plot ------------------------------------------------------------------------------
 
-dt_eval2 %<>% mutate()
-                                  
-
-saveRDS(dt_eval2, "fig/sm_beta_plot.RDS")
-
-data13 = filter(dt_eval2, 
+data13 = filter(dt_eval, 
                 cluster.number == 9 & 
                         cluster_algorithm == "flexible" & 
                         name %in% c("wb.ratio",
                                     "avg.silwidth",
                                     "entropy",
                                     "ch",
-                                    "sindex") #& 
-                #  distance_metric == "Jaccard"
+                                    "sindex")
                 
 ) 
 
-dt_eval2 %>% 
+dt_eval %>% 
         ##- select cluster algorithm and validity metrics 
         filter(
                 cluster_algorithm == "flexible" &
@@ -234,7 +163,6 @@ dt_eval2 %>%
                                     "ch",
                                     "sindex")
         ) %>% 
-        #filter(distance_metric == "Jaccard") %>% 
         filter(cluster.number > 3) %>% 
         ##- plotting 
         ggplot(aes(x = cluster.number, 
@@ -247,12 +175,6 @@ dt_eval2 %>%
         theme(axis.title.y = element_blank()) + 
         labs(col = "Distance Metric") + 
         xlim(4,30)
-
-
-##- save to plot 
-# landscape
-#ggsave(filename="figures/size_difference.pdf", width =6.85, height = 5.88, unit="in" )
-# average.between = average distance between clusters.
 
 ## -> I decided on dice with 10 groups flexible beta 
 silopt_base =

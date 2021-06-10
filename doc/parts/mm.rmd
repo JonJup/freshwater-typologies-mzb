@@ -26,8 +26,6 @@ data_all_n_fol = ncol(all_data$foh$brt12) - 2
 
 ## Preparation of macroinvertebrate data
 
-<!-- How did we get the data?     -->
-
 <!-- Data curation -->
 We compiled a data set of macroinvertebrate samples from rivers throughout Europe (Table \@ref(tab:tab-impact-criteria)).
 A visual summary of the steps described below is provided in Figure \@ref(fig:fig-workflow).
@@ -315,7 +313,7 @@ As similarity metric, we used the Jaccard similarity.
 When the similarity between type A and type B is 0.5, half of the taxa in type A's typical assemblage also occur in type B's.
 Note that these similarities are asymmetric since they relate to the number of taxa in a typical assemblage. 
 If type B's typical assemblage has more taxa, the similarity between B and A will be lower than that between A and B. 
-<!-- Why do we do this??? -->  
+<!-- Why do we do this ? -->  
 
 Lastly, we derived non-redundant typical assemblages. 
 Two typical assemblages were considered redundant when their similarities exceeded 0.7 both ways.

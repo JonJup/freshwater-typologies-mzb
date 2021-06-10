@@ -7,6 +7,7 @@
 #               -> gloric_v10.RDS        | GloRiC Typology spatial river network (vector) 
 #               -> Ecoregions.shp        | Polygon Shapefile of Illies Ecoregions 
 #               -> BiogeoRegions2016.shp | Polygon Shapefile of EEA Biogeoregions
+#               -> 03_data_low_impact.rds| least impacted macroinvertebrate observations
 # files out:  
 #               <- 04_invertebrates_w_typologies.rds
 # Purpose: 
@@ -14,7 +15,15 @@
 # --------------- #
 
 # setup ---------------------------------------------------------------------------------------------------------------------------------------------------
-source("R/setup.R")
+pacman::p_load(
+        data.table, 
+        dplyr,
+        magrittr, 
+        sf,
+        tmap
+        )
+
+# dir is a list with the directories of the respective files. 
 
 # LOAD DATA -----------------------------------------------------------------------------------------------------------------------------------------------
 

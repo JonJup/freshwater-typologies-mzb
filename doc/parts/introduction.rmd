@@ -95,17 +95,7 @@ reliable type-specific reference conditions can be established, e.g. due
 to high natural variability, a river type might be excluded from the
 status assessment [@EuropeanCommission2000].
 
-```{=html}
-<!--
-Until now, it has not been evaluated, whether biological assemblages at least-impacted sites differ between the proposed broad river types and whether they are homogeneous within them.
-While this is generally among the most important considerations when creating a typology [@Melles2014], it is especially important for the WFD because it relies on the reference condition approach.
-In this approach, a site's ecological status is evaluated by comparing it with that of least-impacted reference sites within the same river type [@resh1993freshwater; @wright2000assessing].
-The larger the difference between the reference and the test site, the worse the assessment.
-Therefore, the spatial stability of reference states is crucial to the validity of this approach [@Statzner2001].
-The typology of @LycheSolheim2019 largely follows the System A approach of the WFD in which ecoregion, altitude, geology and catchment size are used to classify river segments. 
-Earlier studies [e.g. @Verdonschot2006b] suggest that other variables might be more strongly related to the distribution of different taxa and @Borgwardt2019 showed that one of the proposed categories (BRT1-Very Large rivers) could be further divided into seven different types with distinct assemblages of benthic invertebrates.
--->
-```
+
 <!-- What we did  -->
 
 Following the BRT-typology, we classified observations from a data set
@@ -123,23 +113,4 @@ applications is the main purpose of freshwater typologies, reach-based
 typologies need to have better classification performance to legitimate
 their added complexity.
 
-```{=html}
-<!-- 
-We evaluate whether assemblages of freshwater macroinvertebrates at
-least-impacted sites follow the typology proposed by @LycheSolheim2019.
-To this end, we evaluate its merits as a classification of sampling
-sites and compare it to other freshwater typologies based on cluster
-validity criteria. Additionally, we provide lists of very common
-(henceforth typical) and indicator taxa for the individual broad river
-types. The difference between the two categories is that good indicators
-are often rare species [@chytry2002determination; @tichy2006statistical;
-@Caceres2009] which are not well suited to describe reference states.
-Thus, while the indicator taxa are indicative of a river type the
-typical taxa are closer to what one might reasonably expect to find
-within a sample from the river type. Note that @LycheSolheim2019 first
-derived 20 BRTs and then reduced them to 12 by combining several river
-types with few realizations. As previous publications have used both
-(e.g. @Posthuma2020 used BRT12 and @Poikane2019 used BRT20) we will
-consider both in the following.
--->
-```
+

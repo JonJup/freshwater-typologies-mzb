@@ -3,8 +3,10 @@
 # ---------------------------------------- #
 
 # --------------- #
+# files in 
+#               -> 07_sxs_list_all_typologies.rds
 # files out:
-#               <- 07_indicator_list.rds | list of indicators 
+#               <- 08_indicator_list.rds | list of indicators 
 # calls scripts: 
 #               -> 07_b_compute_indvals.R
 #               -> 07_c_setup_ta_analysis.R
@@ -56,10 +58,6 @@ source("R/helper/07_c_setup_ta_analysis.R")
 
 # redundancy analysis -----------------------------------------------------
 source("R/helper/07_d_redundancy.R")
-
-
-# save similarities -----------------------------------------------------------------
-#saveRDS(ma_redundnat, "data/20_bgr_redundancy.rds")
 
 # lists of typical taxa -------------------------------------------------------------
 source(file.path("R/helper/07_g_ta_table.R"))

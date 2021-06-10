@@ -5,8 +5,8 @@
 # --------------- #
 # files in 
         #-> reduced_clc.RDS   | Corine land cover of CCM2 catchments;
-        #-> 02_data_close.RDS | data close to rivers 
-# files out
+        #-> 02_data_close.RDS | macroinvertebrate observations close to rivers in BRT shapefile 
+# files out 
         #<- 03_data_low_impact.rds
 # Purpose: 
 #       1. add CCM catchment ID (WSO) to sites
@@ -16,8 +16,16 @@
 # --------------- #
 
 # Setup -------------------------------------------------------------------
-source("R/setup_combined_inv.R")
+pacman::p_load(
+        data.table, dplyr, sf,
+)
 
+dir <- list()
+## -- directory of CCM2 catchments 
+dir$cat <- 
+## -- directory of corine land cover 
+dir$clc <- 
+        
 # Load data ---------------------------------------------------------------
 cat       <- st_read(file.path(dir$ccm, "2019-06-05_allGRcountires_WGS84.gpkg"))
 mzb       <- readRDS("data/02_data_close.RDS")       

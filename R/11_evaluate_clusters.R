@@ -3,30 +3,91 @@
 ### --------------------------------------------- ###
 
 # --------------- #
-# date:   
-#               22.03.21
 # files in:  
-#               -> 11_sxs_genus_W_bio_typology.rds
-#               -> 12_sxs_genus_typology_wo_bio.rds
+#               -> 08_sxs_genus_W_bio_typology.rds
+#               -> 09_sxs_genus_typology_wo_bio.rds
 # files out:  
-#               <- 13_class_eval_mzb.rds
-# Project: 
-#               Evaluating European Broad River Types for Macroinvertebrates 
+#               <- 10_class_eval_mzb.rds
 # Purpose: 
 #               Compute cluster metrics for the different typologies.   
 # --------------- #
 
 # setup ---------------------------------------------------------------------------------------------------------------------------------------------------
-source("R/setup.R")
-## -- functions 
-# - for generalized silhouette width
-source("~/my documents/R/functions/genmean.R")
-source("~/my documents/R/functions/mdist.R")
-source("~/my documents/R/functions/silgen.R")
-source("~/my documents/R/functions/call_gensil.R")
+pacman::p_load(
+        data.table, 
+        dplyr, 
+        indicspecies, 
+        fpc,
+        future.apply, 
+        magrittr,
+        purrr,
+        sf,
+        tidyr
+)
+
+# functions -------------------------------------------------------------------------
+genmean<-function(x,p)   {
+        x<-x[!is.na(x)]
+        n<-length(x)
+        M<-((1/n)*(sum(x^p)))^(1/p)
+        if(p==-Inf)   M<-min(x)
+        if(p==-1)     M<-(sum(x^-1)/length(x))^-1
+        if(p==0)      {x[x==0]<-1e-10; M<-exp(mean(log(x)))}
+        if(p==Inf)    M<-max(x) 
+        return(M)
+}
+mdist<-function(d,gr,p)  {
+        GR<-unique(gr)
+        k<-length(GR)
+        mean.d<-vector('numeric')
+        for(i in 1:k)   {
+                mean.d[i]<-genmean(d[gr==GR[i]], p=p)
+        }
+        return(mean.d)
+}
+silgen<-function(d,gr,p)   {
+        di<-as.matrix(d)
+        diag(di)<-NA
+        GR<-unique(gr)
+        N<-nrow(di)
+        Do<-matrix(NA, nrow=N, 3)
+        i<-1
+        while(i<=N)   {
+                Dvec<-mdist(d=di[i,],gr=gr,p=p)
+                K<-which(GR==gr[i])
+                if(sum(gr==gr[i])>1) {a<-Dvec[K]
+                }   else  {a<-0}
+                Kx<-which(Dvec==min(Dvec[GR!=gr[i]]))[1]
+                b<-Dvec[Kx]
+                do1<-ifelse(a==0 & b==0,  do1<-0, do1<-(b-a)/max(a,b))
+                Do[i,1]<-do1
+                Do[i,2]<-gr[i]
+                Do[i,3]<-GR[Kx]
+                i<-i+1
+        }
+        colnames(Do)<-c("Width","Original","Neighbour")
+        return(Do)
+}
+call_gensil = function(type, p_v = c(-Inf, -2,-1,1,2,Inf)){
+        gensil_v = vector(mode = "numeric", length = length(p_v))
+        gensil_df = 
+                # compute mean generalized silhouette width for each 
+                # value supplied in p_v
+                map_dbl(.x = 1:length(p_v),
+                        .f = ~ mean(silgen(
+                                d = dt_distance,
+                                gr = type,
+                                p = p_v[.x]
+                        )[, 1])) %>% 
+                # format as tibble 
+                tibble(silhouette = .)  %>% 
+                # add p to table 
+                mutate(p = p_v)
+        return(gensil_df)
+}
 
 # load data  ----------------------------------------------------------------------------------------------------------------------------------------------
-data = readRDS("data/12_sxs_genus_typology_wo_bio.rds")
+data  = readRDS("data/12_sxs_genus_typology_wo_bio.rds")
 data2 = readRDS("data/11_sxs_genus_W_bio_typology.rds")
 
 # join typology with bioclusters  ---------------------------------------------------
@@ -43,30 +104,17 @@ data %<>%
         filter(!gloric %in%  c(17, 22)) %>% 
         filter(!illies %in%  c("Fenno-scandian shield"))  
 
-data %<>%
-        mutate(
-                ls6 =
-                        case_when(
-                                data$ls20 == "RT1"  ~ "RT1",
-                                data$ls20 == "RT14" ~ "RT14",
-                                data$ls20 == "RT18" ~ "RT18",
-                                data$ls20 %in% c("RT4" , "RT5")  ~ "RT4_5",
-                                data$ls20 %in% c("RT15", "RT16") ~ "RT15_16",
-                                data$ls20 %in% paste0("RT", c(2, 3, 8, 9, 10, 11)) ~ "RT2_3_8_9_10_11"
-                        )
-        )
 
 # prepare data  ----------------------------------------------------------------
 ## -- sites x species table as matrix and without typology columns
 setDT(data)
 ma_data = 
         copy(data) %>% 
-        .[, c("gr_sample_id", "ls20", "ls12","ls6", "illies", "eea", "gloric", "bio") := NULL] %>% 
+        .[, c("gr_sample_id", "ls20", "ls12", "illies", "eea", "gloric", "bio") := NULL] %>% 
          as.matrix
 
 ## -- list of classifications - those that are strings are transformed to numbers 
 ls_class = list(
-        ls6    = as.numeric(factor(data$ls6)),
         ls12   = as.numeric(factor(data$ls12)),
         ls20   = as.numeric(factor(data$ls20)),
         gloric = data$gloric,
@@ -78,7 +126,7 @@ ls_class = list(
 dt_distance = parallelDist(ma_data, method = "binary")
 
 # create null classification --------------------------------------------------------
-group_sizes = data[, lapply(.SD, uniqueN), .SDcols = c("ls6","ls12", "ls20", "gloric", "eea", "illies", "bio")]
+group_sizes = data[, lapply(.SD, uniqueN), .SDcols = c("ls12", "ls20", "gloric", "eea", "illies", "bio")]
 
 number_of_typologyies = length(ls_class)
 
@@ -147,7 +195,7 @@ gensil_output = future_lapply(X = 1:length(ls_class),
 #                          .f = ~ call_gensil(ls_class[[.x]]))
 
 gensil_dt = rbindlist(gensil_output)
-typo_names = append (c("brt6", "brt12", "brt20", "gloric", "illies", "eea", "bio"), paste0("null",1:100))
+typo_names = append (c("brt12", "brt20", "gloric", "illies", "eea", "bio"), paste0("null",1:100))
 gensil_dt[, typology := rep(typo_names, each = 6)]
 gensil_dt %<>% 
         mutate(p2 = case_when(p == -Inf ~"min",
@@ -235,11 +283,6 @@ for (i in 0:10){
 ## -- START FROM HERE TO LOAD INDVAL -- ## 
 ## ------------------------------------ ## 
 
-
-
-
-
-
 ## -- list files to load 
 files = dir("data/temp/", pattern = "eval_clust_indval")
 
@@ -308,17 +351,9 @@ indval_statistic = lapply(all_results_indval2, function(x) x[significant == TRUE
 
 
 # combine data  -----------------------------------------------------------
-#eval2 = read_list[[2]]
-eval2[, c(
-       # "partana", 
-       # "isamic",
-        "indval") := .(
-       # unlist(result_partna) ,
-       # unlist(mean_isamic),
-        unlist(indval_statistic)
-)]
+eval2[, indval := unlist(indval_statistic)]
 
-eval2[, typology := c("brt6","brt12", "brt20", "gloric", "illies", "eea", "bio", paste0("null",1:100))]
+eval2[, typology := c("brt12", "brt20", "gloric", "illies", "eea", "bio", paste0("null",1:100))]
 eval2[, max.diameter := NULL]
 eval3 = copy(eval2)
 eval3 %<>% left_join(gensil_dt, 
@@ -361,56 +396,4 @@ eval5[, classification_strength := average.within - average.between]
 eval3$classification_strength = eval5$classification_strength
 
 # save to file ----------------------------------------------------------------------
-saveRDS(eval3, "data/13_class_eval_mzb.rds")
-
-# OLD  ------------------------------------------------------------------------------
-
-## -- HOLMS STEP DOWN TESTING -- ## 
-# Now there are many p-values and associated NHSTs. To control for multiple testing
-# I will use  Holm's step-down multiple testing procedure.
-# How many tests?
-# # extract p-values and save as data.table
-# results_indval2 = all_results_indval
-# results_indval2 %<>% lapply(function(x) setDT(x$sign))
-# # remove NA p-values and add taxon names
-# results_indval2 %<>% lapply(function(x) x[, c("p.value") := nafill(p.value,fill=1)])
-# results_indval2 %<>% lapply(function(x) x[, c("taxon") := rownames(all_results_indval$ls20$B)])
-# # subset table
-# results_indval2 %<>% lapply(function(x) x[, c("p.value", "index", "stat", "taxon")])
-# # order matrix
-# results_indval2 %<>% lapply(function(x)  setorderv(x, "p.value"))
-# # number of NHSTs
-# n_test = nrow(results_indval2$ls20)
-# # Set the desired significance level
-# alpha = 0.05
-# add Holm's p-value thresholds and boolean that indicates whether the permutation p-value is below the new threshold.
-# results_indval2 %<>% lapply(function(x) x[, holms_p := alpha / n_test:1])
-# results_indval2 %<>% lapply(function(x) x[, significant := holms_p > p.value])
-# first_no         = lapply(results_indval2, function(x) which(x$significant == FALSE)[1])
-# significant2     = lapply(first_no, function(x) rep(TRUE, times = x - 1))
-# significant2_2   = lapply(significant2, function(x) rep(FALSE, times = nrow(results_indval2$ls20) - length(x)))
-# significant2     = lapply(1:length(ls_class), function(a) append_list(x = significant2, y = significant2_2, i = a))
-# results_indval2  = lapply(1:length(ls_class), function(x) results_indval2[[x]][, significant := significant2[[x]]])
-# indval_statistic = lapply(results_indval2, function(x) x[significant == TRUE, sum(stat)/ncol(ma_data)])
-
-## -- version without accounting for multiple testing 
-# results_indval2 %<>% lapply(function(x) x[, significant := 0.01 >= p.value])
-# first_no         = lapply(results_indval2, function(x) which(x$significant == FALSE)[1])
-# significant2     = lapply(first_no, function(x) rep(TRUE, times = x - 1))
-# significant2_2   = lapply(significant2, function(x) rep(FALSE, times = nrow(results_indval2$ls20) - length(x)))
-# significant2     = lapply(1:length(ls_class), function(a) append_list(x = significant2, y = significant2_2, i = a))
-# results_indval2  = lapply(1:length(ls_class), function(x) results_indval2[[x]][, significant := significant2[[x]]])
-# indval_statistic = lapply(results_indval2, function(x) x[significant == TRUE, sum(stat)/ncol(ma_data)])
-
-# # ISAMIC ------------------------------------------------------------------
-# result_isamic = lapply(ls_class,
-#                        function(x) isamic(comm = ma_data,
-#                                           clustering = x)
-#                        )
-# mean_isamic = lapply(result_isamic, mean)
-# 
-# # Partana  ----------------------------------------------------------------
-# result_partna = lapply(ls_class, 
-#                        function(x) partana(c = x, 
-#                                            dist = dt_distance)$ratio
-#                        )
+saveRDS(eval3, "data/10_class_eval_mzb.rds")

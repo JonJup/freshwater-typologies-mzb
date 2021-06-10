@@ -8,15 +8,15 @@
 # data =  readRDS("data/08_typical_assemblages.rds")
 # data2 = readRDS("data/07_indicator_list.rds")
 
-ta.rt1 <- "data/21_brt12_ta_complete.rds" %>% readRDS %>% unlist
+ta.rt1 <- "data/typical_assemblages/21_brt12_ta_complete.rds" %>% readRDS %>% unlist
 ta.rt1 <- data.table(taxon = ta.rt1, type  = str_remove(names(ta.rt1), "\\..*"), typology = "BRT12")
-ta.rt2 <- "data/21_brt20_ta_complete.rds" %>% readRDS %>% unlist
+ta.rt2 <- "data/typical_assemblages/21_brt20_ta_complete.rds" %>% readRDS %>% unlist
 ta.rt2 <- data.table(taxon = ta.rt2, type  = str_remove(names(ta.rt2), "\\..*"), typology = "BRT20")
-ta.glo <- "data/21_gloric_ta_complete.rds" %>% readRDS %>% unlist
+ta.glo <- "data/typical_assemblages/21_gloric_ta_complete.rds" %>% readRDS %>% unlist
 ta.glo <- data.table(taxon = ta.glo, type  = str_remove(names(ta.glo), "\\..*"), typology = "GloRiC")
-ta.ill <- "data/21_illies_ta_complete.rds" %>% readRDS %>% unlist
+ta.ill <- "data/typical_assemblages/21_illies_ta_complete.rds" %>% readRDS %>% unlist
 ta.ill <- data.table(taxon = ta.ill, type  = str_remove(names(ta.ill), "\\..*"), typology = "Illies")
-ta.bgr <- "data/21_bgr_ta_complete.rds" %>% readRDS %>% unlist
+ta.bgr <- "data/typical_assemblages/21_bgr_ta_complete.rds" %>% readRDS %>% unlist
 ta.bgr <- data.table(taxon = ta.bgr, type  = str_remove(names(ta.bgr), "\\..*"), typology = "BGR")
 
 ta <-

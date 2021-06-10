@@ -3,15 +3,26 @@
 # ---------------------------------------------------- #
 
 # --------------- #
-# date:  10.02.21
-# files in m_river_fec_broad_type.shp, gloric_v10.RDS, Ecoregions.shp, BiogeoRegions2016.shp, sxs_genus.rds
-# files out sxs_genus_typology_wo_bio.rds
-# GetReal WP2 
+# files in 
+#       <- m_river_fec_broad_type.shp
+#       <- gloric_v10.RDS, Ecoregions.shp
+#       <- BiogeoRegions2016.shp
+#       <- sxs_genus.rds
+# files out 
+#       -> sxs_genus_typology_wo_bio.rds
 # assign typologies to macroinvertebrate sampling sites
 # --------------- #
 
 # setup ---------------------------------------------------------------------------------------------------------------------------------------------------
-source("R/setup.R")
+
+pacman::p_load(
+        data.table, 
+        dplyr,
+        sf,
+        magrittr
+)
+
+# dir is a list of directories containing to the respective files. 
 
 # load data -----------------------------------------------------------------------------------------------------------------------------------------------
 # typologies 
@@ -20,8 +31,8 @@ sf_gloric = readRDS(file.path(dir$gloric, "gloric_v10.RDS"))
 sf_illies = st_read(file.path(dir$ecoregions, "Ecoregions.shp"))
 sf_eea    = st_read(file.path(dir$eea, "BiogeoRegions2016.shp"))
 # macroinvertebrates
-data =  readRDS("data/06_sxs_genus.RDS")
-data2 = readRDS("data/05_final_taxon_genus.RDS")
+data =  readRDS("data/07_sxs_genus.RDS")
+data2 = readRDS("data/06_final_taxon_genus.RDS")
 
 # prepare spatial analysis --------------------------------------------------------------------------------------------------------------------------------
 # first we need to check, that there are no empty sites or sites no more than 3 different genera 

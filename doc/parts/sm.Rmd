@@ -67,7 +67,6 @@ sm_beta_eval %>%
   geom_vline(xintercept = 9, lty = 2)
 ```
 
-
 \newpage
 
 ## Cluster validity metrics
@@ -89,7 +88,6 @@ For example, for $p=-\infty$ the silhouette width is the difference between the 
 This perspective excludes outliers and values separation over compactness.
 The weighting shifts towards compactness as we increase $p$.
 
-
 ### Calinski Harabasz Index 
 
 The Calinski-Harabasz Index [CH, @calinski1974dendrite] is computed as $$CH = \dfrac{BGSS}{WGSS} \times \dfrac{n-k}{k-1}$$ where $BGSS$ is the squared sum of distances between group centroids and the overall centroid (between group sum-of-squares), $WGSS$ is sum of squares of distances between observations of one group (within group sum-of-squares), $k$ is the number of clusters. High values indicate that variation within types is smaller than between types. As the second term controls for the degrees of freedom, here determined by the number of clusters, it can be understood as an analog to the F-Statistic. The algorithm assumes Euclidean data but good performance with a similar metric was shown for binary data in the context of fMRI-scans [@Dimitriadou2004].
@@ -108,14 +106,12 @@ We determined statistical significance with 999 permutations and a significance 
 The IndVal score is the fraction of statitically significant taxa X type combinations. 
 A score of 1 would indicate that every taxon tested is a statitically significant indicator for every type and a score of 0 that no taxon is an statistically significant indicator for any type. 
 
-
-
 \newpage
 
 ### Analysed river types/ ecoregions
 
 ```{r tab-types}
-data = readRDS("data/12_sxs_genus_typology_wo_bio.rds")
+data = readRDS("data/09_sxs_genus_typology_wo_bio.rds")
 gloric_unique = data %>% pull("gloric") %>% unique %>% sort
 brt12_unique  = data %>% pull("ls12") %>% unique %>% sort
 brt12_unique = brt12_unique[c(1,4:11,2,3)]
@@ -165,122 +161,5 @@ s1 %>%
         row_spec(0, bold = T) %>% 
         column_spec(column = 1, width = "2cm")
 
-# s1_hux =
-#         s1 %>%
-#         as_hux(add_colnames = TRUE) %>%
-#         set_wrap(TRUE) %>%
-#         set_bold(1, everywhere) %>% 
-#         set_bottom_border(1, everywhere) %>% 
-#         set_width(1) %>% 
-#         set_number_format(0) %>%
-#         set_font_size(7) 
-#         #set_right_border(everywhere, everywhere, brdr(1, "solid", "black")) %>% 
-#         # set_col_width(col = 1, value = .2) %>% 
-#         # set_col_width(col = 2, value = .07) %>% 
-#         # set_col_width(col = 3, value = .08) %>% 
-#         # set_col_width(col = 4, value = .08) %>% 
-#         # set_col_width(col = 5, value = .2) %>% 
-#         # set_col_width(col = 6, value = .2) 
-# caption(s1_hux) = "Types of different typologies that were used in the analyses."
-# s1_hux
 ```
 
-\newpage
-
-
-
-```{r tab-sm-typicals}
-# ta_table = readRDS("data/18_ta_table_for_paper.rds")
-# #ta_table = readRDS("../../data/18_ta_table_for_paper.rds")
-# # sig_id =map(.x = 2:ncol(ta_table),
-# #     .f = ~ str_detect(pull(ta_table[,.x]), "\\*")
-# # )
-# 
-# ta_table %>%
-#         kbl("latex",
-#             longtable = TRUE,
-#             caption = "Typical assemblages. Values give the proportion of sites of broad tiver type where the taxon is present. Combinations for which a taxon is found to be typical are marked with *.",
-#             booktabs = TRUE
-#             ) %>%
-#         kable_styling(
-#                 latex_options = c("hold_position",
-#                                   "repeat_header"),
-#                 full_width = TRUE,
-#                 font_size = 9
-#         ) %>%
-#         row_spec(0, bold = T) 
-```
-
-\newpage
-
-```{r tab-sm-indi}
-# indi = readRDS("data/15_indicator_list_w_non_significant.rds")
-# #indi = readRDS("../../data/15_indicator_list_w_non_significant.rds")
-# names(indi) = paste0("RT", c(1,2,3,4,5,8,9, 10, 11, 14, 15, 16, 18))
-# for (i in 1:length(indi)){
-#                 indi[[i]]$rt = names(indi)[i]
-# }
-# ## - drop empty types 
-# indi2 <- rbindlist(indi)
-# 
-# indi2 %>%
-#         arrange(taxon) %>%
-#         filter(taxon != "Hydracarina") %>% 
-#         mutate(indval = round(indval, 2))  %>% 
-#         mutate(indval_chr = as.character(indval))  %>% 
-#         mutate(indval_chr = case_when(indicator ~ paste0(indval_chr, "*"),
-#                                       !indicator ~ indval_chr))  %>% 
-#         pivot_wider(id_cols = taxon,
-#                     names_from = rt,
-#                     values_from = indval_chr) %>%
-#         relocate(RT3, .before = RT4) %>%
-#         relocate(RT2, .before = RT3) %>%
-#         relocate(RT1, .before = RT2) %>%
-#         relocate(RT8, .before = RT9) %>%
-#         relocate(RT10, .before = RT11) %>% 
-#         mutate(across(!taxon, function(x)ifelse(is.na(x),0,x))) ->
-#         indi3
-# 
-# ## -- which rows contain taxa that are indicative for any stream type 
-# indi3$id = apply(indi3, 1, function(x) any(str_detect(string = x, pattern = "\\*")))
-# 
-# ## -- make kable table 
-# indi3 %>%
-#         ## -- only genera that are indicators
-#         filter(id == TRUE) %>%
-#         ## -- drop id column 
-#         dplyr::select(!id) %>% 
-#         ## -- kbl as wrapper for kable()
-#         kbl(
-#                 format = "latex",
-#                 longtable = TRUE,
-#                 caption = "Indicator scores for all taxon and stream type combination where at least one is statistically                            significant. Statistically significat entries are marked with *.",
-#                 booktabs = TRUE
-#         ) %>%
-#         kable_styling(
-#                 latex_options = c("hold_position",
-#                                   "repeat_header"),
-#                 full_width = TRUE,
-#                 font_size = 7
-#         ) %>% 
-#         row_spec(0, bold = T) %>% 
-#         column_spec(column = 1, width = "4cm")
-```
-
-```{r old hux code typical}
-#ta_table = readRDS("../../data/18_ta_table_for_paper.rds")
-# hux_ta_table = as_huxtable(ta_table)
-# hux_ta_table %<>%
-#         map_background_color(
-#                              fn = by_ranges(breaks = c(0.2),
-#                                             values = c("white", "green"))) %>%
-#         # map_text_color(
-#         #                fn = by_values("1" = "green", "0" = "white")) %>%
-#         set_bold(1, everywhere) %>% 
-#          set_font_size(7) %>% 
-#         set_all_borders(1) %>% 
-#         set_row_height(.0001)
-# hux_l = split_across(hux_ta_table, after = 25)
-# hux_l[[1]]
-# hux_l[[2]]
-```

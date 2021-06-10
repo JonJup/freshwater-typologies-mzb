@@ -5,18 +5,24 @@
 # --------------- #
 # files in 
         #-> 04_invertebrates_w_typologies.rds             | macroinvertebrate observations from reference sites 
-        #-> 04_taxon_resolution_list_all_typologies.rds   | percent of taxa that are represented at different levels 
+        #-> 05_taxon_resolution_list_all_typologies.rds   | percent of taxa that are represented at different levels 
 # files out
-        #<- 04_taxon_resolution_list.rds
+        #<- 06_final_taxon_all_typologies.rds
 #  more taxonomic cleaning 
 # --------------- #
 
 # Setup -------------------------------------------------------------------
-source("R/setup_combined_inv.R")
-rm(fill_season, plot_list, prepare_plot, subset_with_sites)
+pacman::p_load(
+        data.table,
+        magrittr,
+        dplyr,
+        sf
+)
+
+
 # data IO  ----------------------------------------------------------------
 set_all = readRDS("data/04_invertebrates_w_typologies.rds")
-ls_res  = readRDS("data/04_taxon_resolution_list_all_typologies.rds")
+ls_res  = readRDS("data/05_taxon_resolution_list_all_typologies.rds")
 
 ## -- add x and y coordinates as variables to extract unique sites 
 set_all_sf  <- st_as_sf(set_all)
@@ -150,6 +156,6 @@ names(dt_list) = names(list_all2)
 
 
 # save to file ------------------------------------------------------------
-saveRDS(file = "data/05_final_taxon_all_typologies.rds", dt_list)
+saveRDS(file = "data/06_final_taxon_all_typologies.rds", dt_list)
 
 

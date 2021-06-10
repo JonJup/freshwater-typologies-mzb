@@ -4,15 +4,23 @@
 
 # --------------- #
 # files in:
-#       -> individual mzb data sets 
+#       -> individual mzb data sets | multiple files. Each containing on referd to in Table 1 of the publication.
 # files out:
-#       <- 01_all_mzb_combined.rds
+#       <- 01_all_mzb_combined.rds  | combined macroinvertebrate observations 
 # Purpose:
 #       Combine individual macroinvertebrate data sets into one harmonized data set.   
 # --------------- #
 
 # Setup -------------------------------------------------------------------
-source("R/setup_combined_inv.R")
+pacman::p_load(
+        data.table,
+        dplyr,
+        magrittr,
+        sf
+)
+
+## -- file directories 
+dir = list(ind = here("~/01_Uni/02_getreal/02_wp2/data/originals_processed/"))
 
 # load data ---------------------------------------------------------------
 

@@ -3,19 +3,16 @@
 # ------------------------------------------ # 
 
 # --------------- #
-# date:  12.04.21
 # files in 
 #       -> 01_all_mzb_combined.rds |
 #       -> 02_data_close.rds       |
 #       -> 03_data_low_impact.rds  |
-#       -> 06_sxs_list.RDS         |
+#       -> 07_sxs_list.RDS         |
 # files out
 #       <- map_sites_used.png
 #       <- map_sites_used.eps
 #       <- map_sites_removed.png
 #       <- map_sites_removed.eps
-# Project: 
-#       Evaluating European Broad River Types for Macroinvertebrates 
 # Purpose: 
 #       1. create a data set with all sampling sites and a factor that indicates at which 
 #          level the sites was removed from the analysis if at all.
@@ -23,13 +20,18 @@
 # --------------- #
 
 # setup -----------------------------------------------------------------------------
-source("R/setup_combined_inv.R")
+pacman::p_load(
+    sf,
+    tmap,
+    dplyr, 
+    magrittr
+)
 
 # load data  ------------------------------------------------------------------------
 all    = readRDS("data/01_all_mzb_combined.rds")
 close  = readRDS("data/02_data_close.rds")
 impact = readRDS("data/03_data_low_impact.rds")
-time   = readRDS("data/06_sxs_list.RDS")
+time   = readRDS("data/07_sxs_list_all_typologies.rds")
 europe = st_read("D://Arbeit/Data/natural_earth/2020_06_29_europe.gpkg")
 
 # combine data  ---------------------------------------------------------------------

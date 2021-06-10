@@ -157,10 +157,3 @@ Future studies should assess whether the conclusions drawn from this study are s
 River classifications must be understood as models [@Goodwin1999; @Loveland2004]. 
 Alongside our growing knowledge about freshwater systems, we should strive to further improve them, as to increase their value for biomonitoring and to render them more effective tools for conservation. 
 Our study has shown that the BRT typologies should not be the end of this effort. 
-
-<!-- 
-Further developments would do good to consider metacommunity dynamics [@Cid2020] and to incorporate mechanisms to prepare for the possible con- and divergence between and within river types due to climate change [@Loveland2004; @Arneth2020]. 
-
-Furthermore, it remains unclear whether current ecoregions or river classes will change uniformly with future climate change or will con- and diverge. 
-Environmental legislative frameworks must acknowledge that climate change, and other anthropogenic and natural processes, will alter their subjects and encompass faculties to accommodate these changes 
--->

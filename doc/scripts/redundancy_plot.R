@@ -4,17 +4,17 @@
 
 
 # load data  ------------------------------------------------------------------------
-red1 <- readRDS("data/20_bgr_redundancy.rds")
-red2 <- readRDS("data/20_illies_redundancy.rds")
-red3 <- readRDS("data/20_gloric_redundancy.rds")
-red4 <- readRDS("data/20_brt12_redundancy.rds")
-red5 <- readRDS("data/20_brt20_redundancy.rds")
+red1 <- readRDS("data/redundancies/20_bgr_redundancy.rds")
+red2 <- readRDS("data/redundancies/20_illies_redundancy.rds")
+red3 <- readRDS("data/redundancies/20_gloric_redundancy.rds")
+red4 <- readRDS("data/redundancies/20_brt12_redundancy.rds")
+red5 <- readRDS("data/redundancies/20_brt20_redundancy.rds")
 
-ta_1 <- readRDS("data/21_brt12_ta_complete.rds")
-ta_2 <- readRDS("data/21_brt20_ta_complete.rds")
-ta_3 <- readRDS("data/21_gloric_ta_complete.rds")
-ta_4 <- readRDS("data/21_illies_ta_complete.rds")
-ta_5 <- readRDS("data/21_bgr_ta_complete.rds")
+ta_1 <- readRDS("data/typical_assemblages/21_brt12_ta_complete.rds")
+ta_2 <- readRDS("data/typical_assemblages/21_brt20_ta_complete.rds")
+ta_3 <- readRDS("data/typical_assemblages/21_gloric_ta_complete.rds")
+ta_4 <- readRDS("data/typical_assemblages/21_illies_ta_complete.rds")
+ta_5 <- readRDS("data/typical_assemblages/21_bgr_ta_complete.rds")
 
 # create table  ---------------------------------------------------------------------
 red = data.table(similarity = c(red1, red2, red3, red4, red5), 
