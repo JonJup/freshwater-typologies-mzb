@@ -194,7 +194,7 @@ readJPEG("fig/workflow.jpg") %>%
 
 The resulting data set had sufficient data to represent 13 of 20 broad river types.
 We considered our samples representative for a river type, if we had more than 20 samples from the river type and the samples covered most of the area of the river type. 
-Maps of the sampling locations for the individual river types are provided in the supplementary information.
+<!-- Maps of the sampling locations for the individual river types are provided in the supplementary information. -->
 We had insufficient samples of the river types: RT6, 7, 12, 13, 17, 19 and 20, consequently, these were omitted from further analyses.
 
 ```{r fig-map-used, fig.cap = "Map of samples used in the analyses. Each dot represents one sampling event. Darker dots indicate several overlapping sampling events which can be due spatially close sampling events or mutliple sampling events at one site (e.g. yearly samples)."}
@@ -253,14 +253,16 @@ The approaches differ in how this similarity is computed.
 @lance1967general clarified that many approaches can be expressed as different parametrizations of one method: flexible beta clustering.
 We computed biological typologies with different number of types and a $\beta$ parameters of 0.25. 
 Based on two cluster validity metrics, we decided to use nine types. 
-We refer the interested reader to the supplementary information for more detailed information.
-
-As a lower bound of what to expect, we created 100 random typologies.
-Differences between the types of these typologies are purely random. 
-There should be no systematic differences between the types.
-We hence expect these random typologies to receive lower cluster validity scores than all of the other typologies.
+We refer to the supplementary information for more detailed information.
+As a lower bound of what to expect, we created random typologies.
 For each random typology, we first drew the number of types as a random variable from the interval between the lowest number of types in any of the typologies (6 in BGR) and the highest number (14 in GloRiC).
-Then we assigned each sample randomly to one of the groups.
+Then we assigned each sample randomly to one of the types.
+We repeated this 100 times, to estimate how strongly cluster validity metrics would vary between random typologies. 
+Each cluster validity criterion was computed for each of random typology. 
+For each validity metric, we took the mean value of all 100 random typologies as a lower bound. 
+The differences between the types of these typologies are purely random and hence 
+there should be no systematic differences between them.
+Therefore we expect low mean cluster validity scores relative to the other typologies.
 
 ### Cluster validity metrics  
 
@@ -271,10 +273,11 @@ A silhouette width is the difference between the average distance of sample $i$ 
 The silhouette width is scaled to lie between -1 and 1.
 Values close to 1 indicate that most samples are more similar to samples from their own type than to those of other types.
 Values around zero suggest that the sample lies between two types and values close to -1 signal that the sample is more similar to samples from another type than to those from its own.
-In addition to the commonly applied ASW, we also computed two modified versions, which summarize the distance in $a_i$ and $b_i$ with the generalized mean instead of the arithmetic mean [@Lengyel2019]. 
+In addition to the common ASW, we computed two modified versions, which summarize the distances in $a_i$ and $b_i$ with the generalized mean instead of the arithmetic mean [@Lengyel2019]. 
 The generalized mean has one modifiable parameter, $p$, and for $p=1$ the modifiable mean is equal to the arithmetic mean.
 As we increase $p$ the weight of outlying samples increases. 
-We used $p=-\infty$ which corresponds to the minimum distance to compute $ASW_{min}$ and $p= \infty$ which returns the maximum distance to compute $ASW_{max}$. 
+Calculating the ASW for a range of $p$, allows us to evaluate cluster separation and compactness separately.  
+We calculated the minimum distance ASW ($p=-\infty; ASW_{min}$) and the maximum distance ASW ($p= \infty; ASW_{max}$). 
  
 <!-- What is Calinski-Harabasz? -->
 The Calinski-Harabasz Index [CH, @calinski1974dendrite] is the scaled ratio of the distances between types and the distances within types.
@@ -300,7 +303,7 @@ For example, if three typologies are tied for the first place, instead of 5, 4 a
 ## Typical assemblages
 
 We established typical assemblages for the types of  all five freshwater typologies using the data set with mixed taxonomic levels. 
-We define a typical taxon as one that frequently occurs in a type and typical assemblages as the lists of these taxa. 
+We define a typical taxon as one that commonly occurs in a type and typical assemblages as the lists of these taxa. 
 Typical taxa differ from indicator taxa which usually need to be common and type-specific.
 As a measure of commonness, we used the percentage of samples from a type that included a taxon.
 We considered species as typical if they occurred in more than 20% of samples.

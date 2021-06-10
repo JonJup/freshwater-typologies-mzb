@@ -35,8 +35,7 @@ Our analysis identified mostly those taxa as common that are sufficiently euryoe
 Within the individual river types only few type-specific taxa were common.
 This could indicate that even within a single river type environmental conditions vary sufficiently to limit the distribution of more stenooecious species.
 It is also possible that common anthropogenic stressors homogenized the assemblages [@Mondy2014]. 
-We removed samples from impaired sites to prevent this but the definition of reference conditions and their identification after the fact and at at large spatial scales, 
-are difficult [@Pardo2012;@Herlihy2008;@McNellie2020].
+We removed samples from impaired sites to prevent this but the definition of least impaired conditions at large spatial scales is difficult [@Pardo2012;@Herlihy2008;@McNellie2020].
 However, this would have increased redundancies in all typologies not just the BRT-typologies. 
 
 <!-- BRT20 vs 12 --> 
@@ -106,7 +105,7 @@ However, the difference was small and their analysis should not be extrapolated 
 @Hawkins2000 note that, across taxa groups and typologies, higher taxonomic resolution does not always lead to greater classification strength.   
 Additionally, the likelihood of assigning an observation to the wrong type due to inaccuracies in the spatial data are lower for regional typologies, where such mistakes can only happen toward the borders between types.
 We reduced this error by using a more stringent distance-to-river criterion for the selection of sites than similar studies. 
-For example, @Irving2018 used a cutoff of 3 km to assign streamflow gauging stations to rivers. 
+For example, @Irving2018 used a cutoff of 3 km to assign stream flow gauging stations to rivers. 
 Very small rivers are largely missing from the river network representations used by GloRiC and the BRT as provided in @globevnik2019btfr. 
 Hence, samples from these rivers are either omitted from the analysis if they are too far removed from the next river or assigned to the next river segment.
 In most cases, this is likely but not certainly a reach of a similar type. 

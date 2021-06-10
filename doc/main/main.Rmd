@@ -9,7 +9,7 @@ output:
     pandoc_args:
       - --lua-filter=../Extras/scholarly-metadata.lua
       - --lua-filter=../Extras/author-info-blocks.lua
-title: "Invertebrates in pigeonholes: Evaluating pan-European freshwater typologies in light of their macroinvertebate communites"
+title: "Evaluating pan-European freshwater typologies in light of their macroinvertebate communites"
 author:
   - name: "Jonathan F. Jupke"
     institute: [iES]
@@ -77,26 +77,9 @@ nocite: |
   @alvarez2011macroinvertebrate, @lyche2013ecological, @alvarez2010spatial, @Leunda2009, @Munne2009,      @lenoir1996development
 ...
 
-# Acknowledgements {-}
-This study was part of the GETREAL (Incorporating spatial and seasonal variability in community sensitivity into chemical risk assessment) project, which was funded by the European Chemical Industry Council long-range research initiative (CEFIC-LRi project ECO 50).  
-We are grateful to the staff that collected and analyzed data for the AQUEM, STAR, WISER and ECOSURV projects and to the various water agencies that participated in the abiotic and biotic data collection. 
 
-# Data Availability 
-Some of the monitoring data sets are freely available. 
-Data from the Ebro Hydrographic Confederation is available under www.datossuperficiales.chebro.es:81/WCASF/?rvn=1,   
-data from Naides under www.naiades.eaufrance.fr/france-entiere, 
-data from the RIVPACS data base under www.ceh.ac.uk/services/rivpacs-reference-database and 
-data from the Dutch monitoring agencies under waterkwaliteitsportaal.nl.
 
-<!------- TODO -------->
-<!---- MM 
-Why TA? 
-----> 
-  
-<!---- DISCUSSION---> 
-
-<!-- AIMING FOR --> 
-<!-- 
+<!-- AIMING FOR 
 From the top of my head 
 Global Ecology and Biogeography  
 - data should but do not need to open 
@@ -131,7 +114,6 @@ Environmental Sciences Europe
 - SJR: 1.77
 --> 
 
-
 ```{r setup, include=FALSE}
 library(knitr)
 library(kableExtra)
@@ -162,6 +144,43 @@ impact            <- readRDS("data/03_data_low_impact.rds")
 genus_data        <- readRDS("data/06_sxs_genus.RDS")
 all_data          <- readRDS("data/06_sxs_list_all_typologies.rds")
 ```
+
+# Corresponding Author {-} 
+Jonathan Jupke; jonjup@protonmail.com  
+
+
+# Acknowledgements {-}
+This study was part of the GETREAL (Incorporating spatial and seasonal variability in community sensitivity into chemical risk assessment) project, which was funded by the European Chemical Industry Council long-range research initiative (CEFIC-LRi project ECO 50).
+We are grateful to the staff that collected and analyzed data for the AQUEM, STAR, WISER, ECOSURV, RIVPACS projects and to the various water agencies that participated in the abiotic and biotic data collection and analysis.   
+
+# Data Availability {-}
+Some of the monitoring data sets are freely available. 
+Data from the Ebro Hydrographic Confederation is available under www.datossuperficiales.chebro.es:81/WCASF/?rvn=1,   
+data from Naides under www.naiades.eaufrance.fr/france-entiere, 
+data from the RIVPACS data base under www.ceh.ac.uk/services/rivpacs-reference-database and 
+data from the Dutch monitoring agencies under waterkwaliteitsportaal.nl.   
+
+# Keywords {-}   
+*(3 to 5)*   
+Water Framework Directive, Biogeography, Biomonitoring, Macroinvertebrats, River Typology
+
+
+# Highlights {-}   
+*(5 points, max 85 Character each)*   
+1. Biomonitoring assumes congruency between abiotic typologies and distribution of biota  
+2. We examined this for macroinvertebrates in pan-European freshwater typologies.   
+3. We computed quality metrics for the site clustering they implied.    
+4. Assemblages varied almost as strong within proposed types as between them.    
+5. Ecoregions contain more consistent assemblages than river types.   
+
+\newpage
+
+# Graphical abstract {-} 
+
+```{r}
+grid::grid.raster(png::readPNG("fig/graphical_abstract3.png"))
+```
+
 
 \newpage
 <!-- Abstract -->

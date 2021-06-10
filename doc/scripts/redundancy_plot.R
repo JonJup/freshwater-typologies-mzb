@@ -35,7 +35,8 @@ red %>%
                      size = 5) + 
         scale_fill_brewer(palette = "Dark2") + 
         theme(legend.position = "none", 
-              panel.grid = element_blank()) -> 
+              panel.grid = element_blank())  + 
+        ylab("Similarity of typical assemblages")-> 
         redundancy_plot 
 
 

@@ -187,6 +187,8 @@ s1 %>%
 
 \newpage
 
+
+
 ```{r tab-sm-typicals}
 # ta_table = readRDS("data/18_ta_table_for_paper.rds")
 # #ta_table = readRDS("../../data/18_ta_table_for_paper.rds")

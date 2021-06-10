@@ -20,10 +20,10 @@
 source("R/setup.R")
 ## -- functions 
 # - for generalized silhouette width
-source("~/03_R/functions/genmean.R")
-source("~/03_R/functions/mdist.R")
-source("~/03_R/functions/silgen.R")
-source("~/03_R/functions/call_gensil.R")
+source("~/my documents/R/functions/genmean.R")
+source("~/my documents/R/functions/mdist.R")
+source("~/my documents/R/functions/silgen.R")
+source("~/my documents/R/functions/call_gensil.R")
 
 # load data  ----------------------------------------------------------------------------------------------------------------------------------------------
 data = readRDS("data/12_sxs_genus_typology_wo_bio.rds")
