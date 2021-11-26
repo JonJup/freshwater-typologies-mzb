@@ -43,6 +43,14 @@ data/
 fig/
 doc/
 Rmd/
-figures/
-doc/feedback/
+fig/
+workflow_brt_mzb/
+R/10_old_scripts/
+R/03_new_typology/
+R/
+# file types 
 *.pdf
+*.xlsx
+*.rds
+*.RDS
+
