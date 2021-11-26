@@ -1,71 +1,112 @@
-# Results 
+<!-- Figure References --> 
 
-```{r prepare cluster evaluation plot, echo = F, warning = FALSE, message = FALSE}
-source("doc/scripts/prepare_cluster_evaluation.R")
+<!-- ANOSIM --> 
+(ref:anosim1) The ANOSIM R statistics for the broad river types (brt), Biogeographic regions (bgr) and Illies Freshwater Ecoregions (ife).
+
+(ref:anosim2) The colors indicate the typology. The circles represent results for least impaired samples only and triangles for all samples.
+
+(ref:anosim3) The three vertically ordered panels show the different seasons.
+
+<!-- CS --> 
+(ref:cs1) The classification strengths for the broad river types (brt), Biogeographic regions (bgr) and Illies Freshwater Ecoregions (ife).
+
+(ref:cs2) The colors indicate the typology, the circles represent the results for the least impaired samples only and the triangles for all samples.
+
+(ref:cs3) The three vertically ordered panels show different seasons.
+
+<!-- Typical --> 
+(ref:typical1) Distributions of Jaccard similarity between typical communities for the broad river types (brt), Biogeographic regions (bgr) and Illies Freshwater Ecoregions (ife).
+
+(ref:typical2) Only the samples from the least impaired sites are included.
+
+(ref:typical3) The three horizontally ordered panels show different seasons.
+
+(ref:typical4) The big point directly within the density curve indicates the median similarity which is also provided as a number.
+
+(ref:typical5) The smaller points show the individual similarities between two typical communities.
+
+(ref:typical6) The colored numbers indicate the number of similarities accounted for in each combination of season and typology.
+
+(ref:typical7) The thick line below the density curve indicates the interval of one standard deviation around the mean and the thinner line the interval of two standard deviations.
+
+<!-- indval --> 
+(ref:indval1) The indicator values for statistically significant indicator families.
+
+(ref:indval2) The colored density curves represent the real data and the black density curves the permuted data sets.
+
+(ref:indval3) The larger points directly within the density curves highlight the median indicator value, which is also provided as a number.
+
+(ref:indval4) The smaller points below the curves are the individual indicator values, slightly scattered along the ordinate but not the abscissa.
+
+<!-- indval-n --> 
+(ref:indval-n1) The number of statistically significant indicator families.
+
+(ref:indval-n2) The black lines show the number of indicator families for the permutation tests.
+
+(ref:indval-n3) The circles indicate values for the least impacted sites only and the triangles for all sites.
+
+<!-- END: Figure References --> 
+
+The mantel tests showed statistically significant correlations between most (362 out of 366) distance matrices. A more detailed description of the results is presented in the supplementary materials.
+
+The ANOSIMs for all typologies, seasons and levels of anthropogenic impact were statistically significant (*p* < 0.01). 
+The rank order of R statistics remained the same across seasons: Illies Freshwater Ecoregions before broad river types and biogeographic regions (Figure \@ref(fig:res-anosim)). 
+Removing samples from catchments with considerable human impact lead to no or only modest increases in the R statistic, with the exception of Illies Freshwater Ecoregions for summer and autumn, where the increases were larger. 
+The R values for the least impaired samples ranged between 0.08 (BGR, autumn) and 0.29 (IFE, autumn). 
+
+
+```{r res-anosim, fig.cap = paste("(ref:anosim1)", "(ref:anosim2)", "(ref:anosim3)")}
+knitr::include_graphics("../../fig/results_anosim/2021-10-27_anosim_plot.png")
 ```
 
-```{r results prepare TA}
-source("doc/scripts/results_ta.R")
+<!-- ## Classification strength --> 
+All combinations of typology, season and level of human impact had positive classification strengths and pseudo-*p*-values below 0.05.
+This indicates that for all three typologies, the within-type similarity is higher than the between-type similarity, irrespective of season or human impact. 
+Within levels of anthropogenic impact, Illies Freshwater Ecoregions had the highest classification strength in all three seasons, followed by the broad river types and the Biogeographic Regions (Figure \@ref(fig:res-cs)). 
+The highest overall classification strength was observed for Illies Freshwater Ecoregions in autumn and with the least impaired samples (0.1).
+The impaired summer samples paired with the biogeographic regions obtained the lowest overall classification strength (0.02). 
+Differences among seasons are most strongly pronounced in Illies Freshwater Ecoregions.
+The other two typologies only showed slight variation across seasons.  
+In all types and seasons, the least impaired samples received higher classification strengths than the impaired samples. 
+The magnitude of this difference ranged between 0.003 (BRT, summer) and 0.03 (IFE, autumn).
+The differences in classification strength result from different within-type similarities rather than different between-type similarities. 
+The latter varied more strongly within than between typologies (Figure S5).
+  
+
+```{r res-cs, fig.cap = paste("(ref:cs1)", "(ref:cs2)", "(ref:cs3)")}
+knitr::include_graphics("../../fig/results_classification_strength/2021-10-27_classification_strength.png")
 ```
 
-```{r}
-source("doc/scripts/redundancy_plot.R")
+<!-- ## Indicator taxa --> 
+The median indicator value of statistically significant indicator families from least impacted sites was higher for the typologies than for random groupings (Figure \@ref(fig:res-indval)), with the exception of Illies Freshwater Ecoregions for the summer samples. 
+There was, however, considerable overlap between the distributions of real permuted indicator values. 
+The highest median indicator value was observed for the summer samples with the Biogeographic Regions (0.41) and the lowest for the spring and summer samples with the broad river types (0.26).
+Generally, the Biogeographic Regions had the highest median indicator values and the broad river types the lowest. 
+Including impaired sites reduced the median indicator value for all but one combination of seasons and typologies (Figure S7), but variations between impaired and all samples were smaller than between different typologies.  
+
+```{r res-indval, fig.cap = paste("(ref:indval1)", "(ref:indval2)", "(ref:indval3)", "(ref:indval4)", "(ref:typical7)")}
+knitr::include_graphics("../../fig/results_indval/2021-10-27_meanstat.png")
+```
+
+<!-- Number of taxa --> 
+The number of indicator families lay between 17 and 101 with an overall mean and standard deviation of 74.7 $\pm$ 20.2 (Figure \@ref(fig:res-indval-n)).
+This was considerably higher than for the permuted data (5 $\pm$ 3). 
+Including impaired samples increased the number of indicator families by between 8% (bgr, summer) and 176% (ife, summer) with a mean increase of 41.1 $\pm$ 52.2 %.
+With the exception of least impaired summer samples with Illies Freshwater Ecoregion, all typologies had a higher number of indicator families than any of their permuted versions.  
+
+```{r res-indval-n, fig.cap = paste("(ref:indval-n1)", "(ref:indval-n2)")}
+knitr::include_graphics("../../fig/results_indval/2021-10-27_nind.png")
 ```
 
 
-## Comparison of classifications 
-<!-- Overview over results --> 
-Overall Illies received the highest score, with `r rank_dat[typ == "illies", total_points]` of 20 possible points, followed by BGR (`r rank_dat[typ == "eea", total_points]`), BRT12 (`r rank_dat[typ == "brt12", total_points]`), GloRiC (`r rank_dat[typ == "gloric", total_points]`) and BRT20 (`r rank_dat[typ == "brt20", total_points]`).
-Regional typologies performed best in five out of six quality criteria and the single exception ($ASW_max$) is by a narrow margin (Figure \@ref(fig:fig-res-sw)).  
-Further, both regional typologies received higher scores than all reach-based typologies three of the six criteria. 
-Between the two, Illies freshwater ecoregions accrued the higher overall score due to the low scores of the BGR in CS and IVS.
-The two types of BRT typologies received similar scores for most quality criteria. For all criteria except CS, BRT12 scored slightly higher than BRT20.   
-<!-- ASW -->
-Increasing the emphasis on compactness (i.e. $p$) decreased the silhouette widths.
-All typologies had positive $ASW_{min}$, the regional typologies had scores similar to that of the biological typology.
-Those of reach-based typologies were slightly lower. 
-With $p = 1$, only the ASW of BGR exceeded zero and hence the mean of random typologies. 
-The difference between region- and reach-based typologies narrowed.
-The $ASW_{max}$ was highest for BRT12 but negative for all typologies, including the biological. 
+<!-- Typical communities -->
 
+The Jaccard similarities between typical communities of all types were lower than any of the permutations they were compared against, resulting in pseudo-*p*-values of 0. 
+The similarities were generally, though not always, lower when only samples from least impaired sites were considered (Figure S8) and did not show strong seasonal trends. 
+In the samples from the least impaired sites (Figure \@ref(fig:res-typical)), the mean similarity was always lowest in Illies Freshwater Ecoregions, followed by the Biogeographic Regions and the broad river types. 
+Lists of the typical communities are available as supplementary material and in Figures S9,S10 and S11. 
 
-```{r fig-res-sw, fig.align="center", fig.height=5, fig.cap="Cluster validity citeria for freshwater typologies. The points represent the typologies which are indicated by their color. The biological typology and the mean of random typologies are represented by lines. Each plot shows a different cluster validity criterion: Calinski Harabasz (CH), Classification Strength (CS), Indicator Value score (IVS), average minimal silhouette width (min), average silhouette width (average) and average maximal silhouette width (max). For all criteria high scores imply better classifications."}
-
-grid.raster(readPNG("fig/eval_cluster_combined.png"))
-
+```{r res-typical, fig.cap = paste("(ref:typical1)", "(ref:typical2)", "(ref:typical3)", "(ref:typical4)", "(ref:typical5)", "(ref:typical6)", "(ref:typical7)")}
+knitr::include_graphics("../../fig/results_typical/2021-10-30_typical_communities_least_impaired.png")
 ```
-
-## Typical assemblages
-
-The mean similarity in BRT-type typical assemblages was higher than in the other three typologies (Figure \@ref(fig:fig-redundancy)).  
-For both BRT-type typical assemblages the mean similarity was above 0.5, approaching 0.75 in BRT12. 
-The mean similarity for the other three typical assemblages centered around 0.2.  
-While we found high similarities (>0.75) in the typical assemblages of all five typologies, only for the BRT-type typologies did we find complete overlap (a similarity of 1).    
-
-The mean number of taxa in typical assemblages was similar in all typologies (`r round(mean(out_list$value),1)`). 
-BGR had the smallest typical assemblages on average with `r ta_small_overall_mean` taxa and Illies the largest with `r ta_large_overall_mean` taxa.
-The differences are more pronounced between individual typical assemblages. 
-The two smallest typical assemblage were from the high-altitude calcareous/ mixed rivers (RT15) of BRT20 with ten taxa and the Mediterranean Region of BGR with eleven. 
-The two largest typical assemblages were both from types of Illies' freshwater ecoregions: Ireland and Northern Ireland as well as England with 66 and 62 taxa, respectively. 
-Note that the two types were also similar to one another and were combined for the non-redundant typical assemblages. 
-
-```{r fig-redundancy, fig.cap="Similarity between typical assemblages for five freshwater typologies. The colored dots are similarities between two types of the same typology. The typologies differ in the number of types therefore the number of comparisons differs between typologies. The Jaccard distance we used is asymmetric which increases the number of distinguisahble comparisons. The violins represent their frequency distributions. The black dots are the arithmetic means of similarities."}
-redundancy_plot
-```
-
-The fraction of all 1114 taxa that was included in the typical assemblage varied considerably between typologies. 
-The typical assemblages of BRT12 included `r ta.perc.brt12` of all taxa, those of BRT20 `r ta.perc.brt20`, those of GLoRiC `r ta.perc.gloric`, those of Illies `r ta.perc.illies` and those of BGR `r ta.perc.bgr`. 
-On average, a taxon occurred in `r ta.mu.occ$rt1` typical assemblages in BRT12, `r ta.mu.occ$rt2` in BRT20, `r ta.mu.occ$glo` in GloRiC, `r ta.mu.occ$ill` in Illies and `r ta.mu.occ$bgr` in BGR.
-The two taxa that occurred most frequently in typical assemblages were both families: Chironomidae (49 of 56 typical assemblages) and Simuliidae (40). 
-The most common genera were the mayfly Baetis (38), the caddisfly Hydropsyche (37) and the gammarid Gammarus (35). 
-The most common species were two mayflies *Serratella ignita* (34) and *Baetis rhodani* (14).
-
-Based on these typical assemblages, we found redundant types in all typologies except for BGR.
-In BRT12, we combined the river types 2, 3, 4, 5, 6 and 7, which include very small to large lowland rivers as well as calcareous mid-altitude rivers. We also combined the two river types 8 and 9 - siliceous mid-altitude rivers.
-In BRT20, we found the river types 8, 9 and 16 (mid-altitude siliceous and glacial rivers) to be redundant.
-In addition, we combined the river types 2, 3, 4, 5, 10 and 11. 
-They represent very small to large lowland rivers and mid-altitude calcareous and mixed rivers. 
-In GloRiC, we combined two river types, 4 and 6. 
-However, the relation of these types to environmental features was not specified and therefore eludes from interpretation.
-For Illies, we merged the type England with the type Ireland and Northern Ireland as well as Western plains with Western highlands.
 

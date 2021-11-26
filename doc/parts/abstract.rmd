@@ -3,39 +3,51 @@
 
 
 <!-- 
-        #### ------------------ #####
-        #### --- GUIDELINES --- #####
-        #### ------------------ #####
+###  ——————————————————  ###
+###  ——— GUIDELINES ———  ###
+###  ——————————————————  ###
         
-        ## - Saramäki - ##  
-        - SETUP 
-                -> CONFRONTATION 
-                        -> RESOLUTION 
-                                -> EPILOGUE 
-        ## -- STOTEN -- ## 
-        The purpose of the research, the principal results and major conclusions.
-        300 words 
+—————— Saramäki ——————  
+- SETUP 
+-> CONFRONTATION 
+-> RESOLUTION 
+-> EPILOGUE 
+————————————————————————
+
+—————— STOTEN ——————
+The purpose of the research, the principal results and major conclusions.
+300 words 
+————————————————————————
+
 --> 
 
+<!-- TODO 
+- add question hypothesis to abstract (PB) 
+
+--> 
+
+
 <!-- SETUP --> 
-Human actions alter the composition and functioning of ecological communities globally. 
-This transformation is especially rapid and intensive in freshwater ecosystems. 
+Human actions alter the composition and functioning of ecological communities on a global scale. 
+These changes are especially rapid and intensive in freshwater ecosystems. 
 Comprehensive and international regulatory frameworks are necessary to slow down, halt and reverse the ongoing loss of freshwater biodiversity. 
 These regulatory frameworks, such as the Water Framework Directive (WFD), typically simplify freshwater ecosystems through classification systems that use selected features to derive a typology. 
-A recently proposed pan-European typology for lotic freshwater systems (broad river types, BRT) has unified the assortment of existing national typologies but lacks biological validation. 
+Broad river types are a recently proposed pan-European typology for lotic freshwater systems.
+They unify the assortment of existing national typologies and are quickly gaining traction within the research community. 
+However, it remains to be seen whether this environmental typology effectively delineates ecological communities. 
+Such biological validation is critical to establish the typologies suitability for quality assessments based on biological quality elements.  
 <!-- CONFRONTATION --> 
-Using cluster validity analyses, we evaluated whether freshwater macroinvertebrate communities are more similar within then among the BRT river types. 
-In addition, we compared it's ability to delineate assemblages to that of three other freshwater typologies.
-Moreover, we derived lists of taxa that typically occur within the types of each typology and evaluated their similarities.
-Finally, we also compared two fundamentally different approaches to classifying rivers: reach-based and region-based typologies.   
+In this paper, we test whether the broad river types summarize variation between macroinvertebrate communities effectively and whether combing it with ecoregions can improve them.  
+Moreover, we derived lists of taxa that typically occur within the types of each typology and evaluated their taxonomic similarities.
 <!-- RESOLUTION --> 
-Though performance differed between validity metrics, the BRT typology rarely ranked among the best.
-This was confirmed by our finding that macroinvertebrate faunas of different BRT-types were more similar to each other than in the other typologies. 
-Overall, regional typologies achieved better scores than those based on reaches.
-However, no typology achieved high cluster validity scores.
+<!-- Even tough performance differed between validity metrics, the BRT typology rarely ranked among the best. -->
+<!-- This was confirmed by our finding that macroinvertebrate assemblages of different BRT-types were more similar to each other than in the other typologies.  -->
+<!-- Overall, regional typologies achieved higher validity scores than those based on reaches. -->
+<!-- However, no typology achieved high cluster validity scores. -->
 <!-- EPILOGIE -->
-Our findings indicate that superior alternatives to the new pan-European rivers typology already exist but also that none reliably delineate demarcations between internally homogeneous macroinvertebrate communities. 
-Further improvement of freshwater typologies has the potential to benefit macroecological research, improve biomonitoring and render conservation efforts more effective. 
+<!-- Our findings show that the BRT typology predicts invertebrate community composition worse than previously established typologies.  -->
+<!-- However, none of the typologies considered was a good descriptor of invertebrate biogeography.  -->
+<!-- Further improvement of freshwater typologies has the potential to benefit macroecological research, improve biomonitoring and render conservation efforts more effective.  -->
 <!-- 
 
 ##### ----- OLD DRAFTS ----- ##### 

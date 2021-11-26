@@ -1,159 +1,184 @@
-# Discussion 
+<!-- Structure of the discussion 
 
-We used four cluster validity metrics to compare the partitioning of macroinvertebrate samples proposed by five different freshwater typologies. 
-Three typologies were reach-based (BRT12, BRT20 and GloRiC) and two were regional (Illies and BGR). 
-As a reference frame for the cluster validity metrics, we also computed a biological typology of the samples and 100 random typologies.
-As we expected, the cluster validity scores of the five freshwater typologies lay in the interval between biological and random typologies in most cases. 
-The only exceptions were silhouette widths (Figure \@ref(fig:fig-res-sw)). 
+1. Overview results (What did we see compare results to other studies)
+1.1 anosim [x] 
+1.2 classification strength
+1.3 indval 
+1.4 typical (tdb)
 
-## Comparison of typologies 
-Overall, the freshwater ecoregions proposed by @illies1978limnofauna performed best in our assessment followed by BGR, BRT12, GloRiC and BRT20.
-Illies' freshwater ecoregions had the highest IVS and classification strength.
-While GloRiC is a close second in the IVS, it has the lowest scores in CH and ASW.
-Between the two BRT typologies, BRT12 always received better or comparable scores and had the highest $ASW_{max}$ of all typologies. 
+2. within type similarity 
+3. meta community stuff 
+4. the effect of taxonomic resolution on our results 
+5. future of biomonitoring and typologies 
+5.x we need to continuously update typologies (climate change, global change)
+5.x combine with regios 
+5.x modern approaches 
+5.x recognize intermittent rivers in all of europe 
+5.x lake influences 
+6.x next up: other bqe 
+--> 
 
-The average silhouette widths were remarkably low for all typologies. 
-Only BGR had a positive ASW and a higher score than the random typologies. 
-The negative ASWs indicate that most communities are on average more similar to communities from other types than to those from their own. 
-$ASW_{min}$ gives the largest weight to the separation of clusters without considering compactness. 
-It clearly shows a stronger separation between the types of regional typologies than between those of reach-based ones.
-It is also at this level that all typologies have positive ASWs and that the difference to random partitions is largest. 
-The differences between regional- and reach-based typologies and between all typologies and random typology decrease with increasing $p$.
-The negative $ASW_{max}$ indicates that for each of the typologies, there is some community within their type that is more dissimilar to it, than the most dissimilar community from the next closest type.
-Overall, we see that the typologies discriminate between different macroinvertebrate faunas. 
-They all have CH, CS and IVS larger than purely random typologies. 
-However, most types seem to have very similar, neighboring types. 
-The assignment of individual communities to a specific type is therefore far from clear, as communities vary as strongly within types as among neighboring ones.  
+<!-- 1. Overview Results --> 
+## Classification performances
+All three freshwater typologies account for more variation in macroinvertebrate samples than random partitions of the data. 
+With very few exceptions, communities are more similar within than between types. 
+There were more indicator families, which also were more indicative in the mean than would be expected from randomly assigned sites. 
+Lastly, typical communities were less similar than would be expected by chance, indicating a change in the most common families.
+Thus, we can neither reject the hypothesis that macroinvertebrate communities are more similar within than among types (H1) nor the hypothesis that the typologies delineate distinct typical and indicator assemblages (H2). 
+The within-type similarity was largest in Illies Freshwater Ecoregions according to ANOSIM and classification strength. 
+They also delineated the least similar typical communities. 
+Indicative families, on average, had the highest indicator values in the Biogeographic Regions, while the number of indicator families was largest in the broad river types. 
+Therefore, we can reject the hypothesis that the broad river types are a better classification of macroinvertebrate samples than Illies Freshwater Ecoregions or the Biogeographic regions (H3). 
+<!-- 1.1 ANOSIM--> 
+While the ANOSIMs were statistically significant, their effect sizes were small. 
+For the least impaired samples, the R statistic was between 0.08 and 0.29. 
+According to Clark and Gorley (2001), one should interpret R values below 0.5 as barely separable.
+In their study of freshwater typologies for Ireland, @Dodkins2005 found the WFD System A typology to have an R statistic of 0.145. 
+@marchant2000assessment observed a higher value of 0.33 for Australian ecoregions and interpret this as a weak match between typology and biota.
+They advise against inferring patterns in community composition from the ecoregions.
+An evaluation of Greek freshwater typology similarly found an R-value of 0.38 and inferred that the communities were strongly overlapping [@Lazaridou2013]. 
+Finally, in an evaluation of stream typologies for Spain, @sanchez2007concordance employed a seasonal stratification scheme similar to ours and found R values ranging from 0.19 to 0.31.
+In contrast to the former studies, @sanchez2007concordance interpret their results as supporting the tested typology.  
+The R values of Illies Freshwater Ecoregions fall within the range of these previous studies; the R values of the other two typologies are comparatively low. 
+These low values are plausible given that the majority of the studies above considered smaller areas but used a similar number of types. 
+It is remarkable that Illies Freshwater Ecoregions perform on par with the small-scale typologies.  
+<!-- ralf hat empfohlen das hier zu streichen 
+Nonetheless, we confer with the majority of authors cited here that the low R statistic is more telling than the statistical significance.
+The low pseudo-*p*-value shows that random partitions of the data overlap more strongly than the types of the typologies, but the low R statistic shows that the latter overlap as well. 
+Thus, solely based on the ANOSIM, we would advise against inferring communities from types in all three typologies. 
+--> 
+<!-- 1.3 IndVal --> 
+The range of absolute values of indicator scores is similar to that in @sanchez2007concordance but values are lower than was observed in other studies of concordance between macroinvertebrates and river types [e.g. @Bonada_Rieradevall_Prat_Resh_2006; @Banks_Li_Herlihy_2007; @Heino2006].
+As with the other methods, one should differentiate between statistical and practical significance. 
+@Kubosova_Brabec_Jarkovsky_Syrovatka_2010 set an absolute threshold of Indval > 0.4 to determine strongly indicative taxa, without providing a rationale for the threshold. 
+According to this criterion, most of the identified indicator families are not strongly indicative, as most mean values are below 0.4. 
 
-This result is confirmed by the high similarity between some typical assemblages, especially in the BRT typologies. 
-In BRT12, the non-redundant typical assemblages only differentiate between four of the ten types and in BRT20 between six of thirteen. 
-While we also found redundancies between typical assemblages in other typologies, they were never between more than two types. 
-In both BRT-typologies, we combined low-land river types of different sizes and geologies with calcareous or mixed-geology mid-altitude streams of different sizes.  
-It is possible that more finely resolved taxonomic data would be necessary to show differences between these types.
-An alternative explanation is, that the BRT typology has too few types. 
-Our analysis identified mostly those taxa as common that are sufficiently euryoecious that their distribution is largely independent from the features that delineate the different river types. 
-Within the individual river types only few type-specific taxa were common.
-This could indicate that even within a single river type environmental conditions vary sufficiently to limit the distribution of more stenooecious species.
-It is also possible that common anthropogenic stressors homogenized the assemblages [@Mondy2014]. 
-We removed samples from impaired sites to prevent this but the definition of least impaired conditions at large spatial scales is difficult [@Pardo2012;@Herlihy2008;@McNellie2020].
-However, this would have increased redundancies in all typologies not just the BRT-typologies. 
+<!-- 1.2 classification strength --> 
+We observed classification strengths between 0.02 and 0.1 which also lies at the lower end  of previous studies [e.g. @Hawkins2000; @Snelder2004; @Heino2006; @Mykra2009; @Vasconcelos2013].
+We need to caution against such direct comparisons, however because details on the computation (is the within-type similarity weighted by group size, how exactly is between type similarity computed) were commonly missing from the method descriptions and we can not evaluate how large their influence is.
+Additionally, the absolute value of the classification strength depends on the chosen similarity metric.  
+<!-- Within type similarity --> 
+The between-type similarity was remarkably constant among typologies, ranging from 0.26 to 0.27 (Figure S4). 
+This value indicates that two sites are likely to share a quarter of the families from the combined pool of families, while two thirds of the families are unique to one of the sites.
+The within-type similarity is more pertinent to this discussion, as the reference-condition approach of the WFD only works if the within-type similarity is high. 
+A high between-type similarity would not entail serious problems for the reference-condition approach, but only highlight inefficiencies due to redundant types. 
+However if the within-type similarity would be low, it would not be reasonable to assume similar communities at least impaired conditions. 
+Note that a higher taxonomic resolution (i.e. genus- or species-level data) could only reduce the similarities but not increase it, since members of the same family can be different from genera or species but the same species can not be part of multiple families. 
+A higher resolution could increase overall classification strength by decreasing between-type similarity stronger than within-type similarity but neither of the components by themselves. 
+Therefore the within-type similarities presented here represent an upper bound.
+In the broad river types, the within-type similarities of least impaired samples ranged from 0.22 (RT1, autumn) to 0.45 (RT8, summer) (Figure S6).
+The highest observed value implies that about half of the families from the shared pool occur at both sites, which in turn implies that, assuming both sites have the same species richness, about 75% of the families from a site also occur at the other site.
+At the lower end of observed similarities, this falls to 33% of families. 
+Across typologies, median values for within-type similarity can be approximated by one third (they range from 0.30 to 0.36).
+For this similarity, assuming equal alpha diversity, 50% of families from each site are shared and 50% are unique.  
 
-<!-- BRT20 vs 12 --> 
-We had insufficient data to evaluate some of the combinations made to arrive at BRT12 from BRT20.
-In most cases, @LycheSolheim2019 merged river types, because one of them was rare (e.g. RT7 or RT20).
-Consequently, these were also the river types that had to be omitted from our analysis due to the low number of available samples. 
-The high altitude river types in RT14 to 16 are an exception. 
-They were combined into RT10 (Highland and glacial rivers) in BRT12, on the grounds that altitude was assumed to be more important than geology or size. 
-However, our results lend ambiguous support for the combination to a single high-altitude river type. 
-The typical assemblages of highland river types were not redundant in BRT20. 
-The corresponding types in Illies (Pyrenees, Alps, Caparthiens and Borealic uplands) or GloRiC (8, 15, 22, 30) were also not redundant. 
-However, BGR also only has one high-altitude-type (Alpine) and while it did receive a lower overall score, it received higher scores than Illies for CH and all three variants of ASW. 
-As BRT12 generally performed better than BRT20 in this study, the combinations made by @LycheSolheim2019 seem to be justified. 
-We suggest that future studies should rather employ the aggregated than the full typology. 
-However, given the low performance of reach-based typologies in general, we advise caution when assuming spatially homogeneous reference communities within them. 
+As a general trend, we observed that mid- and high-altitude river types (RT6-10) have higher within-type similarity than low-altitude river types (RT1-5, Figure S6). 
+This idiosyncrasy  of mid- and high-altitude rivers was also observed by @Moog2004 and is in line with the identification of high-altitude areas as one of three large bioregions in Europe [@Verdonschot2006b]. 
+The harshness of these environments (high seasonality, high flow velocity, steep slopes) can increase the importance of dispersal for community assembly [@Datry_2016] and thus decrease beta-diversity [@luBetaDiversityPatterns2019; @thompsonProcessBasedMetacommunity2020; but see @luComplexRelationshipsBeta2021].
+With a mean within-type similarity of 0.24, which is lower than the mean between-type similarity, sites from very large rivers (RT1, Figure S6) were the most dissimilar. 
+The communities of very large rivers (defined as having a catchment area above 10000 $km^2$) are strongly affected by multiple interacting stressors including alien species [@arbaciauskasAssessmentBiocontaminationBenthic2008], alteration of riparian vegetation [@leitnerMultipleStressorEffects2021] and navigation [@liebmann1967eingriffe; @gabelDifferentialEffectWave2011]. 
+The magnitude of these stressors differs markedly between regions [@leitnerMultipleStressorEffects2021] and can override regional differences leading to less indicative communities [@fittkau1983versuch]. 
+@borgwardt2019ex showed that this river type can be divided into seven types that can be clearly differentiated based on environmental and biological factors. 
 
+## The Ecology of Typologies 
 
-## Typical assemblages 
-
-In the following the typical assemblages of the BRT-type typologies are discussed, which was the main scope of this study (see supplementary information for the typical assemblages of other types)
-Several taxa are tramp taxa (sensu @McGeoch2002).
-They are part of all typical assemblages. 
-These taxa are: the snail Ancylus, the mayfly Baetis, the dipteran family Chironomidae, the caddisfly Hydropsyche and the beetle Limnius. 
-<!-- Are they known to be euryoecious ?--> 
-
-The typical assemblages of very large rivers (RT1 in BRT12 and BRT20) harbor many genera that include invasive species like *Dreissena polymorpha*, *Dikerogammarus villosus*, *Corbicula fluminea* and  *Potamogyrus antipodarum*. 
-The presence of these taxa in the typical assemblages highlights the prominent role that neozoa play in very large rivers [@Leitner2020].
-The typical assemblages of very large rivers are also the only ones that lack the beetle Elmis, the caddisfly Rhyacophila and the mayfly *Serratella ignita*.
-Elmidae breath through plastrons and thus require high oxygen saturation, which is rare in very large rivers.
-The genus Rhyacophila encompasses a diverse array of species that occur from large lowland stream [e.g. *Rhycophila dorsalis*, @Dohet2008] to high-altitude streams [e.g. *Rhyacophila torrentium* and *Rhyacophila vulgaris*, @Lorenz2004] but seldomly in very large streams.
-The typical assemblages of very large rivers contain the most specific taxa, i.e. taxa that do not occur in other typical assemblages.
-On one hand, these are most of the neozoa listed above. 
-Besides Potamogyrus, which occurs in most typical assemblages, these taxa are only typical for very large rivers. 
-On the other hand, there are taxa such as the mayflies Cleon, Procleon and Heptagenia as well as the caddisfly Oecetis. 
-These taxa all include taxa that are known to be potamophil, e.g. *Cleon dipterum*, *Heptagenia flava* and *Oecetis notata* [@Nagell1978; @Dohet2008; @westermann1997bemerkenswerte]. 
-<!-- siliceous lowland --> 
-The siliceous lowland river types of  RT4/5 (BRT12) and RT2/3 (BRT20) are mostly made up of caddisfly, mayfly and beetle genera. 
-These genera include several species that are typical for the rhitral, such as  *Esolus parallelepipedus*, *Elmis aenea* and *Hydropsyche pellucidula*. 
-In addition, all four contained Pisidum clams and Calopteryx damselflies. 
-<!-- calcerous lowland --> 
-In the typical assemblages of calcareous or mixed lowland river of RT2/3 (BRT12) and RT 4/5 (BRT20) we can find many of the same taxa as for the siliceous types. 
-The most notable differences are the presence of Riolus beetles, the damselfly Platycnemis and the gammarid Echinogammarus as well as the absence of the mayfly Ecdyonurus and the stonefly Leuctra. 
-Riolus species, such as *Riouls cupreus*, are known to prefer calcareous streams [@hebauer1986kafer; @Elliott2008; @Lorenz2004]. 
-<!-- siliceous midaltitude -->
-The differences are more pronounced when we move towards mid-altitude river types.
-The typical assemblages of silicoues mid-altitutde rivers in RT 8/9 (BRT12 and BRT20) have unique stonefly taxa (Nemoura and Perla), a unique beetle taxon (Dupophilus) and two unique mayflay taxa (Ephemerella and Habrophlebia). 
-Ecdyonurus, which are included in the lowland siliceous river types but absent from the calcareous ones, are also included. 
-<!-- calcareous midaltitude --> 
-The typical assemblages of calcareous and mixed mid-altitude rivers (RT6/7 in BRT12 and RT10/11 in BRT20) are similar to those of lowland calcareous streams. 
-Both have the mayfly Centropilumn and the snail Radix in the large but not the small rivers. 
-The most noticeable differences are that the gammarid Echinogammarus is part of both lowland typical assemblages and absent from the mid-altitude types while the opposite holds for the dipteran family Simuliidae.
-<!-- High altitude          --> 
-The high altitude types RT10 (BRT12) as well as RT14, 15 and 16 (BRT20) contain no unique taxa. 
-If at all, these typical assemblages are distinct through the taxa they lack. 
-The mussel Pisidium, the gammarid Gammarus, the mayfly Ephemera and the damselfly Calopteryx occur in all typical assemblages except for these. 
-
-## Ecology of regional and reach-based typologies 
-
-<!-- Regional outperform local --> 
-Overall, regional approaches that assign large contiguous areas to a single type were a better summary of our extensive data set of invertebrate occurrences than reach-scale typologies.  
-The constraints of our study may have played in favor of regional approaches. 
-The taxonomic resolution of our data only allowed inferences at the genus level.
-Potentially, species-level data would have highlighted bigger differences at smaller scales and hence been better summarized by typologies with smaller mapping units.
-Along the same lines, @Moog2004 showed that higher taxonomic resolution was necessary to delineate smaller ecoregions and the same logic could expand to reach-scale typologies. 
-Similarly, @Verdonschot2006 showed that differences in classification strength were noticeable between 'best-available' and family-level data on a pan-European scale. 
-However, the difference was small and their analysis should not be extrapolated to infer if this difference also exists between species- and genus-level data.
-@Hawkins2000 note that, across taxa groups and typologies, higher taxonomic resolution does not always lead to greater classification strength.   
-Additionally, the likelihood of assigning an observation to the wrong type due to inaccuracies in the spatial data are lower for regional typologies, where such mistakes can only happen toward the borders between types.
-We reduced this error by using a more stringent distance-to-river criterion for the selection of sites than similar studies. 
-For example, @Irving2018 used a cutoff of 3 km to assign stream flow gauging stations to rivers. 
-Very small rivers are largely missing from the river network representations used by GloRiC and the BRT as provided in @globevnik2019btfr. 
-Hence, samples from these rivers are either omitted from the analysis if they are too far removed from the next river or assigned to the next river segment.
-In most cases, this is likely but not certainly a reach of a similar type. 
-New and more highly resolved river networks [e.g. @Lin2021] might provide more accurate mapping of river types and ameliorate these problems. 
-
-It is worthwhile to interpret the patterns we observed in light of metacommunity theory. 
-Our analysis of generalized silhouette widths showed that the separation between communities of different BRT types decreases when we give more weight to outliers. 
-The separation declines up to a point where it is lower than in the random typologies. 
-This pattern could be explained by strong dispersal limitation leading to divergent communities in comparable environments.
-The spatial distance between the instances of different types in reach-scale typologies is often small. 
-Typically, landscapes and catchments are made up of mosaics of different river types. 
-In positing that assemblages vary between instances of different reach-scale types, we implicitly assume that dispersal is strong enough for species to track variation in local conditions [@leibold2004metacommunity] but not so strong that mass effect can overrule environmentally induced patterns [@mouquet2003community].
+In positing that assemblages vary between instances of different reach-scale types, we implicitly assume that dispersal is strong enough for species to track variation in local conditions [@leibold2004metacommunity] but not so strong that mass effects overrule environmentally induced patterns [@mouquet2003community].
 If taxa are strongly limited by dispersal e.g. through historical and anthropogenic dispersal barriers [@leibold2010metacommunity;@Belletti2020] or through the sheer distance between sites, they are unable to reach potentially favorable sites.
-In our case, stronger dispersal limitation would lead to larger differences between sites of the same type. 
+The stronger the dispersal limitation the weaker the effect of the environment on community composition.
+Environmentally similar types, as the broad river types, fail to describe the main patterns in variation when dispersal limitation is strong. 
+Variation within types would be higher and variation between types lower, than in a scenario with less dispersal limitation. 
 Dispersal limitation leads to a pattern known as distance decay, which is often found at large spatial scales [@nekola1999distance; @morlon2008general] but varies in its magnitude between taxa, realms and degrees of latitude [@graco2021distance].
 Studies have found  both, invertebrate communities that are predominantly structured by environment [e.g. @heino2012context; @landeiro2012roles] and those that are structured by space [@mykra2007scale;@astorga2012distance]. 
-However, even for microbes, which under the Bass-Becking hypothesis ("everything is everywhere but the environment selects") were long considered to have cosmopolitan distributions [e.g. @Finlay2002], the role of dispersal limitation, at least at large spatial scales, is becoming evident [@Telford2006; @soininen2012macroecology; @lindstrom2012local].
+However, even for microbes, which under the Bass-Becking hypothesis ("everything is everywhere but the environment selects") were long considered to have cosmopolitan distributions [e.g. @Finlay2002], the role of dispersal limitation, at least at large spatial scales, is becoming evident [@Telford2006; @soininen2012macroecology; @lindstrom2012local]. 
+It is likely that most macroinvertebrate communities are partly structured by dispersal processes, which are not considered in typologies that ignore the spatial proximity between instances of a type (e.g. the braod river types)
+Similar difficulties arise for capturing the effect of biotic interactions with environmental typologies.  
+Biotic interactions such as competition, parasitism or facilitation co-determine the distribution of species [@garcia-gironBioticInteractionsHold2020]. 
+In that regard, they received much attention in the early days of macroecology [e.g. @diamond1975assembly;@connor1983interspecific] but the focus shifted towards environmental filters [e.g. @whittaker1970communities; @pearson2003predicting].
+Biotic interactions were thought to matter only at local scales, while autecological [@townsend1994species] and environmental characteristics [@Southwood_1977] determine distributions. 
+Lately, their role for macroecology has been revisited [e.g. @Wisz2013] partly due to the realization that many studies can not properly differentiate between environmental filtering and biotic interactions [@Kraft2015].
+Propelled by a series of methodological advances [e.g. @popovic2019untangling; @ovaskainen2020joint] several studies have recently investigated the effect of biotic interactions on larger biogeographical patterns. 
+Some studies show that biotic interactions can modulate the response towards environmental variations [@abrego2021accounting], as environmental harshness increases biotic interactions become less restrictive and vice versa. 
+Joint species distribution models [e.g. @ovaskainen2020joint; @pichlerNewJointSpecies2021] could be used to integrate biotic interactions into freshwater typologies [@Hill2020].
 
-<!-- Small scale vs. regional --> 
-The better performance of regional typologies might also be taken to support the notion, that aquatic macroinvertebrate communities are adapted to changes in large-scale rather than small-scale variables. 
-Many studies have investigated this question before.
-Among them are studies that have studied the explanatory potential of ecoregions, which might be considered as categorical combinations of large-scale environmental conditions like climate, geology and altitude.
-@Verdonschot2004 used the data compiled during the AQEM project to investigate potential drivers of macroinvertebrate community composition. 
-They found that the distribution of macroinvertebrates follows Illies' freshwater ecoregions and that large-scale variables like geology explain most of the variation. 
-However, using an extended data set, that included data from both AQUEM and STAR, @Verdonschot2006b found ecoregions to be a rather weak predictor of invertebrate community composition. 
-Similarly, ecoregions explained a negligible amount of variance in community composition in Swedish boreal rivers [@Johnson2004].
-The review of @Hawkins2000 finds that ecoregion-based approaches usually outperform catchment-scale classifications.
-However, the classification strength was generally low and lay between 0.07 and 0.16, which slightly exceeds the ones we found (between `r cs_gl` to `r cs_ill`) but is in agreement with several other studies [e.g.  @Snelder2004; @Heino2006; @Mykra2009; @Vasconcelos2013]. 
-The interplay between local and regional control cannot be considered detached from the previous discussion of dispersal limitation since the degree to which assemblages are regulated regionally or locally likely depends on the magnitude of dispersal [@ryabov2011graphical].
-Synthesis of these findings is impeded by the fact that many of the studies relied on combinations of variance partitioning and eigenfunction analyses that have been shown to be flawed [@gilbert2010partitioning; @smith2010variation; @tuomisto2012modelling].
-An alternative method to evaluate the importance of dispersal processes for community assembly was recently proposed [@Vilmi2020] but has yet to be extensively tested and applied. 
+## Data constrains
+<!-- 4. The Effect of taxonomic resolution --> 
+Due to the taxonomic resolution of the initial data sets and the varying sampling approaches, we conducted all analyses at the family level. 
+Analyses at the genus or species level would have indcluded more taxa, which means more discriminating entities and thus potentially more distinct assemblages and higher cluster validity scores. 
+In the analysis of @Moog2004, higher taxonomic resolution lead to more distinct ecoregions.
+Similarly, @Verdonschot2006 showed that a small difference in classification strength was noticeable between 'best-available' and family-level data on a pan-European scale. 
+This is plausible, as the species-level is where trait-environment interactions shape the responses to environmental conditions [e.g. @poff1997landscape], even though intraspecific variation might also be considerable [@Wong2021].
+At the same time, community composition is influenced by non-environmental factors like biotic interactions, dispersal and stochasticity [@leibold2004metacommunity]. 
+If responses of congeneric species are more similar to each other than to those of more distantly related species [e.g. @Marchant1995], using genus- or family-level data might reduce this "noise" [@Bowman1997]. 
+Indeed, @Hawkins2000 note that across taxa groups and typologies, a higher taxonomic resolution does not always lead to greater classification strength.  
+This notion is supported by many studies showing that differences between differently resolved data sets are usually small [e.g. @Furse1984; @Rutt1990; @Marchant1995; @Bowman1997; @Waite2004; @Feio2006; @Heino2007; @Heino2008; @godoy2019taxonomic] and by our mantel tests (Figure S3). 
+Yet, some studies also find contrasting patterns, suggesting that higher taxonomic resolution confers significantly more information [e.g. @Heino2014].
+@Marchant1995 propose that the necessary degree of taxonomic resolution scales with the spatial scale, with family-level data being sufficient for analyses that cover multiple catchments. 
+This concurs with @Moog2004, and if correct would mean that reach-scale typologies, like the broad river types, are more severely handicapped by a low taxonomic resolution than regional typologies. 
+Given the fact that most of the broad river types occur throughout Europe, the impact on cluster validity metrics should be small. 
 
-<!-- Biotic interactions --> 
-Typologies based on environmental variables cannot account for the effects of biotic interactions on species distributions.
-While these received much attention in the early days of macroecology [@diamond1975assembly;@connor1983interspecific] the focus shifted towards environmental filters [e.g. @whittaker1970communities; @pearson2003predicting] assuming that biotic interactions are only important at local scales. 
-Their role for macroecology has been revisited [e.g. @Wisz2013] partly due to the realization that many studies can not differentiate between environmental filtering *sensu stricto* and biotic interactions [@Kraft2015].
-Propelled by a series of new methods [e.g. @Popovic2019; @ovaskainen2020joint] several studies have recently investigated the effect of biotic interactions on larger biogeographical patterns. 
-While some indicate, that the role of environmental conditions is more important than that of biotic interactions [@elo2021does], others suggest that biotic interactions modulate the response to the abiotic enviornment [@Abrego2021]. 
+The second measure we took to reduce the variation introduced by the varying sampling strategies was the transformation to presence-absence. 
+Several studies have demonstrated that results can differ between presence-absence and abundance data [e.g. @Thorne_Williams_Cao_1999; @Marshall2005TaxonomicRA; @Melo2005; @Vasconcelos2013; @Heino2008].
+In comparison to abundance data, binary data put less weight on highly abundant taxa and instead place equal weight on each taxon.
+The focus of the analysis thus moves from changes in relative abundances to changes in composition, which likely are the more important drivers of variation at the large spatial scales we considered in this study [@Anderson_Connell_Gillanders_Diebel_Blom_Saunders_Landers_2005]. 
+How large the difference between presence-absence and abundance data is, thus likely depends on the spatial scale of the study. 
+All of the above studies have considered smaller spatial scales (often the catchment scale) and might thus overestimate the deviation for the spatial scale relevant for the present study. 
+This is in line with the finding that different basins can be differentiated with family-level presence-absence data [@Heino2014].
+In conclusion, using abundance and species-level data would likely affect our results.
+To which degree can not conclusively be determined until such data exist but given the arguments above, we think the deviations would not change our conclusions. 
 
-<!-- Ways forward -->
-## Conclusions and outlook   
+## Next steps for freshwater typologies
 
-While there were clear and systematic differences between typologies, all cluster validity metrics had comparatively low scores. 
-It is beyond the scope of the current study to assess whether this is a problem of the implementation or a general issue, i.e. if it is theoretically possible to create environmental typologies that capture large amounts of variation between communities or if niche processes or environmental filters *sensu stricto* [@Kraft2015] generally explain insufficient variance.
-The latter would constitute a serious problem for the reference state approach as this would entail that spatial stability of reference communities [@Statzner2001] should generally not be assumed. 
-However, since several studies have found typologies to explain a significant amount of variation [e.g. @Lorenz2004;@Johnson2007] we deem issues with the implementation more likely.  
-The river typology of the WFD must be optimized not only for macroinvertebrates but for all four biological quality elements (macroinvertebrates, diatoms, fish and macrophytes) [@Dodkins2005].
-Future studies should assess whether the conclusions drawn from this study are supported by results for the other taxa groups. 
-River classifications must be understood as models [@Goodwin1999; @Loveland2004]. 
-Alongside our growing knowledge about freshwater systems, we should strive to further improve them, as to increase their value for biomonitoring and to render them more effective tools for conservation. 
-Our study has shown that the BRT typologies should not be the end of this effort. 
+<!-- 5. future of typologies -->
+We propose three likely improvements to the broad river types. 
+First, intermittent rivers are common throughout Europe [@Datry_Larned_Tockner_2014;
+@Stubbington_England_Wood_Sefton_2017; @Messager_Lehner_Cockburn_Lamouroux_Pella_Snelder_Tockner_Trautmann_Watt_Datry_2021] and their prevalence is projected to increase with climate change [@jaegerClimateChangePoised2014].
+The effects of drying on dispersal and network connectivity make the meta-community processes discussed above especially pertinent in these systems [@Cid2020]. 
+The broad river types underrepresent this distinct and widespread river type by only recognizing them in the Mediterranean. 
+Second, while most classifications discussed so far are based solely on environmental attributes, biological communities can also be used as classification criteria.
+Doing so could help to better represent biological interactions, dispersal and small-scale environmental variations [@DeVries2020]. 
+While @DeVries2020 argue for purely biological classifications, @Hill2020 review numerous promising methods to combine biological and environmental features. 
+Among them are joint species distribution models, generalized dissimilarity models [@ferrierUsingGeneralizedDissimilarity2007] and the regions of common profile [@fosterModellingBiologicalRegions2013]. 
+Lastly, the combination of regional and reach-based typologies would likely result in typologies that are superior to either alone. 
+As discussed above, both approaches capture important dimensions of variation: reach-scale typologies the longitudinal dimension and regional typologies the variation among large geographic areas. 
+While the broad river types include region as a variable, it is only used to divide between Mediterranean and non-Mediterranean. 
+Including more regions such as Illies Freshwater Ecoregions, as is proposed for System A of the WFD, the Hydroecoregions [@wassonEuropeanHydroEcoregions2007], the Biogeographic Regions or the Environmental Zones of Europe [@metzgerDescriptionsEuropeanEnvironmental2012] as is proposed by @michelleRevisionEUNISInland2021, would spatially constrain types and hence help to integrate dispersal limitations into the typology.   
+However, using all types that result from a straight forward combination of the broad river types with e.g. Illies Freshwater Ecoregions clearly produces to many types too be useful. 
+Therefore, ways to optimally aggregate the combined types should be derived in future work. 
+
+## Conclusion
+We evaluated three pan-European freshwater typologies as classifications of macroinvertebrate community composition.
+All three performed better than would be expected of randomly assorted sites. 
+However, cluster validity statistics highlighted large overlaps between clusters. 
+For macroinvertebrates, the within-type similarity was too small to support the assumptions of the reference-state approach. 
+A crucial next step will be to evaluate the broad river types with other biological quality elements (i.e. macrophytes, fishes and phytoplankton) as the aim of the typology must be to capture all four optimally [@Dodkins2005] and classification performance can vary strongly between taxonomic groups [@paavola2003biological].
+Comparable performances with other quality elements would support the notion that other pan-European typologies should be considered. 
+
+<!-- unassigend blurbs: 
+
+Landuse:  
+In most instances the effects of land-use on effectiveness of the typologies was minimal. This is contrary to the expectation that land-use homogenizes communities but is in line with the findings @Waite2000. In their analysis of macroinvertebrate samples from the Mid-Appalachian Highlands they found small differences between the classification strength of pristine samples compared to a random selection of samples. 
+
+biomonitroing 
+
+Overall this highlights the need to increase taxonomic resolution in biomonitoring.
+Especially for Chironomidae and Simuliidae; two widespread Dipteran families that can be found in diverse types of rivers but are often only determined to family level. 
+Chironomidae are optimal bioindicators: their larvae live in a variety of freshwater habitats [@pillot2020chironomidae], where they often dominate in terms of biomass and abundance [@armitage2012chironomidae] and the more than 20.000 species have species-specific niches [@armitage2012chironomidae; @kondo1992habitat]. 
+As such they have been used to indicate pollution [@wilson1977new], general water quality [@nicacio2015chironomids] and desiccation [@punti2009environmental; @Canedo-Arguelles2016]. 
+The second family, Simuliidae, is also ubiquitous and has a high species to genus ratio [~150 considering only extant taxa, @adler2016world].
+The higher this ratio, the greater the loss of information when using lower level (e.g. family-level) data. 
+The usefulness of Simuliidae for biomonitoring has been repeatedly demonstrated [e.g. @feld2002indication; @pramual2009agricultural].
+However, as stressor effects can differ between species [@nelson2020contrasting], species-level data is necessary. 
+In both families, the main obstacles to higher taxonomic resolution, are the expertise, financial resources and time necessary for precise morphological identification.   
+
+Basing biomonitoring schemes on environmental nucleic acids [eNA, @Veilleux2021] which includes eDNA [@Taberlet2012] and eRNA [@cristescu2019can] would remove this hurdle. 
+Such approaches have been advocated for repeatedly [e.g. @kelly2014harnessing; @deiner2017environmental; @pawlowski2018future] and are starting to be implemented [e.g. @pawlowski2020environmental]. 
+eNA surveys are faster, less labor-intensive and minimally invasive.
+Therefore, both spatial and temporal resolution of monitoring schemes could be increased cost-neutrally. 
+Unlike traditional methods, they are not biased against visually hard to identify taxa (e.g. Chrionomidae or Simuliidae), cryptic or microbial taxa [@Cordier2019]. 
+The biggest barrier to this promising approach, incomplete sequence databases [e.g. @kvist2013barcoding; @Cordier2019], might be surmounted with taxonomy-free approaches. 
+An example is provided by @apotheloz2017taxonomy, who suggested assigning environmental quality scores to operational taxonomic units based on their occurrence at sites of known status.
+--> 
+
+
+
+
