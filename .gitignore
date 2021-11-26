@@ -45,9 +45,9 @@ doc/
 Rmd/
 fig/
 workflow_brt_mzb/
-R/10_old_scripts/
-R/03_new_typology/
-R/
+01_original_data/
+
+
 # file types 
 *.pdf
 *.xlsx

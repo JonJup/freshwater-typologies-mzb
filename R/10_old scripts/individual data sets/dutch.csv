@@ -1,0 +1,61 @@
+typology,type,V1,taxon.level,variable
+brt12,all observations,0.0952718490249748,genus,Anosim R
+brt12_illies,all observations,0.156287294294651,genus,Anosim R
+brt12,least impacted,0.0444483233571939,genus,Anosim R
+brt12_illies,least impacted,0.041088726557541,genus,Anosim R
+brt12,purified,-0.0168437613408254,genus,Anosim R
+brt12_illies,purified,-0.0197465924157622,genus,Anosim R
+brt12,all observations,0.115443535965297,genus,ivs_corr
+brt12_illies,all observations,0.179598398674468,genus,ivs_corr
+brt12,least impacted,0.422898980917983,genus,ivs_corr
+brt12_illies,least impacted,0.437909056383013,genus,ivs_corr
+brt12,purified,0.43608547113903,genus,ivs_corr
+brt12_illies,purified,0.452840409324346,genus,ivs_corr
+brt12,all observations,0.115443535965297,genus,ivs_corr
+brt12_illies,all observations,0.179598398674468,genus,ivs_corr
+brt12,least impacted,0.422898980917983,genus,ivs_corr
+brt12_illies,least impacted,0.437909056383013,genus,ivs_corr
+brt12,purified,0.43608547113903,genus,ivs_corr
+brt12_illies,purified,0.452840409324346,genus,ivs_corr
+brt12,all observations,0.0150532950457275,genus,cs
+brt12_illies,all observations,0.0340809054914818,genus,cs
+brt12,least impacted,-0.0159941544465553,genus,cs
+brt12_illies,least impacted,-0.0164443314066327,genus,cs
+brt12,purified,0.00140836970804388,genus,cs
+brt12_illies,purified,-0.000932370150100457,genus,cs
+brt12,all observations,0.0150532950457275,genus,cs
+brt12_illies,all observations,0.0340809054914818,genus,cs
+brt12,least impacted,-0.0159941544465553,genus,cs
+brt12_illies,least impacted,-0.0164443314066327,genus,cs
+brt12,purified,0.00140836970804388,genus,cs
+brt12_illies,purified,-0.000932370150100457,genus,cs
+brt12,all observations,0.0826022022658843,family,Anosim R
+brt12_illies,all observations,0.132490307611909,family,Anosim R
+brt12,least impacted,0.04312718162544,family,Anosim R
+brt12_illies,least impacted,0.0638534372792767,family,Anosim R
+brt12,purified,0.00384023584578234,family,Anosim R
+brt12_illies,purified,0.024547710015178,family,Anosim R
+brt12,all observations,0.142021736187991,family,ivs_corr
+brt12_illies,all observations,0.236152236221648,family,ivs_corr
+brt12,least impacted,0.50793536037566,family,ivs_corr
+brt12_illies,least impacted,Inf,family,ivs_corr
+brt12,purified,0.525600070190235,family,ivs_corr
+brt12_illies,purified,0.529320954645236,family,ivs_corr
+brt12,all observations,0.142021736187991,family,ivs_corr
+brt12_illies,all observations,0.236152236221648,family,ivs_corr
+brt12,least impacted,0.50793536037566,family,ivs_corr
+brt12_illies,least impacted,Inf,family,ivs_corr
+brt12,purified,0.525600070190235,family,ivs_corr
+brt12_illies,purified,0.529320954645236,family,ivs_corr
+brt12,all observations,0.00764783856250103,family,cs
+brt12_illies,all observations,0.0185604695344798,family,cs
+brt12,least impacted,-0.0164417240192896,family,cs
+brt12_illies,least impacted,-0.0103613730533514,family,cs
+brt12,purified,0.00191071156102747,family,cs
+brt12_illies,purified,0.00489523150659482,family,cs
+brt12,all observations,0.00764783856250103,family,cs
+brt12_illies,all observations,0.0185604695344798,family,cs
+brt12,least impacted,-0.0164417240192896,family,cs
+brt12_illies,least impacted,-0.0103613730533514,family,cs
+brt12,purified,0.00191071156102747,family,cs
+brt12_illies,purified,0.00489523150659482,family,cs

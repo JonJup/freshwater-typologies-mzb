@@ -1,0 +1,121 @@
+typology,type,V1,taxon.level,variable
+brt12,all observations,0.182533941146211,genus,Anosim R
+illies,all observations,0.0539735749237287,genus,Anosim R
+brt12_illies,all observations,0.160552749405344,genus,Anosim R
+her,all observations,0.282507063360542,genus,Anosim R
+brt12,least impacted,0.257532233210848,genus,Anosim R
+illies,least impacted,0.0818437938678495,genus,Anosim R
+brt12_illies,least impacted,0.233372916517769,genus,Anosim R
+her,least impacted,0.325192035797173,genus,Anosim R
+brt12,purified,0.206810267089502,genus,Anosim R
+illies,purified,0.156230338881647,genus,Anosim R
+brt12_illies,purified,0.226183621408957,genus,Anosim R
+her,purified,0.259643096176382,genus,Anosim R
+brt12,all observations,0.113318065109577,genus,ivs_corr
+illies,all observations,0.164920837940766,genus,ivs_corr
+brt12_illies,all observations,0.204231956196036,genus,ivs_corr
+her,all observations,0.252089217653799,genus,ivs_corr
+brt12,least impacted,0.170387946749128,genus,ivs_corr
+illies,least impacted,0.196440926016482,genus,ivs_corr
+brt12_illies,least impacted,0.273924308700898,genus,ivs_corr
+her,least impacted,0.305249591757227,genus,ivs_corr
+brt12,purified,0.238145297428202,genus,ivs_corr
+illies,purified,0.110994000145249,genus,ivs_corr
+brt12_illies,purified,0.305937877670824,genus,ivs_corr
+her,purified,0.331226219019421,genus,ivs_corr
+brt12,all observations,0.113318065109577,genus,ivs_corr
+illies,all observations,0.164920837940766,genus,ivs_corr
+brt12_illies,all observations,0.204231956196036,genus,ivs_corr
+her,all observations,0.252089217653799,genus,ivs_corr
+brt12,least impacted,0.170387946749128,genus,ivs_corr
+illies,least impacted,0.196440926016482,genus,ivs_corr
+brt12_illies,least impacted,0.273924308700898,genus,ivs_corr
+her,least impacted,0.305249591757227,genus,ivs_corr
+brt12,purified,0.238145297428202,genus,ivs_corr
+illies,purified,0.110994000145249,genus,ivs_corr
+brt12_illies,purified,0.305937877670824,genus,ivs_corr
+her,purified,0.331226219019421,genus,ivs_corr
+brt12,all observations,0.0545182777690791,genus,cs
+illies,all observations,0.149256759291245,genus,cs
+brt12_illies,all observations,0.108046853851738,genus,cs
+her,all observations,0.146927814438488,genus,cs
+brt12,least impacted,0.0565155511670618,genus,cs
+illies,least impacted,0.151074689088047,genus,cs
+brt12_illies,least impacted,0.0905004182100372,genus,cs
+her,least impacted,0.143883798048411,genus,cs
+brt12,purified,0.0742717590864293,genus,cs
+illies,purified,0.0529031597887947,genus,cs
+brt12_illies,purified,0.0837192292126531,genus,cs
+her,purified,0.110101020378659,genus,cs
+brt12,all observations,0.0545182777690791,genus,cs
+illies,all observations,0.149256759291245,genus,cs
+brt12_illies,all observations,0.108046853851738,genus,cs
+her,all observations,0.146927814438488,genus,cs
+brt12,least impacted,0.0565155511670618,genus,cs
+illies,least impacted,0.151074689088047,genus,cs
+brt12_illies,least impacted,0.0905004182100372,genus,cs
+her,least impacted,0.143883798048411,genus,cs
+brt12,purified,0.0742717590864293,genus,cs
+illies,purified,0.0529031597887947,genus,cs
+brt12_illies,purified,0.0837192292126531,genus,cs
+her,purified,0.110101020378659,genus,cs
+brt12,all observations,0.178197314655374,family,Anosim R
+illies,all observations,0.0599748314876498,family,Anosim R
+brt12_illies,all observations,0.158922702467107,family,Anosim R
+her,all observations,0.293771792754338,family,Anosim R
+brt12,least impacted,0.251223224141355,family,Anosim R
+illies,least impacted,0.0779784991174222,family,Anosim R
+brt12_illies,least impacted,0.226441463287258,family,Anosim R
+her,least impacted,0.320111718334363,family,Anosim R
+brt12,purified,0.189099831191267,family,Anosim R
+illies,purified,0.149466986026466,family,Anosim R
+brt12_illies,purified,0.212652316726156,family,Anosim R
+her,purified,0.255521999705255,family,Anosim R
+brt12,all observations,0.171167577037586,family,ivs_corr
+illies,all observations,0.263615782920001,family,ivs_corr
+brt12_illies,all observations,0.26138693774248,family,ivs_corr
+her,all observations,0.301159797025422,family,ivs_corr
+brt12,least impacted,0.206018304315085,family,ivs_corr
+illies,least impacted,0.299524685979472,family,ivs_corr
+brt12_illies,least impacted,0.339457640533204,family,ivs_corr
+her,least impacted,0.339485089553016,family,ivs_corr
+brt12,purified,Inf,family,ivs_corr
+illies,purified,0.141716711273749,family,ivs_corr
+brt12_illies,purified,0.385966828876549,family,ivs_corr
+her,purified,0.378238105514183,family,ivs_corr
+brt12,all observations,0.171167577037586,family,ivs_corr
+illies,all observations,0.263615782920001,family,ivs_corr
+brt12_illies,all observations,0.26138693774248,family,ivs_corr
+her,all observations,0.301159797025422,family,ivs_corr
+brt12,least impacted,0.206018304315085,family,ivs_corr
+illies,least impacted,0.299524685979472,family,ivs_corr
+brt12_illies,least impacted,0.339457640533204,family,ivs_corr
+her,least impacted,0.339485089553016,family,ivs_corr
+brt12,purified,Inf,family,ivs_corr
+illies,purified,0.141716711273749,family,ivs_corr
+brt12_illies,purified,0.385966828876549,family,ivs_corr
+her,purified,0.378238105514183,family,ivs_corr
+brt12,all observations,0.0433073307633726,family,cs
+illies,all observations,0.121673302654269,family,cs
+brt12_illies,all observations,0.0827099420278715,family,cs
+her,all observations,0.121106986785761,family,cs
+brt12,least impacted,0.0445987961859557,family,cs
+illies,least impacted,0.119606013552212,family,cs
+brt12_illies,least impacted,0.0697362165130058,family,cs
+her,least impacted,0.116943984170974,family,cs
+brt12,purified,0.0607141281611488,family,cs
+illies,purified,0.040854987863217,family,cs
+brt12_illies,purified,0.0657093514650519,family,cs
+her,purified,0.0872127198748196,family,cs
+brt12,all observations,0.0433073307633726,family,cs
+illies,all observations,0.121673302654269,family,cs
+brt12_illies,all observations,0.0827099420278715,family,cs
+her,all observations,0.121106986785761,family,cs
+brt12,least impacted,0.0445987961859557,family,cs
+illies,least impacted,0.119606013552212,family,cs
+brt12_illies,least impacted,0.0697362165130058,family,cs
+her,least impacted,0.116943984170974,family,cs
+brt12,purified,0.0607141281611488,family,cs
+illies,purified,0.040854987863217,family,cs
+brt12_illies,purified,0.0657093514650519,family,cs
+her,purified,0.0872127198748196,family,cs

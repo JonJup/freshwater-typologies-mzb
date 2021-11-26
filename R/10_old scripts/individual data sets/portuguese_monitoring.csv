@@ -1,0 +1,19 @@
+typology,type,V1,taxon.level,variable
+brt12,all observations,0.14727553356207,family,Anosim R
+brt12,least impacted,0.0701746485833247,family,Anosim R
+brt12,purified,0.0474829741360927,family,Anosim R
+brt12,all observations,0.14727553356207,family,Anosim R
+brt12,least impacted,0.0701746485833247,family,Anosim R
+brt12,purified,0.0474829741360927,family,Anosim R
+brt12,all observations,0.377455371707449,family,ivs_corr
+brt12,least impacted,0.356151394969579,family,ivs_corr
+brt12,purified,Inf,family,ivs_corr
+brt12,all observations,0.377455371707449,family,ivs_corr
+brt12,least impacted,0.356151394969579,family,ivs_corr
+brt12,purified,Inf,family,ivs_corr
+brt12,all observations,0.0520438082169876,family,cs
+brt12,least impacted,0.0490266486367966,family,cs
+brt12,purified,0.0154328724719724,family,cs
+brt12,all observations,0.0520438082169876,family,cs
+brt12,least impacted,0.0490266486367966,family,cs
+brt12,purified,0.0154328724719724,family,cs

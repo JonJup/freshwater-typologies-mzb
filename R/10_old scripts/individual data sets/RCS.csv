@@ -1,0 +1,151 @@
+typology,type,V1,taxon.level,variable
+brt12,all observations,0.264632620182039,genus,Anosim R
+illies,all observations,0.137766852071948,genus,Anosim R
+brt12_illies,all observations,0.283211655335861,genus,Anosim R
+her,all observations,0.438418654963165,genus,Anosim R
+brt12_bgr,all observations,0.288965404298567,genus,Anosim R
+brt12,least impacted,0.29300854177798,genus,Anosim R
+illies,least impacted,0.110682435330728,genus,Anosim R
+brt12_illies,least impacted,0.321710288390919,genus,Anosim R
+her,least impacted,0.419541266652578,genus,Anosim R
+brt12_bgr,least impacted,0.324869099611111,genus,Anosim R
+brt12,purified,0.334901381179611,genus,Anosim R
+illies,purified,0.129680111512755,genus,Anosim R
+brt12_illies,purified,0.369079932604888,genus,Anosim R
+her,purified,0.467923296592281,genus,Anosim R
+brt12_bgr,purified,0.363520471011598,genus,Anosim R
+brt12,all observations,0.212877004687197,genus,ivs_corr
+illies,all observations,0.200013689938171,genus,ivs_corr
+brt12_illies,all observations,0.285247754837918,genus,ivs_corr
+her,all observations,0.319892190421345,genus,ivs_corr
+brt12_bgr,all observations,0.280178584860002,genus,ivs_corr
+brt12,least impacted,0.278466403016632,genus,ivs_corr
+illies,least impacted,0.249660944624241,genus,ivs_corr
+brt12_illies,least impacted,0.340022376467904,genus,ivs_corr
+her,least impacted,0.361196461949227,genus,ivs_corr
+brt12_bgr,least impacted,0.319434301407264,genus,ivs_corr
+brt12,purified,0.323030901111599,genus,ivs_corr
+illies,purified,0.230312449822365,genus,ivs_corr
+brt12_illies,purified,0.364594564208024,genus,ivs_corr
+her,purified,0.395264507824423,genus,ivs_corr
+brt12_bgr,purified,0.357027850027246,genus,ivs_corr
+brt12,all observations,0.212877004687197,genus,ivs_corr
+illies,all observations,0.200013689938171,genus,ivs_corr
+brt12_illies,all observations,0.285247754837918,genus,ivs_corr
+her,all observations,0.319892190421345,genus,ivs_corr
+brt12_bgr,all observations,0.280178584860002,genus,ivs_corr
+brt12,least impacted,0.278466403016632,genus,ivs_corr
+illies,least impacted,0.249660944624241,genus,ivs_corr
+brt12_illies,least impacted,0.340022376467904,genus,ivs_corr
+her,least impacted,0.361196461949227,genus,ivs_corr
+brt12_bgr,least impacted,0.319434301407264,genus,ivs_corr
+brt12,purified,0.323030901111599,genus,ivs_corr
+illies,purified,0.230312449822365,genus,ivs_corr
+brt12_illies,purified,0.364594564208024,genus,ivs_corr
+her,purified,0.395264507824423,genus,ivs_corr
+brt12_bgr,purified,0.357027850027246,genus,ivs_corr
+brt12,all observations,0.0498483412091571,genus,cs
+illies,all observations,0.136497885301158,genus,cs
+brt12_illies,all observations,0.09365590363873,genus,cs
+her,all observations,0.134632846815351,genus,cs
+brt12_bgr,all observations,0.0908128645393473,genus,cs
+brt12,least impacted,0.0650656653537487,genus,cs
+illies,least impacted,0.148271769504178,genus,cs
+brt12_illies,least impacted,0.109719267949441,genus,cs
+her,least impacted,0.140090062095814,genus,cs
+brt12_bgr,least impacted,0.105420026054169,genus,cs
+brt12,purified,0.0697812384443067,genus,cs
+illies,purified,0.156699270347232,genus,cs
+brt12_illies,purified,0.11487610155219,genus,cs
+her,purified,0.125932989106923,genus,cs
+brt12_bgr,purified,0.0974134700592597,genus,cs
+brt12,all observations,0.0498483412091571,genus,cs
+illies,all observations,0.136497885301158,genus,cs
+brt12_illies,all observations,0.09365590363873,genus,cs
+her,all observations,0.134632846815351,genus,cs
+brt12_bgr,all observations,0.0908128645393473,genus,cs
+brt12,least impacted,0.0650656653537487,genus,cs
+illies,least impacted,0.148271769504178,genus,cs
+brt12_illies,least impacted,0.109719267949441,genus,cs
+her,least impacted,0.140090062095814,genus,cs
+brt12_bgr,least impacted,0.105420026054169,genus,cs
+brt12,purified,0.0697812384443067,genus,cs
+illies,purified,0.156699270347232,genus,cs
+brt12_illies,purified,0.11487610155219,genus,cs
+her,purified,0.125932989106923,genus,cs
+brt12_bgr,purified,0.0974134700592597,genus,cs
+brt12,all observations,0.247579305579586,family,Anosim R
+illies,all observations,0.127505189145683,family,Anosim R
+brt12_illies,all observations,0.264383356842046,family,Anosim R
+her,all observations,0.43488948121747,family,Anosim R
+brt12_bgr,all observations,0.280200351380297,family,Anosim R
+brt12,least impacted,0.27049275875874,family,Anosim R
+illies,least impacted,0.0975930352551927,family,Anosim R
+brt12_illies,least impacted,0.291259212753488,family,Anosim R
+her,least impacted,0.399912884310006,family,Anosim R
+brt12_bgr,least impacted,0.30645978253126,family,Anosim R
+brt12,purified,0.297468320133799,family,Anosim R
+illies,purified,0.104947740220269,family,Anosim R
+brt12_illies,purified,0.326918247381737,family,Anosim R
+her,purified,0.425030148954525,family,Anosim R
+brt12_bgr,purified,0.328509238288028,family,Anosim R
+brt12,all observations,0.250104991007366,family,ivs_corr
+illies,all observations,0.252481517756645,family,ivs_corr
+brt12_illies,all observations,0.328841565791687,family,ivs_corr
+her,all observations,Inf,family,ivs_corr
+brt12_bgr,all observations,0.325164628750845,family,ivs_corr
+brt12,least impacted,0.319285012648957,family,ivs_corr
+illies,least impacted,0.29670755255122,family,ivs_corr
+brt12_illies,least impacted,0.395068858059772,family,ivs_corr
+her,least impacted,0.40246208957368,family,ivs_corr
+brt12_bgr,least impacted,0.362941141557609,family,ivs_corr
+brt12,purified,0.365823986121699,family,ivs_corr
+illies,purified,0.26687210766073,family,ivs_corr
+brt12_illies,purified,0.413444257098754,family,ivs_corr
+her,purified,0.444672138255383,family,ivs_corr
+brt12_bgr,purified,0.393480796829024,family,ivs_corr
+brt12,all observations,0.250104991007366,family,ivs_corr
+illies,all observations,0.252481517756645,family,ivs_corr
+brt12_illies,all observations,0.328841565791687,family,ivs_corr
+her,all observations,Inf,family,ivs_corr
+brt12_bgr,all observations,0.325164628750845,family,ivs_corr
+brt12,least impacted,0.319285012648957,family,ivs_corr
+illies,least impacted,0.29670755255122,family,ivs_corr
+brt12_illies,least impacted,0.395068858059772,family,ivs_corr
+her,least impacted,0.40246208957368,family,ivs_corr
+brt12_bgr,least impacted,0.362941141557609,family,ivs_corr
+brt12,purified,0.365823986121699,family,ivs_corr
+illies,purified,0.26687210766073,family,ivs_corr
+brt12_illies,purified,0.413444257098754,family,ivs_corr
+her,purified,0.444672138255383,family,ivs_corr
+brt12_bgr,purified,0.393480796829024,family,ivs_corr
+brt12,all observations,0.0423027804569054,family,cs
+illies,all observations,0.123182102916672,family,cs
+brt12_illies,all observations,0.0813341487840058,family,cs
+her,all observations,0.11728489078439,family,cs
+brt12_bgr,all observations,0.0801184303323354,family,cs
+brt12,least impacted,0.050278100292099,family,cs
+illies,least impacted,0.122821246706363,family,cs
+brt12_illies,least impacted,0.0891943215303168,family,cs
+her,least impacted,0.11958299376952,family,cs
+brt12_bgr,least impacted,0.0807221715416689,family,cs
+brt12,purified,0.0536417872134851,family,cs
+illies,purified,0.131985874480892,family,cs
+brt12_illies,purified,0.0892485984338599,family,cs
+her,purified,0.104460990165468,family,cs
+brt12_bgr,purified,0.0745835152120476,family,cs
+brt12,all observations,0.0423027804569054,family,cs
+illies,all observations,0.123182102916672,family,cs
+brt12_illies,all observations,0.0813341487840058,family,cs
+her,all observations,0.11728489078439,family,cs
+brt12_bgr,all observations,0.0801184303323354,family,cs
+brt12,least impacted,0.050278100292099,family,cs
+illies,least impacted,0.122821246706363,family,cs
+brt12_illies,least impacted,0.0891943215303168,family,cs
+her,least impacted,0.11958299376952,family,cs
+brt12_bgr,least impacted,0.0807221715416689,family,cs
+brt12,purified,0.0536417872134851,family,cs
+illies,purified,0.131985874480892,family,cs
+brt12_illies,purified,0.0892485984338599,family,cs
+her,purified,0.104460990165468,family,cs
+brt12_bgr,purified,0.0745835152120476,family,cs

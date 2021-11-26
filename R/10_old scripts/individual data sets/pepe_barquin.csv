@@ -1,0 +1,55 @@
+typology,type,V1,taxon.level,variable
+brt12,all observations,0.222111481356324,species,Anosim R
+brt12,least impacted,0.285218916279719,species,Anosim R
+brt12,purified,-0.448275862068966,species,Anosim R
+brt12,all observations,0.217718443487225,genus,Anosim R
+brt12,least impacted,0.318021483090536,genus,Anosim R
+brt12,purified,-0.469496021220159,genus,Anosim R
+brt12,all observations,0.2132398547346,family,Anosim R
+brt12,least impacted,0.308186691643915,family,Anosim R
+brt12,purified,-0.473474801061008,family,Anosim R
+brt12,all observations,0.222111481356324,species,Anosim R
+brt12,least impacted,0.285218916279719,species,Anosim R
+brt12,purified,-0.448275862068966,species,Anosim R
+brt12,all observations,0.217718443487225,genus,Anosim R
+brt12,least impacted,0.318021483090536,genus,Anosim R
+brt12,purified,-0.469496021220159,genus,Anosim R
+brt12,all observations,0.2132398547346,family,Anosim R
+brt12,least impacted,0.308186691643915,family,Anosim R
+brt12,purified,-0.473474801061008,family,Anosim R
+brt12,all observations,0.369362573801554,species,ivs_corr
+brt12,least impacted,0.434872969880601,species,ivs_corr
+brt12,purified,0.369039864933141,species,ivs_corr
+brt12,all observations,0.369362573801554,genus,ivs_corr
+brt12,least impacted,0.434872969880601,genus,ivs_corr
+brt12,purified,0.369039864933141,genus,ivs_corr
+brt12,all observations,0.369362573801554,family,ivs_corr
+brt12,least impacted,0.434872969880601,family,ivs_corr
+brt12,purified,0.369039864933141,family,ivs_corr
+brt12,all observations,0.369362573801554,species,ivs_corr
+brt12,least impacted,0.434872969880601,species,ivs_corr
+brt12,purified,0.369039864933141,species,ivs_corr
+brt12,all observations,0.369362573801554,genus,ivs_corr
+brt12,least impacted,0.434872969880601,genus,ivs_corr
+brt12,purified,0.369039864933141,genus,ivs_corr
+brt12,all observations,0.369362573801554,family,ivs_corr
+brt12,least impacted,0.434872969880601,family,ivs_corr
+brt12,purified,0.369039864933141,family,ivs_corr
+brt12,all observations,0.0704701004636554,species,cs
+brt12,least impacted,0.11667258356234,species,cs
+brt12,purified,0.0712540937427603,species,cs
+brt12,all observations,0.0469522843057798,genus,cs
+brt12,least impacted,0.0742342924153575,genus,cs
+brt12,purified,0.0267886264695661,genus,cs
+brt12,all observations,0.0447896690480619,family,cs
+brt12,least impacted,0.0716500588306385,family,cs
+brt12,purified,0.0333065708672359,family,cs
+brt12,all observations,0.0704701004636554,species,cs
+brt12,least impacted,0.11667258356234,species,cs
+brt12,purified,0.0712540937427603,species,cs
+brt12,all observations,0.0469522843057798,genus,cs
+brt12,least impacted,0.0742342924153575,genus,cs
+brt12,purified,0.0267886264695661,genus,cs
+brt12,all observations,0.0447896690480619,family,cs
+brt12,least impacted,0.0716500588306385,family,cs
+brt12,purified,0.0333065708672359,family,cs

@@ -1,0 +1,345 @@
+---
+title: 'Individual Data Set: STAR'
+author: "Jonathan Jupke"
+output: html_document
+---
+
+```{r SETUP, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning=FALSE)
+pacman::p_load(
+        ade4,
+        cluster,
+        corrplot,
+        data.table,
+        dplyr,
+        ggplot2,
+        indicspecies,
+        magrittr,
+        mapview,
+        sf,
+        tidyr,
+        tmap,
+        vegan
+)
+source("../helper_functions.R")
+tmap_mode("view")
+```
+
+```{r CREATE OPTIONS}
+#- What to load and what to compute
+#- TRUE means load
+options <- list(
+  pre =      TRUE,
+  distance = TRUE,
+  mantel   = TRUE
+)
+```
+
+```{r CREATE GLOBAL VARIABLES 1}
+data.set = "star"
+all_seasons <- c("spring", "summer", "autumn", "winter")
+seasons <- 1:3
+```
+
+```{r CREATE DA, LI and PU}
+most.recent.data <- 
+        fs::dir_ls("../../data/combined_data/", regexp = "_core_taxa_data.rds") |> 
+        stringr::str_remove("../../data/combined_data/03_") |> 
+        stringr::str_remove("_core_taxa_data.rds") |> 
+        lubridate::ymd() |> 
+        {\(x) x[which.max(x)]}()
+
+data <-
+        readRDS(file = paste0("../../data/combined_data/03_", most.recent.data,"_core_taxa_data.rds"))
+da <-
+        lapply(data, function(x)
+                x[data.set == "STAR"])
+
+da <- rbindlist(da)
+da$season <- NA
+#- create subset of least impacted sites
+li <- da[fec.least.impacted == TRUE]
+#- create subset of sites that are least impacted and removed from regional borders
+pu <-li[illies_distance >= 25000 & bgr_distance >= 25000]
+```
+
+```{r PLOT MAPS}
+map <- 
+  li |> 
+  unique(by = "gr_sample_id") |> 
+  st_as_sf()
+tm_shape(map) + tm_dots(col = "brt12") + tm_facets(by = "season")
+```
+
+```{r CHECK TYPOLOGIES, results = "hide"}
+#- check how many instances of each type are there
+
+map |>  pull(bgr) |> table()
+map |>  pull(illies) |> table()
+map |>  pull(brt12) |> table()
+
+
+c(nrow(da[is.na(species)])/nrow(da))
+c(nrow(da[is.na(genus)])  /nrow(da))
+c(nrow(da[is.na(family)]) /nrow(da))
+
+#- species missing in ~ 50% of observations 
+#- genus missing in ~ 10% of observations 
+#- family missing in < 1% of observation
+```
+
+```{r GLOBAL VARIBLES 2}
+typologies <- c("brt12")
+seasons = 1
+```
+
+```{r RUN PRE2 AND 3}
+if (!options$pre){ 
+
+        das2 <- prep1(data = list(da), 
+                      taxon = "species")
+        dag2 <- prep1(data = list(da),
+                      taxon = "genus")
+        daf2 <- prep1(data = list(da),
+                      taxon = "family")
+        lis2 <- prep1(data = list(li),
+                      taxon = "species")
+        lig2 <- prep1(data = list(li),
+                      taxon = "genus")
+        lif2 <- prep1(data = list(li),
+                      taxon = "family")
+        pus2 <- prep1(data = list(pu),
+                      taxon = "species")
+        pug2 <- prep1(data = list(pu),
+                      taxon = "genus")
+        puf2 <- prep1(data = list(pu),
+                      taxon = "family")
+        lis2.abu <- prep1(data = list(li), taxon = "species", abundance.to.pa = FALSE)
+        lig2.abu <- prep1(data = list(li), taxon = "genus", abundance.to.pa = FALSE)
+        lif2.abu <- prep1(data = list(li), taxon = "family", abundance.to.pa = FALSE)
+        
+  das3 <- prep2(das2)
+  lis3 <- prep2(lis2)
+  pus3 <- prep2(pus2)
+  dag3 <- prep2(dag2)
+  lig3 <- prep2(lig2)
+  pug3 <- prep2(pug2)
+  daf3 <- prep2(daf2)
+  lif3 <- prep2(lif2)
+  puf3 <- prep2(puf2)
+  lis3.abu <- prep2(lis2.abu) 
+  lig3.abu <- prep2(lig2.abu) 
+  lif3.abu <- prep2(lif2.abu) 
+  
+  saveRDS(
+          object = list(
+                  das2 = das2,
+                  lis2 = lis2,
+                  pus2 = pus2,
+                  dag2 = dag2,
+                  lig2 = lig2,
+                  pug2 = pug2,
+                  dag3 = dag3,
+                  lig3 = lig3,
+                  pug3 = pug3,
+                  daf2 = daf2,
+                  lif2 = lif2,
+                  puf2 = puf2,
+                  daf3 = daf3,
+                  lif3 = lif3,
+                  puf3 = puf3,
+                  lis3.abu = lis3.abu,
+                  lig3.abu = lig3.abu,
+                  lif3.abu = lif3.abu
+          ),
+          
+    file = paste0("auxilliary/pre_",data.set,".rds")
+  )
+} else if (options$pre){
+  pre = readRDS(file = paste0("auxilliary/pre_",data.set,".rds"))
+  for (i in seq_along(pre)){
+    assign(x     = names(pre)[i], 
+           value = pre[[i]])
+  }
+}
+```
+
+```{r COMPUTE DISTANCE MATRICES}
+# DISTANCE MATRIX  ------------------------------------------------------------------
+if (!options$distance) {
+  das.dist <- das3 |> prep3()
+  lis.dist <- lis3 |> prep3()
+  pus.dist <- pus3 |> prep3()
+  dag.dist <- dag3 |> prep3()
+  lig.dist <- lig3 |> prep3()
+  pug.dist <- pug3 |> prep3()
+  daf.dist <- daf3 |> prep3()
+  lif.dist <- lif3 |> prep3()
+  puf.dist <- puf3 |> prep3()
+  lis.abu.dist  <- lis3.abu |> prep3()
+  lig.abu.dist  <- lig3.abu |> prep3()
+  lif.abu.dist  <- lif3.abu |> prep3()
+
+  saveRDS(
+          object = list(
+                  das.dist = das.dist,
+                  lis.dist = lis.dist,
+                  pus.dist = pus.dist,
+                  dag.dist = dag.dist,
+                  lig.dist = lig.dist,
+                  pug.dist = pug.dist,
+                  daf.dist = daf.dist,
+                  lif.dist = lif.dist,
+                  puf.dist = puf.dist,
+                  lis.abu.dist = lis.abu.dist,
+                  lig.abu.dist = lig.abu.dist,
+                  lif.abu.dist = lif.abu.dist
+          ),
+          file = paste0("auxilliary/distance_", data.set, ".rds")
+  )
+} else if (options$distance) {
+  distance_list = readRDS(file = paste0("auxilliary/distance_", data.set, ".rds"))
+  for (i in seq_along(distance_list)) {
+    assign(x     = names(distance_list)[i],
+           value = distance_list[[i]])
+  }
+}
+```
+
+# Mantel test 
+```{r COMPUTE MANTEL TEST}
+if (!options$mantel){
+  
+  
+  #- species (abu) to species (pa)
+  m1 <- lapply(1, function(x) mantel.rtest(lis.dist[[x]], lis.abu.dist[[x]]))
+  #- species (abu) to genus (abu)
+  m2 <- lapply(1, function(x) mantel.rtest(lis.abu.dist[[x]], lig.abu.dist[[x]]))
+  #- species (abu) to genus (pa)
+  m3 <- lapply(1, function(x) mantel.rtest(lis.abu.dist[[x]], lig.dist[[x]]))
+  #- species (abu) to family (abu)
+  m4 <- lapply(1, function(x) mantel.rtest(lis.abu.dist[[x]], lif.abu.dist[[x]]))
+  #- species (abu) to family (pa)
+  m5 <- lapply(1, function(x) mantel.rtest(lis.abu.dist[[x]], lif.dist[[x]]))
+  #- species (pa) to genus (abu)
+  m6 <- lapply(1, function(x) mantel.rtest(lis.dist[[x]], lig.abu.dist[[x]]))
+   #- species (PA) to genus (PA)
+  m7 <- lapply(1, function(x) mantel.rtest(lis.dist[[x]], lig.dist[[x]]))
+  #- species (pa) to family (abu)
+  m8 <- lapply(1, function(x) mantel.rtest(lis.dist[[x]], lif.abu.dist[[x]]))
+  #- species (PA) to family (PA)
+  m9 <- lapply(1, function(x) mantel.rtest(lis.dist[[x]], lif.dist[[x]]))
+  #- genus (ABU) to genus (PA)
+  m10 <- lapply(1, function(x) mantel.rtest(lig.abu.dist[[x]], lig.dist[[x]]))
+  #- genus to family (ABU)
+  m11 <- lapply(1, function(x) mantel.rtest(lig.abu.dist[[x]], lif.abu.dist[[x]]))
+  #- genus (abu) to family (pa)
+  m12 <- lapply(1, function(x) mantel.rtest(lig.abu.dist[[x]], lif.dist[[x]]))
+  #- genus (pa) to family (abu)
+  m13 <- lapply(1, function(x) mantel.rtest(lig.dist[[x]], lif.abu.dist[[x]]))
+  #- genus (PA) to family (PA)
+  m14 <- lapply(1, function(x) mantel.rtest(lig.dist[[x]], lif.dist[[x]]))
+  #- family (ABU) to family (PA)
+  m15 <- lapply(1, function(x) mantel.rtest(lif.abu.dist[[x]], lif.dist[[x]]))
+
+  saveRDS(list(
+    m1 = m1, 
+    m2 = m2,
+    m3 = m3,
+    m4 = m4,
+    m5 = m5,
+    m6  = m6,
+    m7  = m7,
+    m8  = m8,
+    m9  = m9,
+    m10 = m10,
+    m11 = m11,
+    m12 = m12,
+    m13 = m13,
+    m14 = m14,
+    m15 = m15
+    ), 
+    file = paste0("auxilliary/mantel_", data.set, ".rds"))
+  
+} else {
+  mantel.list = readRDS(file = paste0("auxilliary/mantel_", data.set, ".rds"))
+  for (i in seq_along(mantel.list)) {
+    assign(x     = names(mantel.list)[i],
+           value = mantel.list[[i]])
+  }
+}  
+
+#- correlation marices for each season 
+mantel.matrix <- matrix(0,nrow = 6, ncol = 6)
+diag(mantel.matrix) <- 1
+tax.lvl <- c("species (abu)", "species (pa)","genus (abu)","genus (pa)", "family (abu)", "family (pa)")
+rownames(mantel.matrix) = colnames(mantel.matrix) = tax.lvl
+from.vec <- rep(tax.lvl, times = c(5,4,3,2,1,0))
+
+mantel.results <- data.table(
+  from = rep(from.vec, each = 1),
+  to   = rep(c(
+    "species (pa)" ,"genus (abu)","genus (pa)" ,"family (abu)", "family (pa)",
+                    "genus (abu)","genus (pa)" ,"family (abu)", "family (pa)",
+                                  "genus (pa)" ,"family (abu)", "family (pa)",
+                                                "family (abu)", "family (pa)",
+                                                                "family (pa)"),
+    each = 1),
+  statistic = c(
+    lapply(m1, function(x) round(x$obs,3)), 
+    lapply(m2, function(x) round(x$obs,3)), 
+    lapply(m3, function(x) round(x$obs,3)), 
+    lapply(m4, function(x) round(x$obs,3)),
+    lapply(m5, function(x) round(x$obs,3)),
+    lapply(m6, function(x) round(x$obs,3)),
+    lapply(m7, function(x) round(x$obs,3)), 
+    lapply(m8, function(x) round(x$obs,3)), 
+    lapply(m9, function(x) round(x$obs,3)), 
+    lapply(m10, function(x) round(x$obs,3)),
+    lapply(m11, function(x) round(x$obs,3)),
+    lapply(m12, function(x) round(x$obs,3)),
+    lapply(m13, function(x) round(x$obs,3)),
+    lapply(m14, function(x) round(x$obs,3)),
+    lapply(m15, function(x) round(x$obs,3))
+    ),
+  p.value   = c(
+    lapply(m1, function(x) round(x$pvalue,3)), 
+    lapply(m2, function(x) round(x$pvalue,3)), 
+    lapply(m3, function(x) round(x$pvalue,3)), 
+    lapply(m4, function(x) round(x$pvalue,3)),
+    lapply(m5, function(x) round(x$pvalue,3)),
+    lapply(m6, function(x) round(x$pvalue,3)),
+    lapply(m7, function(x) round(x$pvalue,3)),
+    lapply(m8, function(x) round(x$pvalue,3)),
+    lapply(m9, function(x) round(x$pvalue,3)),
+    lapply(m10, function(x) round(x$pvalue,3)),
+    lapply(m11, function(x) round(x$pvalue,3)),
+    lapply(m12, function(x) round(x$pvalue,3)),
+    lapply(m13, function(x) round(x$pvalue,3)),
+    lapply(m14, function(x) round(x$pvalue,3)),
+    lapply(m15, function(x) round(x$pvalue,3))
+    ),
+  season = c(NA)
+)
+#- loop over seasons 
+
+ for (k in 1:nrow(mantel.matrix)){ for (j in 1:ncol(mantel.matrix)){
+     if (k == j) next()
+     j.from = rownames(mantel.matrix)[k]; j.to   = colnames(mantel.matrix)[j]
+     j.sub  = mantel.results[from == j.from & to == j.to, statistic]
+     j.sub %<>% unlist()
+     if (is.null(j.sub)) {
+       j.sub  = mantel.results[from == j.to & to == j.from, statistic]
+       j.sub %<>% unlist()
+       if (is.null(j.sub)) next()
+     }
+     mantel.matrix[k,j] <- j.sub
+     rm(list = ls()[grepl("^j\\.",ls())])
+ }}
+
+corrplot(mantel.matrix, method = "shade", type = "lower", diag = FALSE, addCoef.col = "black", mar=c(0,0,1,0), 
+         title = "spring", tl.srt=0, tl.col = "black", tl.offset = 1, col = viridisLite::rocket(n = 100))
+
+
+```

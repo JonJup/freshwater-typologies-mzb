@@ -1,0 +1,615 @@
+---
+title: "Combine broad river types and biogeographic regions"
+author: "Jonathan Jupke"
+bibliography: ../doc/parts/ref.bib
+output: html_document
+---
+
+- date last modified: `r Sys.Date()`
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+pacman::p_load(sf, magrittr,dplyr,tmap, stringr, mapview,data.table, wesanderson)
+data <- readRDS("E://Arbeit/Data/broad_river_types/with_bgr/bgr_and_brt.rds")
+geo  <- st_read("E://Arbeit/Data/IHME1500_v11/ihme_1500_litho4changed.shp")
+fec  <- st_read("E://Arbeit/Data/ecrins/EcrFEC.sqlite")
+#- currently I do not use the soil data 
+#soil <- st_read("E://Arbeit/Data/European Soil Database v2.0/ESDB/SGDB_PTR.shp")
+source("new_typology/auxilliary/geology_vector.R")
+source("../../../../../my documents/R/progress_bar.R")
+tmap_mode("view")
+```
+
+```{r prepare spatial data}
+data %<>% st_transform(crs = st_crs(fec))
+geo  %<>% st_transform(crs = st_crs(fec))
+#soil %<>% st_transform(crs = st_crs(fec))
+st_agr(data) <- "constant"
+st_agr(geo)  <- "constant"
+#st_agr(soil) <- "constant"
+```
+
+## Introduction   
+I first identify relatively (<5% of rivers in a region) and absolutely (<200 occurrences) rare types and identify the types they optimally should be grouped with. 
+I usually combined types within not across ecoregions. 
+Very large rivers are an exception to that rule. 
+They are rather combined across ecoregions. 
+```{r formating}
+data$m_btype12[which(data$m_btype12 == "RT1")] <- "RT01"
+data$m_btype12[which(data$m_btype12 == "RT2")] <- "RT02"
+data$m_btype12[which(data$m_btype12 == "RT3")] <- "RT03"
+data$m_btype12[which(data$m_btype12 == "RT4")] <- "RT04"
+data$m_btype12[which(data$m_btype12 == "RT5")] <- "RT05"
+data$m_btype12[which(data$m_btype12 == "RT6")] <- "RT06"
+data$m_btype12[which(data$m_btype12 == "RT7")] <- "RT07"
+data$m_btype12[which(data$m_btype12 == "RT8")] <- "RT08"
+data$m_btype12[which(data$m_btype12 == "RT9")] <- "RT09"
+
+data <-
+        data |> 
+        #- remove entries with NA for biogeographical regions 
+        filter(!is.na(code)) |> 
+        #- remove entries with NA for broad river type 
+        filter(!is.na(m_btype12)) |> 
+        #- remove "outside" region
+        filter(short_name != "outside") |> 
+        #- create combined types 
+        mutate(brt_bgr = paste0(m_btype12, "_", short_name)) 
+
+```
+
+```{r results='hide'}
+data |> 
+        pull(brt_bgr) |> 
+        table() |> 
+        sort()
+```
+
+## Alpine
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "alpine") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "alpine") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort() 
+```
+There many relatively rare types because RT10 is very common (39%). 
+
+The rarest type is RT11. Even when combined with RT12 they do not cross the 5% threshold. It would make the most sense to decompose them into their 20-type version which contains more information. 
+I need to establish the geology of the Mediterranean types to assign them to the correct type. 
+
+```{r}
+#data <- readRDS("new_typology/auxilliary/data_after_alpine.RDS")
+```
+
+All lowland types are combined with they mid-altitude counterparts.  
+
+```{r}
+data$brt_bgr[which(data$brt_bgr == "RT02_alpine")] <- "RT06_alpine"
+data$brt_bgr[which(data$brt_bgr == "RT03_alpine")] <- "RT07_alpine"
+data$brt_bgr[which(data$brt_bgr == "RT04_alpine")] <- "RT08_alpine"
+data$brt_bgr[which(data$brt_bgr == "RT05_alpine")] <- "RT09_alpine"
+```
+
+## Anatolian
+
+```{r echo=F}
+# mapview(data[which(data$short_name == "anatolian"), ], zcol = "brt_bgr")
+```
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "anatolian") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "anatolian") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort() 
+```
+
+
+The Anatolian region includes nine of twelve river types.
+However, highland rivers (RT10) dominate this ecoregion (78% of reaches).
+
+As before the medierranean types need to be resolved. 
+```{r}
+#data <- readRDS("new_typology/auxilliary/data_after_anatolian.RDS")
+```
+
+```{r}
+data$brt_bgr[which(data$brt_bgr %in% paste0("RT0", c(2,6,7), "_anatolian"))] <- "RT06_anatolian"
+data$brt_bgr[which(data$brt_bgr %in% paste0("RT0", c(5,8,9), "_anatolian"))] <- "RT08_anatolian"
+```
+
+## Arctic 
+
+```{r echo=F}
+# mapview(filter(data, short_name == "arctic"), zcol = "brt_bgr") 
+```
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "arctic") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort() 
+```
+
+The Arctic region covers Iceland, Svalbard and parts of northern Norway and Russia. 
+It includes six river types and lacks any Mediterranean or calcareous rivers. 
+Three of the six types are rare: RT1, 8 and 9.
+The very large rivers are left as is. 
+The two mid altitude types are joined with the high altitude rivers. 
+
+```{r}
+data$brt_bgr[which(data$brt_bgr %in% paste0("RT0", c(8,9), "_arctic"))] <- "RT10_arctic"
+```
+
+
+
+
+## Atlantic
+
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "atlantic") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort() 
+```
+Both Mediterranean types are rare. 
+```{r}
+# data |> filter(brt_bgr %in% c("RT12_atlantic", "RT11_atlantic")) |> mapview(zcol = "brt_bgr")
+# data |> filter(brt_bgr %in% c("RT02_atlantic", "RT03_atlantic")) |> mapview(zcol = "brt_bgr")
+```
+
+```{r mediterranean}
+#data <- readRDS("new_typology/auxilliary/data_after_atlantic1.rds")
+```
+
+```{r highland}
+#data <- readRDS("new_typology/auxilliary/data_after_atlantic2.rds")
+```
+
+
+```{r}
+setDT(data)
+data[short_name == "atlantic" & m_btype20c == "RT14", brt_bgr := "RT08_atlantic"]
+data[short_name == "atlantic" & m_btype20c == "RT15", brt_bgr := "RT06_atlantic"]
+data %<>% st_as_sf()
+```
+
+## Black Sea 
+
+```{r echo = FALSE}
+#tm_shape(filter(data, code == "BlackSea")) + tm_lines(col = "m_btype12")
+```
+
+The Black Sea ecoregion covers the south, west and east sides of the Black sea, with the exception of the Bosporus. 
+This relatively small region contains all 12 river types and only two are rare (i.e. less than 20 segments). 
+The rare types are the two Mediterranean types which we will combine. 
+
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "blackSea") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "blackSea") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort() 
+```
+
+```{r}
+data <- readRDS("new_typology/auxilliary/data_after_blackSea.RDS")
+```
+
+## Boreal 
+
+The Boreal region is among the largest biogeographic regions. 
+It encompasses all but one broad river type: Perennial Mediterranean (RT11). 
+I suspect the two Mediterranean segments (RT12) are supposed to designate temporary rivers, however this is not consistent with the definition given in @LycheSolheim2019.
+Given this incongruence, I remove these segments from the data set. 
+
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "boreal") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "boreal") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort()
+```
+
+The three highland (RT10) segments are of siliceous geology and hence I combine them with the mid-altitude small siliceous rivers (RT9). 
+
+The mid-altitude and calcareous types are also relatively rare. 
+I combine them with the lowland calcareous types. 
+
+```{r}
+data %<>% filter(brt_bgr != "RT12_boreal")
+data$brt_bgr[which(data$brt_bgr == "RT10_boreal")] <- "RT09_boreal"
+data$brt_bgr[which(data$brt_bgr %in% "RT07_boreal")] <- "RT03_boreal"
+data$brt_bgr[which(data$brt_bgr %in% "RT06_boreal")] <- "RT02_boreal"
+```
+
+## Continental
+```{r echo = FALSE}
+#tm_shape(filter(data, short_name == "continental")) + tm_lines(col = "m_btype12")
+```
+
+The continental BGR is large. It spans an area from south-western France to Eastern Belarus and from Mazedonia to southern Sweden. 
+
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "continental") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "continental") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort()
+```
+Accordingly, all twelve types occur here. 
+Three types are relatively rare: RT11 (0.2%), RT10 (2%), RT12 (2%). 
+These types will be combined with others. 
+
+```{r}
+#data <- readRDS("new_typology/auxilliary/data_after_continental1.rds")
+```
+```{r}
+#data <- readRDS("new_typology/auxilliary/data_after_continental2.rds")
+```
+
+```{r}
+setDT(data)
+data[short_name == "continental" & m_btype20c == "RT14", brt_bgr := "RT08_continental"]
+data[short_name == "continental" & m_btype20c == "RT15", brt_bgr := "RT06_continental"]
+data %<>% st_as_sf()
+```
+
+## Mediterranean
+
+```{r echo = FALSE}
+#tm_shape(filter(data, short_name == "mediterranean")) + tm_lines(col = "m_btype12")
+```
+
+```{r echo = FALSE}
+data |> filter(short_name == "mediterranean") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "mediterranean") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort()
+```
+
+
+All twelve broad river types occur in the biogeographical region that stretches from Portugal in the west to Turkey in the east. 
+The most common types are RT12,11 and 10. Many types are rare! Both on an relative and absolute scale RT2,3,4,5,6,7,8,9 are rare. 
+This means all non-Mediterranean and non-highland types, except for very large rivers. 
+
+```{r}
+#- Combine all RT non-Mediterranean and non-highland river types
+setDT(data)
+data[m_btype12 %in% paste0("RT0", 2:9) & short_name == "mediterranean", brt_bgr := "RT11_mediterranean"]
+data %<>% st_as_sf()
+```
+
+
+## Pannonian 
+
+The Panonnian basin contains ten broad river types. 
+It lacks high altitude rivers and perennial Mediterranean rivers. 
+Again some RT12 reaches are present but transferred to their best fit given size and geolog. 
+I also combine all mid-altitude river types. 
+
+```{r echo = FALSE}
+#mapview(filter(data, code == "Pannonian"), zcol = "brt_bgr")
+```
+
+```{r echo = FALSE}
+data |> filter(code == "Pannonian") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "pannonian") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort()
+```
+
+```{r}
+#data <- readRDS("new_typology/auxilliary/data_after_pannonia.rds")
+```
+
+```{r}
+setDT(data)
+data[brt_bgr %in% paste0("RT0",6:9,"_pannonian"), brt_bgr := "mid_altitude_pannonian"]
+data %<>% st_as_sf()
+```
+
+## Steppic 
+
+The Steppic region covers the eastern part of Romania, Moldavia, most of Ukraine including the Krim and extends to the all the way to the Caspian sea. 
+The intersection with the broad river types only covers the Romanian part and includes nine river types.
+Two of them are singletons: RT6 and RT11.
+
+
+```{r MAP STEPPIC, echo = F}
+#mapview(data[which(data$short_name == "steppic"), ], zcol = "brt_bgr")
+```
+
+
+```{r echo = FALSE, results='hide'}
+data |> filter(short_name == "steppic") |> pull(brt_bgr) |> table()  |> sort()
+data |> filter(short_name == "steppic") |> pull(brt_bgr) |> table() |> proportions() |> round(3) |> sort() 
+```
+
+Since we are out of the Mediterranean region this the RT11 and RT12 segments are reassigned. 
+
+The mid-altitude streams are rare with the exception of RT07 (after reassignment of RT12 reaches). 
+The siliceous low-land rivers are so rare that I combine them with the calcareous ones. 
+```{r}
+setDT(data)
+data[brt_bgr %in% paste0("RT0", 6:9, "_steppic"), brt_bgr := "mid-altitude_steppic"]
+data[brt_bgr == "RT04_steppic", brt_bgr := "RT02_steppic"]
+data[brt_bgr == "RT05_steppic", brt_bgr := "RT03_steppic"]
+data %<>%st_as_sf()
+```
+
+
+```{r}
+data <- readRDS("new_typology/auxilliary/data_after_steppic.RDS")
+```
+
+# Very large rivers 
+
+For very large river we adopted the version of Borgwardt et al 2019. 
+
+```{r}
+#- funciton used to assign all reaches within a bbox defined by a collection points (id) to another type (type)
+reassign <- function (id,type){
+        current.data           <- 
+                data |> 
+                st_as_sf() |> 
+                filter(m_zhyd %in% c(id))
+        current.window         <- 
+                st_bbox(current.data) |> 
+                st_as_sfc()
+        
+        st_agr(current.data)   <-"constant"
+        #st_agr(current.window) <-"constant"
+        
+        selection.river <- 
+                st_crop(vlr, current.window) |> 
+                pull(m_zhyd)
+        x <- 
+                data |> 
+                setDT() |> 
+                {\(x) x[m_zhyd %in% selection.river, brt_bgr := type]}() |> 
+                st_as_sf()
+        return(x)
+}
+```
+
+```{r}
+vlr <- data |> st_as_sf() |> filter(m_btype12 == "RT01")
+st_agr(vlr) <- "constant"
+```
+```{r}
+tm_shape(vlr) + 
+        tm_lines(col = "brt_bgr", lwd = 4, palette = "Accent")
+```
+```{r}
+
+##  ——————  ALPINE —————— ##
+data <- reassign(id = c("D030208183", "D020213312", "D030209027", "D030208617"), type = "RT01_alpine")
+data <- reassign(id = c("F030001158", "F030002024"), type = "RT01_alpine")
+data <- reassign(id = c("F030001159", "F020006104"), type = "RT01_alpine")
+data <- reassign(id = c("F030004892", "F020020620"), type = "RT01_alpine")
+data <- reassign(id = c("F020020480", "F020017578", "F030004204"), type = "RT01_alpine")
+
+##  ——————  BALTIC —————— ##
+data <- reassign(id = c("A020006058", "A020010522", "A020010355", 
+                        "A020008546", "A020004248"), type = "RT01_baltic")
+data <- reassign(id = c("A020002094","A030000763", "H030091153",
+                        "H030089689"), type = "RT01_baltic")
+data <- reassign(id = c("H030089896", "H020105138", "H020107270", 
+                        "H020109362", "H030089460"), type = "RT01_baltic")
+
+##  ——————  CONTINENTAL LOWLAND —————— ##
+data <- reassign(id = c("F020004869", "F030001216", "F030000732"), type = "RT01_continental_lowland")
+data <- reassign(id = c("F020003133", "F020005883"), type = "RT01_continental_lowland")
+data <- reassign(id = c("F020003829", "F020004001", "F030001605"), type = "RT01_continental_lowland")
+data <- reassign(id = c("F030005259", "F030006343", "F030005142"), type = "RT01_continental_lowland")
+data <- reassign(id = c("F030005142", "F030004814", "F030005154"), type = "RT01_continental_lowland")
+data <- reassign(id = c("F020027371", "F030000695", "F020014234"), type = "RT01_continental_lowland")
+data <- reassign(id = c("F020007458", "F030000882", "F020020187", "F020020914"), type = "RT01_continental_lowland")
+##  ——————  CENTRAL LOWLAND —————— ##
+#- MOSEL 
+data <- reassign(id = c("D020209480", "D030207486"), type = "RT01_central_lowland")
+#- WESER
+data <- reassign(id = c("A030000948", "A020009183", "A030002162", "A020008672", "A020006893", "A020007524"), type = "RT01_central_lowland")
+data <- reassign(id = c("A020007263", "A020007263", "A020009183"), type = "RT01_central_lowland")
+data <- reassign(id = c("A020004921", "A020005604", "A020005414"), type = "RT01_central_lowland")
+#- ELBE 
+data <- reassign(id = c("A020009835", "A020009264", "A020013527", "A020012233"), type = "RT01_central_lowland")
+#- Necker ?
+data <- reassign(id = c("D030207984", "D030208089", "D030207985"), type = "RT01_central_lowland")
+#- Main 
+data <- reassign(id = c("D030207620", "D020208775", "D020208185"), type = "RT01_central_lowland")
+#-Rhine 
+data <- reassign(id = c("D020209099", "D030207637", "D030207597"), type = "RT01_central_lowland")
+#- ODER 
+data <- reassign(id = c("A020010668", "A030001054", "A020007103"), type = "RT01_central_lowland")
+data <- reassign(id = c("A020005079", "A030001407", "A030001517"), type = "RT01_central_lowland")
+data <- reassign(id = c("A020002710", "A020004453"), type = "RT01_central_lowland")
+data <- reassign(id = c("A020005611", "A020006208", "A020006405"), type = "RT01_central_lowland")
+
+##  ——————  MEDITERRAN —————— ##
+data <- reassign(id = c("J031074806","J031071972", "J021059744"), type = "RT01_mediterranean")
+
+##  ——————  NORDIC —————— ##
+data <- reassign(id = c("I021052129", "I021045982", "I021040371", "I021036729"), type = "RT01_nordic")
+data <- reassign(id = c("H020109549", "H020110077", "H030089180"), type = "RT01_nordic")
+data <- reassign(id = c("H020110476", "H030088352", "H030089014"), type = "RT01_nordic")
+data <- reassign(id = c("I021038011", "H030084628", "H030086241", "H020101940"), type = "RT01_nordic")
+data <- reassign(id = c("H020109501", "H020103850", "H020109549"), 
+                 type = "RT01_nordic")
+##  ——————  ANATOLIA ——————  ##
+data <- reassign(id = c("J021066764", "J021060913", "J021064113", "J021055675"), type = "RT01_anatolian")
+
+
+
+setDT(data)
+##  ——————  ANATOLIA ——————  ##
+data[m_zhyd %in% c("J021055273", "J021055176", "J021055021", "J021055117", 
+                   "J021055333", "J021055482", "J021055586", "J021055605",
+                   "J021055414", "J021055267", "J021055302", "J021055350",
+                   "J021055394", "J021055353", "J021055314", "J021055296",
+                   "J021055129", "J021055624", "J021055566", "J021055567",
+                   "J021055582", "J021055594", "J021055598", "J021055451",
+                   "J021055363", "J021055204", "J021055123", "J021055619",
+                   "J021055546", "J021055554", "J021055595", "J021055603"), 
+     brt_bgr := "RT01_anatolian"]
+##  ——————  ALPINE ——————  ##
+data[m_zhyd %in% c("D030210866", "D030210942", "D030210958", "D030211098", 
+                   "D030212438", "D030212239", "D030212157", "D030212115", 
+                   "D030211997", "D030211987", "D030211990", "D030211908",
+                   "D030211843", "D030211840", "D030211614", "D030211542",
+                   "D030211450", "D030211357", "D030211336", "D030211306",
+                   "D030211301", "D030211262", "D030211191", "D030211148",
+                   "D030211109", "D030211081", "D030211066", "D030211070",
+                   "D030211048", "D020222629", "D020222473", "D030210820",
+                   "D030210753", "D030210694", "D030210596", "D030210528",
+                   "D020220346", "D030211091", "D020222388", "D030210918",
+                   "D030210688", "D020220657", "D020220324", "D030210354", 
+                   "D030210361", "D030210385", "D030210406", "D030210316",
+                   "D030210400", "D030210462", "D030210522", "D020220721",
+                   "D020220524", "D020220296", "D030210413", "D030210392",
+                   "D030210293", "D030210266", "D030210146", "D030210110",
+                   "D030210065", "D030210037", "D030210192", "D030210137",
+                   "D030210100", "C030001748", "C030001841", "C030001839",
+                    "C030001873", "C030001901", "C030001998", "C030001860", 
+                   "D030208026", "D030208008", "D030207994", "D030207972", 
+                   "D030207936", "D020210211", "D020210069", "D030208054",
+                   "D030208039", "D020213390", "D030208786", "D030208725", 
+                   "D030208086", "D020209966", "D030208832", "F020006625",
+                   "F020006645", "F020006557", "F020006465", "F030001446", 
+                   "F030001828", "F020007740", "F020007605", "F020007637",
+                   "F030001897", "F020006096", "F020021237", "F030004802",
+                   "D020220803", "D020209949"
+                   ), 
+     brt_bgr := "RT01_alpine"]
+##  ——————  ATLANTIC ——————  ##
+data[m_zhyd %in% c("D020214232", "D020214648","D020214821", "D020216212", 
+                   "D020217243", "D030209400", "D020218802", "D030210334", 
+                   "D030210334", "D030210252", "D020219300", "D020219144",
+                   "D020218997", "D020218734", "D020218552", "D020218412",
+                   "D020218284", "D020218222", "D020218122", "D020217873",
+                   "D020217601", "D020217541", "D020217370", "D020217094",
+                   "D020216829", "D020216384", "D020216256", "D020216038",
+                   "D030209496", "D030209315", "D020214927", "D020214555",
+                   "D030209096", "D030209308", "D020214514", "D020217160", 
+                   "D020216839", "D020216610", "D020216308", "D020216188", 
+                   "D020215745", "D020215536", "D020215413", "D020214885", 
+                   "D020214574", "D030209123", "D020214531", "D020214738",
+                   "D020215189", "D020215167", "D020215161", "D020215297",
+                   "D020215739", "D020215885", "D020215998", "D020216588",
+                   "D020216735", "D020216982", "D020217002", "D020218530", 
+                   "D020216818", "D020218065", "D030207552", "D020207096",
+                   "D020207044", "D020206907", "D020206886", "D020206834", 
+                   "D020206845", "D020206820", "D020206781", "D020206755",
+                   "D020206680", "D020206525", "D020206605", "D020206614",
+                   "D030207522", "D030207504", "D020207205", "D020207122", 
+                   "D020206828", "D020206903"), 
+     brt_bgr := "RT01_atlantic"]
+
+##  ———  BALTIC  ———  ##
+data[m_zhyd %in% c( "A020010980", "A020011139", "A020011288", 
+                    "A020011076", "A020010943", "H030089813", 
+                    "H030089825", "H030089794", "H030089844",
+                    "H030089852","H030089865","H030089892",
+                    "H030089906","H030089896","H020107326",
+                    "A020011265", "H020107270", "H030089810",
+                    "H020117982"
+), 
+brt_bgr := "RT01_baltic"]
+##  ——————  CONTINENTAL LOWLAND ——————  ##
+data[m_zhyd %in% c("F020021695", "F020021857", "F020022231", "F020022368", 
+                   "F020027667", "F020027704", "F030006320", "F030006391",
+                   "F020022485", "A020011285", "F020022485", "F020027754"),
+     brt_bgr := "RT01_continental_lowland"]
+##  ——————  MEDITERRANEAN ——————  ##
+data[m_zhyd %in% 
+             c("E020137248", "E020137900","E020137496", "E020137359", 
+               "E020137764", "E030147071", "E030147145","E030147028",
+               "E030147210", "E030147086", "E030147086", "E030147093",
+               "E030147093", "E030147107", "E030147114", "E030147114",
+               "E030147114", "E030147114", "E030147193", "E030147111",
+               "E030147111", "E030147122", "E030147122", "E030147124",
+               "E030147106", "E030147130", "E030147130", "E030147130", 
+               "E030147131", "E030147112", "E020132767", "E020132731",
+               "E030146947", "E030146947", "D030212420", "D030212386",
+               "D030212310", "D030212338", "D030212339", "D030212350",
+               "D030212413", "D030212435", "D030212165", "C030001959",
+               "C030001992", "C030002006", "C030002079", "C030002076", 
+               "C030002065", "C020009559", "C030002040", "C020009498",
+               "C020009457", "C020009388", "C020009392", "C020009435",
+               "C020009436", "C020009469", "C020009479", "C020009494",
+               "C020009477", "C030002014", "C030002016", "C020009466",
+               "C020009462", "C030002037", "C030002017", "C020009408",
+               "C020009626", "C020009637", "C030002096", "C030002125",
+               "C030002126", "C030002069", "C020009548", "C030002062", 
+               "C020009540", "C020009442", "C020009552", "J021057190",
+               "C020009509", "C020009460", "C020009454", "C020009442",
+               "C020009500", "C020009520", "C020009540", "C020009593",
+               "C030002054", "C030002068", "J031072510", "J031072564",
+               "J031072663", "J031073422", "J031073292", "J031073111", 
+               "J031073083", "J021057800", "J021057605", "J031072035",
+               "J021057168", "J021057186", "J021057194", "J021057174",
+               "J021057135", "J031071972", "J021070921", "J031072575",
+               "J031072495", "J031072502", "J031072573", "J031073135",
+               "J031073144", "J031073167", "J031073291", "J031073312",
+               "J031073548", "J021057157", "J021057181", "J021057639",
+               "J021071396", "J031073595"), 
+     
+     brt_bgr := "RT01_mediterranean"]
+##  ——— NORDIC  ———  ##
+data[m_zhyd %in% c(
+        "H020101996",
+        "H020101980", 
+        "I031037592",
+        "I031037572",
+        "I031037843",
+        "I031037846",
+        "I031037890",
+        "I031037557",
+        "I021043828",
+        "I021042645",
+        "H020108621",
+        "H020101995",
+        "H030086308"
+), 
+brt_bgr := "RT01_nordic"]
+
+##  ——————  CENTRAL LOWLAND ——————  ## 
+data[m_zhyd %in% c(
+        "D020205974",
+        "D020205971",
+        "D020205980",
+        "D020205995",
+        "D020206036",
+        "D020206036",
+        "D020206082",
+        "D020206090",
+        "D020206124",
+        "D020206155",
+        "D020206238",
+        "D020206242",
+        "D020206266",
+        "D020206370",
+        "D020206441",
+        "D020206504",
+        "D020206536",
+        "D020206661",
+        "D030207409",
+        "D020206045",
+        "D020206045",
+        "D020206142",
+        "D020206898",
+        "D020207047",
+        "D030207458",
+        "A020006811",
+        "A030001201",
+        "D030207959", 
+        "D020207055",
+        "D030207657",
+        "D030207683",
+        "A020007743",
+        "A030002235"
+),
+brt_bgr := "RT01_central_lowland"
+]
+```
+
+```{r eval = FALSE}
+data$brt_bgr |> uniqueN()
+data$brt_bgr |> table() |> sort()
+
+saveRDS(data, "E://Arbeit/Data/broad_river_types/with_bgr/2021_09_17_bgr_and_brt.rds")
+st_write(st_as_sf(data), "E://Arbeit/Data/broad_river_types/with_bgr/2021_09_17_bgr_and_brt.gpkg")
+
+```
+
+```{r}
+data |> filter(short_name == "atlantic") |> pull(brt_bgr) |> table()
+```
+
+```{r, echo = FALSE}
+saveRDS(data, "E://Arbeit/Data/broad_river_types/with_bgr/aggregated_brt_bgr.rds")
+```
+
+# System 
+```{r, echo=FALSE}
+sessionInfo()
+```
+
+# References
+
+
