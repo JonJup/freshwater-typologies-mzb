@@ -33,8 +33,7 @@ pacman::p_load(
 #- functions 
 #- functions 
 # LOAD DATA  ------------------------------------------------------------------------
-most_recent_date <- jjmisc::most_recent_date(folder = "data/01_original_data/", file ="taxontable.rds")
-taxontable <- readRDS(paste0("data/01_original_data/",most_recent_date,"_taxontable.rds"))
+taxontable <- readRDS("data/01_original_data/2021-12-10_taxontable.rds")
 typologies <- readRDS("data/all_typologies.rds")
 
 # PREPARE DATA   ---------------------------------------------------------------------

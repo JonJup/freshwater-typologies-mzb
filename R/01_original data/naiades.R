@@ -1,15 +1,15 @@
-# ——————————————————————————————— #
-# ——— Clean data from Naiades ——— # 
-# ——————————————————————————————— #
+#------------------------------- #
+#--- Clean data from Naiades--- # 
+#------------------------------- #
 
-# ———————————————————————————————————
+#-----------------------------------
 # date first written: 16.07.21
 # date last modified: 22-09-21
 # Project: Evaluating European Broad River Types for Macroinvertebrates
 # Purpose: In this script I create a harmonized spatial data set from the raw data provided 
 # from Naiades. 
 # Temporal aggregation: yes 
-# ————————————————
+#----------------
 
 # SETUP -----------------------------------------------------------------------------
 

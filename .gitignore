@@ -46,11 +46,14 @@ Rmd/
 fig/
 workflow_brt_mzb/
 01_original_data/
+R/misc/
+R/10_old scripts/
+R/02_combined_data/220429_backup_pre_stoten_review/
+R/04_analysis/220429_backup_before_stoten_review/
 
 
-# file types 
+# file types
 *.pdf
 *.xlsx
 *.rds
 *.RDS
-

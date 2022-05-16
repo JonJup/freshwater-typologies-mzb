@@ -1,21 +1,37 @@
-# ————————————————————————— #
-# ——— Combine data sets ——— # 
-# ————————————————————————— #
+# ------------------------------------------- #
+# --- Combine macroinvertebrate data sets --- # 
+# ------------------------------------------- #
 
-# ———————————————————————————————————
-# date created: 20-07-21
-# date last modified: 14-10-21
+#       date created: 29.04.22
+# date last modified: 04.05.22
 # Project: Evaluating European Broad River Types for Macroinvertebrates
 # Purpose: Combine temporally aggregated (where necessary) data sets
-# ————————————————
+# Notes: 
+#       The raw data are available under:
+#       Biogeographical Regions: https://www.eea.europa.eu/data-and-maps/data/biogeographical-regions-europe-3
+#       Illies' Freshwater Ecoregions: https://www.eea.europa.eu/data-and-maps/data/ecoregions-for-rivers-and-lakes
+#       Base Version of Lemm et al 2021 data: https://zenodo.org/record/4322819
 
 # SETUP -----------------------------------------------------------------------------
-pacman::p_load(data.table, dplyr, fs, magrittr, sf, stringr, tmap)
+pacman::p_load(data.table, dplyr, fs, magrittr, sf, stringr, tmap, rstudioapi)
+
+x<-getActiveDocumentContext()
+sink(file = paste0("R/02_combined_data/log_files//01","_", Sys.Date(), "_", "log.txt"))
+Sys.Date()
+x$path
+sessionInfo()
+sink(file = NULL)
+rm(x)
 
 # LOAD DATA -------------------------------------------------------------------------
-#- illies freshwater ecoregions 
-illies <- st_read("E://Arbeit/Data/Illies_freshwater_ecoregions/Ecoregions.shp") |> st_transform(crs = 3035)
-bgr    <- st_read("E://Arbeit/Data/eea_bioregions/BiogeoRegions2016.shp") |> st_transform(crs = 3035)
+
+illies <- st_read("~/../Downloads/wfd_shp_ecoregions/Ecoregions.shp") |> 
+        st_transform(crs = 3035)
+bgr    <- st_read("~/../Downloads/BiogeoRegions2016_shapefile/BiogeoRegions2016.shp") |> 
+        st_transform(crs = 3035)
+lemm   <- st_read("data/lemm_least_impacted.gpkg") |> 
+        st_transform(crs = "EPSG:3035")
+
 #- list of all data sets 
 data.sets <- dir_ls("data/01_original_data", type = "directory", regexp = "pre_", invert = TRUE)
 #- At this point several data sets are omitted from the analysis. 
@@ -41,7 +57,7 @@ for (i in seq_along(data.sets)){
         i.x     <- readRDS(i.files)
         data[[i]] <- i.x 
         rm(list = ls()[grepl(x = ls(), pattern = "^i\\.")])
-}
+};rm(i)
 
 # PREPARE DATA ----------------------------------------------------------------------
 #- In these next steps, I apply several functions to all elements of the list "data", 
@@ -62,14 +78,31 @@ data2   <- lapply(data.st, setDT)
 data2   <- rbindlist(data2, fill = TRUE, use.names = TRUE)
 #- Remove unnecessary columns
 # add both bgr and ife again 
-data2[, c("sampling.events", "bgr", "ife") := NULL]
+data2[, c("sampling.events", "bgr", "ife", "least.impacted") := NULL]
+
+# - remove winter samples 
+data2[, month := month(date)]
+data2 <- data2[!month %in% c(12,1,2)]
+# - remaining sites and samples
+uniqueN(data2, "gr_sample_id")
+uniqueN(data2, c("site_id", "data.set"))
+coord <- data2 |> st_as_sf() |> st_coordinates() |>data.frame() |> setDT()
+nrow(unique(coord, by = c("X", "Y")))
+rm(coord)
+#- remove sites with no segment in 500 vicinity
+
+#- Remove data from catchments that are missing in the data from Lemm et al. 2021
+data2 <- data2[distance < 500]
+uniqueN(data2, "gr_sample_id")
+uniqueN(data2, c("site_id", "data.set"))
+# coord <- data2 |> st_as_sf() |> st_coordinates() |>data.frame() |> setDT()
+# nrow(unique(coord, by = c("X", "Y")))
+# rm(coord)
 
 #- add Illies freshwater ecoregion 
-sites <- unique(data2, by = "gr_sample_id") |> st_as_sf()
-sites <- unique(data2, by = c("data.set", "site_id")) |> st_as_sf()
+sites <- unique(data2, by = c("gr_sample_id")) |> st_as_sf()
 illies %<>% select(NAME)
 bgr    %<>% select(short_name)
-
 
 sites_illies <- st_join(sites, illies)
 data3 <-
@@ -87,28 +120,36 @@ data4 <-
   rename(bgr = short_name) |>
   right_join(data3, by = "gr_sample_id") |>
   setDT()  
+sites_lemm <- st_join(sites, lemm)
+data4 <-
+        sites_lemm |>
+        select(gr_sample_id, least.impacted) |>
+        st_drop_geometry() |>
+        right_join(data4, by = "gr_sample_id") |>
+        setDT()  
+rm(sites_illies, sites, sites_bgr, sites_lemm, bgr, lemm, illies)
 
+
+# - remove impaired sites
 
 #- Norway is outside the data set of Lemm et al. 21. According to an email from 
 #- Leonard Sandin, who provided the data, on the 01-10-21 all sites are in reference 
 #- condition. 
 data4[data.set == "monitoring_norway", least.impacted := T]
-#- Remove data from catchments that are missing in the data from Lemm et al. 2021
-data4 <- data4[!is.na(least.impacted)]
+
+data4 <- data4[least.impacted == TRUE]
+# - remaining sites and samples
+uniqueN(data4, "gr_sample_id")
+uniqueN(data4, c("site_id", "data.set"))
+# coord <- data4 |> st_as_sf() |> st_coordinates() |>data.frame() |> setDT()
+# nrow(unique(coord, by = c("X", "Y")))
 
 #- Neither IFE nor brt12 having missing values ... 
 data4[is.na(ife)]
 data4[is.na(brt12)]
-#- ... but bgr has some. 
+data4[is.na(bgr)]
 
-data4[is.na(bgr)] |>
-  unique(by = "gr_sample_id") |>
-  st_as_sf() |>
-  mapview::mapview(zcol = "data.set")
-
-data4[data.set == "monitoring_poland" & is.na(bgr), bgr := "continental"]
-
-# ——— Harmonize Taxonomy ——— # 
+# --- Harmonize Taxonomy --- # 
 
 #- Here I want to make sure that the taxonomy is harmonized. The taxontable is constantly 
 #- evolving so potentially errors can occur if data sets are combined with different
@@ -116,7 +157,7 @@ data4[data.set == "monitoring_poland" & is.na(bgr), bgr := "continental"]
 #- of the taxontable here again. 
 
 #- Load taxontable and drop "clean" variable 
-taxontable <- readRDS("data/01_original_data/2021-10-14_taxontable.rds")
+taxontable <- readRDS("data/01_original_data/2022-04-29_taxontable.rds")
 taxontable[, clean := NULL]
 
 #- Drop taxon variables except "original_name"
@@ -124,7 +165,7 @@ data4 %<>% select( - (species:kingdom))
 #- Join data and taxontable
 data4 <- taxontable[data4, on = "original_name"]
 
-# ——— Fix abundance column ——— # 
+# --- Fix abundance column --- # 
 #- Abundance values are strings, mixed absolute and relative abundances and NAs. 
 # -> transform all to PA. Mixed 
 data4[, abundance2 := as.numeric(abundance)]
@@ -136,14 +177,14 @@ if (nrow(data4[abundance2 < 0]) != 0) print("negative abundance values")
 data4[abundance2 == 0]
 data4 <- data4[abundance2 != 0]
 
-# ——— Last taxonomic fixes ——— # 
+# --- Last taxonomic fixes --- # 
 data4 <- data4[lowest.taxon != "Mollusca"]
 data4[species == "", species := NA]
 data4[genus == "", genus := NA]
 data4[family == "", family := NA]
 data4[order == "", order := NA]
 
-# ——— adjust data.set names ——— #
+# --- adjust data.set names --- #
 data4[, sort(unique(data.set))]
 data4[data.set == "aqem_romania", data.set := "Project AQEM (Romania)"]
 data4[data.set == "AQEM_sweden" , data.set := "Project AQEM (Sweden)"]
@@ -172,7 +213,7 @@ data4[data.set == "wiser", data.set := "Project WISER"]
 data4[data.set == "monitoring_norway", data.set := "Monitoring data from Norway"]
 unique(data4$data.set)
 
-# ——— Seasons ——— # 
+# --- Seasons --- # 
 data4 <- list(spring = data4[season == "spring"], 
               summer = data4[season == "summer"], 
               autumn = data4[season == "autumn"])
